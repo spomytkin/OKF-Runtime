@@ -22,7 +22,7 @@ class FrontmatterParserTests(unittest.TestCase):
         )
 
     def test_v02_sources_list_of_dicts_parsing(self) -> None:
-        sample = Path("localdocs/samples/bundles-v0.2/acme_retail/computations/gross-margin-period.md")
+        sample = Path("tests/fixtures/samples/bundles/acme_retail/metrics/gross-margin-period.md")
         metadata, _, errors = split_frontmatter(sample.read_text(encoding="utf-8"))
 
         self.assertEqual(errors, [])
@@ -30,18 +30,14 @@ class FrontmatterParserTests(unittest.TestCase):
             metadata["sources"],
             [
                 {
-                    "id": "margin-standard",
-                    "resource": "policies/margin-standard.md",
-                    "title": "Cost Allocation & Margin Standard (FY2026)",
-                    "author": "human:jsmith@acme",
-                    "last_modified": "2026-06-15",
+                    "id": "revenue",
+                    "resource": "revenue.md",
+                    "title": "Revenue metric",
                 },
                 {
-                    "id": "revenue-policy",
-                    "resource": "policies/revenue-recognition.md",
-                    "title": "Revenue Recognition Policy (FY2026)",
-                    "author": "human:jsmith@acme",
-                    "last_modified": "2026-06-15",
+                    "id": "margin-standard",
+                    "resource": "../policies/margin-standard.md",
+                    "title": "Gross margin standard",
                 },
             ],
         )

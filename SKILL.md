@@ -43,14 +43,14 @@ The module invocation is the primary no-install path. After installing the packa
 ### 1. `discover`
 Discover all OKF bundles containing markdown files under the root.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples discover
+python -B -m okf_runtime.cli --root tests/fixtures/samples discover
 ```
 - **Output**: List of bundle paths and their markdown file count.
 
 ### 2. `catalog`
 Extract and return parsed frontmatter records for all non-reserved documents.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml catalog
 ```
 - **Flags**:
   - `--short`: Minimize tokens by listing only `id`, `path`, `type`, and `title`.
@@ -59,7 +59,7 @@ python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog
 ### 3. `query`
 Filter concepts without loading markdown bodies. Matches are exact `key=value`. For lists (e.g., `tags`), matches succeed if the value is contained within the list.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml query type="BigQuery Table" tags=posts
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml query type="BigQuery Table" tags=posts
 ```
 
 Use the derived v0.2 filters when trust or lifecycle is relevant: `trust_tier=unverified|machine-confirmed|human-reviewed`, `status=draft|stable|deprecated`, and `stale=true|false`.
@@ -67,7 +67,7 @@ Use the derived v0.2 filters when trust or lifecycle is relevant: `trust_tier=un
 ### 4. `show`
 Retrieve metadata catalog record for a specific concept by its ID.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples show bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples show bundles/stackoverflow/tables/posts_questions
 ```
 - **Flags**:
   - `--body`: Includes the full markdown content of the file.
@@ -75,20 +75,20 @@ python -B -m okf_runtime.cli --root localdocs\samples show bundles/stackoverflow
 ### 5. `links` and `backlinks`
 Trace references in the knowledge graph.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples links bundles/stackoverflow/tables/posts_questions
-python -B -m okf_runtime.cli --root localdocs\samples backlinks bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples links bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples backlinks bundles/stackoverflow/tables/posts_questions
 ```
 
 ### 6. `graph`
 Build a deterministic neighborhood around a concept node.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples graph bundles/stackoverflow/tables/posts_questions --depth 2
+python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
 
 ### 7. `compose`
 Generate a temporary sub-bundle composed of relevant files centered on a topic or start concept, using radial graph pruning to respect token/context limits.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples compose posts_questions --output-dir .cache\composed-output --depth 2
+python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions --output-dir .cache\composed-output --depth 2
 ```
 - **Flag**: `--min-trust unverified|machine-confirmed|human-reviewed` excludes concepts below the requested derived trust tier.
 - Copies matched markdown files into the output directory.
@@ -97,14 +97,14 @@ python -B -m okf_runtime.cli --root localdocs\samples compose posts_questions --
 ### 8. `trust`
 Summarize v0.2 trust tiers, lifecycle status, stale concepts, and detected `okf_version`; pass a concept ID for its complete trust surface.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml trust
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml trust bundles/acme_retail/metrics/revenue
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust bundles/acme_retail/metrics/revenue
 ```
 
 ### 9. `lint-links`
 Check for broken internal links, anchor issues, parser errors, or unreachable orphan documents.
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples lint-links
+python -B -m okf_runtime.cli --root tests/fixtures/samples lint-links
 ```
 
 ---

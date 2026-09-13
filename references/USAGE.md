@@ -51,12 +51,12 @@ The `metadata` field is the parsed frontmatter. `trust_tier`, `status`, and `is_
 Command:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml query type="BigQuery Table" tags=posts
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml query type="BigQuery Table" tags=posts
 ```
 
 Expected result:
 
-Frontmatter catalog records for every concept under `localdocs\samples` whose parsed frontmatter has:
+Frontmatter catalog records for every concept under `tests/fixtures/samples` whose parsed frontmatter has:
 
 - `type: BigQuery Table`
 - `tags` containing `posts`
@@ -77,7 +77,7 @@ The command does not load or print markdown bodies. It queries the metadata cach
 Find OKF-like bundles below the root.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples discover
+python -B -m okf_runtime.cli --root tests/fixtures/samples discover
 ```
 
 Returns bundle roots and markdown file counts.
@@ -87,19 +87,19 @@ Returns bundle roots and markdown file counts.
 Return parsed frontmatter catalog records for all non-reserved concept documents.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml catalog
 ```
 
 Short output:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog --short
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml catalog --short
 ```
 
 Verbose output includes forward links and backlinks:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog --verbose
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml catalog --verbose
 ```
 
 ### `query`
@@ -107,9 +107,9 @@ python -B -m okf_runtime.cli --root localdocs\samples --format yaml catalog --ve
 Filter metadata without loading markdown bodies.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples query type="BigQuery Dataset"
-python -B -m okf_runtime.cli --root localdocs\samples query tags=posts
-python -B -m okf_runtime.cli --root localdocs\samples query type="BigQuery Table" tags=posts
+python -B -m okf_runtime.cli --root tests/fixtures/samples query type="BigQuery Dataset"
+python -B -m okf_runtime.cli --root tests/fixtures/samples query tags=posts
+python -B -m okf_runtime.cli --root tests/fixtures/samples query type="BigQuery Table" tags=posts
 ```
 
 Filters are exact `key=value` matches. For list fields such as `tags`, a record matches when the list contains the requested value.
@@ -117,8 +117,8 @@ Filters are exact `key=value` matches. For list fields such as `tags`, a record 
 Derived v0.2 filters are also available:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples query trust_tier=human-reviewed
-python -B -m okf_runtime.cli --root localdocs\samples query status=deprecated stale=true
+python -B -m okf_runtime.cli --root tests/fixtures/samples query trust_tier=human-reviewed
+python -B -m okf_runtime.cli --root tests/fixtures/samples query status=deprecated stale=true
 ```
 
 ### `show`
@@ -126,13 +126,13 @@ python -B -m okf_runtime.cli --root localdocs\samples query status=deprecated st
 Return one concept record by concept ID.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples show bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples show bundles/stackoverflow/tables/posts_questions
 ```
 
 Include the markdown body:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples show bundles/stackoverflow/tables/posts_questions --body
+python -B -m okf_runtime.cli --root tests/fixtures/samples show bundles/stackoverflow/tables/posts_questions --body
 ```
 
 ### `links`
@@ -140,8 +140,8 @@ python -B -m okf_runtime.cli --root localdocs\samples show bundles/stackoverflow
 Return forward markdown links.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples links
-python -B -m okf_runtime.cli --root localdocs\samples links bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples links
+python -B -m okf_runtime.cli --root tests/fixtures/samples links bundles/stackoverflow/tables/posts_questions
 ```
 
 Each link includes link text, raw target, resolved path, resolved concept ID when available, anchor, and whether the link is external.
@@ -151,8 +151,8 @@ Each link includes link text, raw target, resolved path, resolved concept ID whe
 Return reverse links.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples backlinks
-python -B -m okf_runtime.cli --root localdocs\samples backlinks bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples backlinks
+python -B -m okf_runtime.cli --root tests/fixtures/samples backlinks bundles/stackoverflow/tables/posts_questions
 ```
 
 ### `graph`
@@ -160,8 +160,8 @@ python -B -m okf_runtime.cli --root localdocs\samples backlinks bundles/stackove
 Return a deterministic neighborhood around a concept.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples graph bundles/stackoverflow/tables/posts_questions
-python -B -m okf_runtime.cli --root localdocs\samples graph bundles/stackoverflow/tables/posts_questions --depth 2
+python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
 
 The result contains:
@@ -176,13 +176,13 @@ The result contains:
 Create a temporary composed bundle around a topic or concept.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples compose posts_questions
+python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions
 ```
 
 With an explicit output directory:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples compose posts_questions --output-dir .cache\demo-compose
+python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions --output-dir .cache\demo-compose
 ```
 
 Compose copies selected source markdown files unchanged and writes `boundary.json` describing selected files and links that point outside the composed set.
@@ -190,7 +190,7 @@ Compose copies selected source markdown files unchanged and writes `boundary.jso
 Require a minimum derived trust tier when composing:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples compose posts_questions --min-trust machine-confirmed
+python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions --min-trust machine-confirmed
 ```
 
 The ordering is `unverified`, `machine-confirmed`, then `human-reviewed`.
@@ -200,13 +200,13 @@ The ordering is `unverified`, `machine-confirmed`, then `human-reviewed`.
 Summarize trust tiers, lifecycle status, stale concepts, and the root `index.md` `okf_version` declaration:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml trust
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust
 ```
 
 Pass a concept ID to inspect its generated and verified events, sources, credibility signals, status, and staleness:
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples --format yaml trust bundles/acme_retail/metrics/revenue
+python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust bundles/acme_retail/metrics/revenue
 ```
 
 ### `lint-links`
@@ -214,7 +214,7 @@ python -B -m okf_runtime.cli --root localdocs\samples --format yaml trust bundle
 Report parser issues, broken internal links, broken anchors, and orphan documents.
 
 ```powershell
-python -B -m okf_runtime.cli --root localdocs\samples lint-links
+python -B -m okf_runtime.cli --root tests/fixtures/samples lint-links
 ```
 
 This command uses the same cached parsed documents and link indexes as the retrieval commands.
@@ -226,8 +226,8 @@ The CLI maps directly to the public API:
 ```python
 from okf_runtime import catalog, query, show, links, backlinks, graph, compose, trust, lint_links
 
-records = query("localdocs/samples", type="BigQuery Table", tags="posts")
-one = show("localdocs/samples", "bundles/stackoverflow/tables/posts_questions")
+records = query("tests/fixtures/samples", type="BigQuery Table", tags="posts")
+one = show("tests/fixtures/samples", "bundles/stackoverflow/tables/posts_questions")
 ```
 
 Available API functions:
