@@ -12,8 +12,13 @@ license = {text = "MIT"}
 authors = [{name = "OKF Runtime contributors"}]
 dependencies = []
 
+[project.optional-dependencies]
+eval = []
+langfuse = ["langfuse>=4.0.0"]
+
 [project.scripts]
 okf = "okf_runtime.cli:main"
+okf-evals = "okf_runtime.evals.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["okf_runtime*"]

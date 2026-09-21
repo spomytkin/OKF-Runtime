@@ -56,6 +56,7 @@ The implemented Phase 1 and 1.5 surface includes:
 - `docs/ARCHITECTURE.md` – runtime architecture and goals
 - `docs/CONTRIBUTING_GUIDE.md` – contribution principles
 - `docs/IMPLEMENTATION_PLAN.md` - phased roadmap and acceptance criteria
+- `docs/EVALS.md` - cross-framework evaluation harness and Langfuse integration
 - `references/OKFmin.SPEC.md` – distilled OKF v0.1 specification
 - `references/USAGE.md` - implemented functionality and command examples
 
