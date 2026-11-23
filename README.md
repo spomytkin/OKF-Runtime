@@ -4,6 +4,35 @@ OKF Runtime is a lightweight, deterministic consumption engine for Open Knowledg
 
 ![OKF Runtime](docs/OKF-Runtime.png)
 
+## Quickstart
+Requires Python 3.10+ and nothing else — zero dependencies.
+```bash
+git clone https://github.com/spomytkin/OKF-Runtime.git
+cd OKF-Runtime
+python -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+pip install -e .
+```
+Verify it works (all 9 tests should pass):
+```bash
+python -m unittest discover -s tests
+okf --help
+```
+Try it on the included sample bundle — no database, daemon, or cloud service:
+```bash
+okf --root tests/fixtures/samples discover
+okf --root tests/fixtures/samples --format yaml query type="BigQuery Table" tags=posts
+okf --root tests/fixtures/samples show bundles/stackoverflow/tables/posts_questions
+okf --root tests/fixtures/samples --format yaml trust
+```
+Or use it as a library — the CLI is a thin wrapper around the same API:
+```python
+from okf_runtime import query, show
+records = query("tests/fixtures/samples", type="BigQuery Table", tags="posts")
+one = show("tests/fixtures/samples", "bundles/stackoverflow/tables/posts_questions")
+```
+See `references/USAGE.md` for every command (`catalog`, `links`, `backlinks`, `graph`, `compose`, `lint-links`) and the full Python API.
+
 ## What it is
 
 - A filesystem-first runtime for OKF markdown bundles
