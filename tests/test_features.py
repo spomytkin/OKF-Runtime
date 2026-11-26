@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 import contextlib
+import hashlib
 import io
 import json
 import shutil
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -96,6 +98,31 @@ class FeatureTests(unittest.TestCase):
         index = cache.load_or_rebuild(self.root, cache_dir)
         self.assertTrue(index.stale_rebuilt)
         self.assertEqual(json.loads(manifest_path.read_text(encoding="utf-8"))["schema_version"], cache.CACHE_SCHEMA_VERSION)
+
+    def test_verify_sources_hashes_each_resolved_file_once(self) -> None:
+        fixture = Path(__file__).resolve().parent / "fixtures" / "source-digest-cache"
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / "bundle"
+            shutil.copytree(fixture, root)
+            shared_bytes = b"shared source bytes\r\nsecond line\n"
+            shared_path = root / "references" / "shared.txt"
+            shared_path.parent.mkdir(parents=True)
+            shared_path.write_bytes(shared_bytes)
+
+            correct_hash = hashlib.sha256(shared_bytes).hexdigest()
+            for concept_file in (root / "concepts" / "a.md", root / "concepts" / "b.md"):
+                content = concept_file.read_text(encoding="utf-8")
+                content = content.replace("HASH_PLACEHOLDER", correct_hash)
+                content = content.replace("WRONG_HASH_PLACEHOLDER", "0" * 64)
+                concept_file.write_text(content, encoding="utf-8")
+
+            with patch("okf_runtime.api._sha256_file", wraps=api._sha256_file) as hash_file:
+                result = api.verify_sources(root)
+
+        self.assertEqual(result["checked"], 3)
+        self.assertEqual(result["mismatched"], 1)
+        self.assertEqual(result["missing"], 0)
+        hash_file.assert_called_once()
 
     def test_verify_sources_cli(self) -> None:
         with contextlib.redirect_stdout(io.StringIO()):

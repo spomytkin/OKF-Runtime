@@ -186,6 +186,7 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
     index = cache.load_or_rebuild(root, cache_dir)
     checked = missing = mismatched = 0
     problems: list[dict[str, str]] = []
+    digests: dict[Path, str] = {}
     for source_id, document in sorted(index.documents.items()):
         sources = document.metadata.get("sources", [])
         if isinstance(sources, dict):
@@ -219,15 +220,22 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
                 continue
             expected = entry.get("x-sha256")
             if expected is not None:
-                digest = hashlib.sha256()
-                with target.open("rb") as handle:
-                    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
-                        digest.update(chunk)
-                actual = digest.hexdigest()
+                target = target.resolve()
+                if target not in digests:
+                    digests[target] = _sha256_file(target)
+                actual = digests[target]
                 if str(expected).lower() != actual:
                     mismatched += 1
                     problems.append({"id": source_id, "resource": resource, "type": "mismatched", "expected": str(expected), "actual": actual})
     return {"checked": checked, "missing": missing, "mismatched": mismatched, "problems": problems}
+
+
+def _sha256_file(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 def _version_at_most_02(version: str | None) -> bool:
