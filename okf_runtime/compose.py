@@ -22,9 +22,14 @@ def compose_bundle(
     output_dir: str | Path | None = None,
     depth: int = 1,
     min_trust: str | None = None,
+    forward_links: dict[str, list[dict[str, Any]]] | None = None,
+    reverse_links: dict[str, list[dict[str, Any]]] | None = None,
+    warnings: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     start_id = resolve_topic(index, topic)
-    graph = neighborhood(start_id, index.forward_links, index.reverse_links, depth=depth)
+    forward = forward_links if forward_links is not None else index.forward_links
+    reverse = reverse_links if reverse_links is not None else index.reverse_links
+    graph = neighborhood(start_id, forward, reverse, depth=depth)
     selected_ids = set(graph["nodes"])
     if min_trust is not None:
         if min_trust not in TRUST_TIER_ORDER:
@@ -53,7 +58,7 @@ def compose_bundle(
         shutil.copy2(document.path, target)
         copied.append(document.relative_path)
 
-    boundary = boundary_links(selected_ids, index.forward_links, index.root)
+    boundary = boundary_links(selected_ids, forward, index.root)
     boundary_payload = {
         "composed_topic": topic,
         "start_id": start_id,
@@ -63,6 +68,8 @@ def compose_bundle(
         "files": copied,
         "boundary_links": boundary,
     }
+    if warnings:
+        boundary_payload["warnings"] = warnings
     (destination / "boundary.json").write_text(json.dumps(boundary_payload, indent=2, sort_keys=True), encoding="utf-8")
 
     return {"output_dir": str(destination), **boundary_payload}

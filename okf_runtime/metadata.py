@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 from .models import Document
@@ -66,7 +67,39 @@ def _matches(record: dict[str, Any], key: str, expected: str) -> bool:
             return False
         return bool(record.get("is_stale")) == (expected.lower() == "true")
     metadata = record["metadata"]
-    value = metadata.get(key)
+    values = _path_values(metadata, key)
+    return any(_scalar_or_list_matches(value, expected) for value in values)
+
+
+def _scalar_or_list_matches(value: Any, expected: str) -> bool:
     if isinstance(value, list):
         return expected in {str(item) for item in value}
     return str(value) == expected
+
+
+def _path_values(root: Any, path: str) -> list[Any]:
+    """Read dotted metadata paths, optionally filtering mapping lists by siblings."""
+    if isinstance(root, dict) and path in root:
+        return [root[path]]
+    pattern = r"[^.[\]]+(?:\[[^=\]]+=[^\]]*\])?(?:\.[^.[\]]+(?:\[[^=\]]+=[^\]]*\])?)*"
+    if not re.fullmatch(pattern, path):
+        raise ValueError(f"Invalid metadata path: {path}")
+    tokens = []
+    for token in path.split("."):
+        match = re.fullmatch(r"([^\[]+)(?:\[([^=\]]+)=([^\]]*)\])?", token)
+        if not match:
+            return []
+        tokens.append(match.groups())
+    values = [root]
+    for name, filter_key, filter_value in tokens:
+        next_values: list[Any] = []
+        for value in values:
+            child = value.get(name) if isinstance(value, dict) else None
+            children = child if isinstance(child, list) else [child]
+            for item in children:
+                if filter_key and (not isinstance(item, dict) or str(item.get(filter_key)) != filter_value):
+                    continue
+                if item is not None:
+                    next_values.append(item)
+        values = next_values
+    return values

@@ -20,6 +20,7 @@ Global options:
 
 - `--root <path>`: bundle root or scan root. Defaults to the current directory.
 - `--format json|yaml`: output format. Defaults to `json`.
+- `--cache-dir <path>`: place the disposable cache outside the bundle. Defaults to `<root>/.cache`.
 
 All retrieval commands automatically rebuild the disposable `.cache/` index when markdown files are newer than the cache.
 
@@ -113,6 +114,7 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples query type="BigQuery 
 ```
 
 Filters are exact `key=value` matches. For list fields such as `tags`, a record matches when the list contains the requested value.
+Nested list-of-mapping fields can select an item by a sibling key in the filter key itself, for example `query 'relations[kind=depends_on].target=payments.md'`.
 
 Derived v0.2 filters are also available:
 
@@ -164,6 +166,14 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackov
 python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
 
+Use repeatable `--via` to keep graph traversal to edges produced by a source key path. Markdown body links use `via=body`; frontmatter resource edges retain the key path that produced them:
+
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle graph source --resolve-resources --via 'relations[kind=depends_on].target'
+```
+
+Resource matching is opt-in: `--resolve-resources` matches exact strings across all frontmatter values, including `sources[].resource`, against another concept's `resource` value. A duplicate resource value produces a warning listing its concepts and creates no edges for that value.
+
 The result contains:
 
 - `start`
@@ -194,6 +204,15 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questio
 ```
 
 The ordering is `unverified`, `machine-confirmed`, then `human-reviewed`.
+Add `--resolve-resources` to include opt-in resource-value edges while choosing the composed neighborhood.
+
+### `verify-sources`
+
+Check each `sources[].resource` path relative to its document. Existing in-bundle resources carrying `x-sha256` are hashed and compared. The JSON result reports `checked`, `missing`, `mismatched`, and a `problems` list.
+
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle verify-sources
+```
 
 ### `trust`
 
@@ -233,19 +252,20 @@ one = show("tests/fixtures/samples", "bundles/stackoverflow/tables/posts_questio
 Available API functions:
 
 - `discover(root=".")`
-- `catalog(root=".", include_links=False)`
-- `query(root=".", **filters)`
-- `show(root, concept_id, include_body=False)`
-- `links(root=".", concept_id=None)`
-- `backlinks(root=".", concept_id=None)`
-- `graph(root, concept_id, depth=1)`
-- `compose(root, topic, output_dir=None, depth=1, min_trust=None)`
-- `trust(root=".", concept_id=None)`
-- `lint_links(root=".")`
+- `catalog(root=".", include_links=False, cache_dir=None)`
+- `query(root=".", cache_dir=None, **filters)`
+- `show(root, concept_id, include_body=False, cache_dir=None)`
+- `links(root=".", concept_id=None, cache_dir=None)`
+- `backlinks(root=".", concept_id=None, cache_dir=None)`
+- `graph(root, concept_id, depth=1, resolve_resources=False, cache_dir=None, via=None)`
+- `compose(root, topic, output_dir=None, depth=1, min_trust=None, resolve_resources=False, cache_dir=None)`
+- `trust(root=".", concept_id=None, cache_dir=None)`
+- `lint_links(root=".", cache_dir=None)`
+- `verify_sources(root=".", cache_dir=None)`
 
 ## Cache Behavior
 
-The runtime writes derived files under `.cache/` inside the root:
+The runtime writes derived files under `.cache/` inside the root, or under the directory passed with `--cache-dir`:
 
 - `manifest.json`
 - `metadata.json`

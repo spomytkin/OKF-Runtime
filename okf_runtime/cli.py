@@ -25,6 +25,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(prog="okf", description="Deterministic runtime for OKF bundles.")
     parser.add_argument("--root", default=".", help="Bundle root or scan root.")
+    parser.add_argument("--cache-dir", help="Cache directory (defaults to <root>/.cache).")
     parser.add_argument("--format", choices=["json", "yaml"], default="json", help="Output format.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -50,17 +51,21 @@ def build_parser() -> argparse.ArgumentParser:
     graph_parser = subparsers.add_parser("graph")
     graph_parser.add_argument("concept_id")
     graph_parser.add_argument("--depth", type=int, default=1)
+    graph_parser.add_argument("--resolve-resources", action="store_true")
+    graph_parser.add_argument("--via", action="append", default=[], help="Traverse edges with this source key path (repeatable).")
 
     compose_parser = subparsers.add_parser("compose")
     compose_parser.add_argument("topic")
     compose_parser.add_argument("--output-dir")
     compose_parser.add_argument("--depth", type=int, default=1)
     compose_parser.add_argument("--min-trust", choices=["unverified", "machine-confirmed", "human-reviewed"])
+    compose_parser.add_argument("--resolve-resources", action="store_true")
 
     trust_parser = subparsers.add_parser("trust")
     trust_parser.add_argument("concept_id", nargs="?")
 
     subparsers.add_parser("lint-links")
+    subparsers.add_parser("verify-sources")
     return parser
 
 
@@ -68,24 +73,26 @@ def run_command(args: argparse.Namespace) -> Any:
     if args.command == "discover":
         return api.discover(args.root)
     if args.command == "catalog":
-        records = api.catalog(args.root, include_links=args.verbose)
+        records = api.catalog(args.root, include_links=args.verbose, cache_dir=args.cache_dir)
         return short_catalog(records) if args.short else records
     if args.command == "query":
-        return api.query(args.root, **parse_filters(args.filters))
+        return api.query(args.root, cache_dir=args.cache_dir, **parse_filters(args.filters))
     if args.command == "show":
-        return api.show(args.root, args.concept_id, include_body=args.body)
+        return api.show(args.root, args.concept_id, include_body=args.body, cache_dir=args.cache_dir)
     if args.command == "links":
-        return api.links(args.root, args.concept_id)
+        return api.links(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "backlinks":
-        return api.backlinks(args.root, args.concept_id)
+        return api.backlinks(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "graph":
-        return api.graph(args.root, args.concept_id, depth=args.depth)
+        return api.graph(args.root, args.concept_id, depth=args.depth, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir, via=args.via or None)
     if args.command == "compose":
-        return api.compose(args.root, args.topic, output_dir=args.output_dir, depth=args.depth, min_trust=args.min_trust)
+        return api.compose(args.root, args.topic, output_dir=args.output_dir, depth=args.depth, min_trust=args.min_trust, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir)
     if args.command == "trust":
-        return api.trust(args.root, args.concept_id)
+        return api.trust(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "lint-links":
-        return api.lint_links(args.root)
+        return api.lint_links(args.root, cache_dir=args.cache_dir)
+    if args.command == "verify-sources":
+        return api.verify_sources(args.root, cache_dir=args.cache_dir)
     raise ValueError(f"Unknown command: {args.command}")
 
 

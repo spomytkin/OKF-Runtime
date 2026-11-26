@@ -8,6 +8,7 @@ from typing import Any
 from urllib.parse import unquote, urlparse
 
 from .models import ActorEvent, Document, Link, MarkdownFile, Source, TrustSignals
+from .paths import normalize_bundle_path
 
 FRONTMATTER_BOUNDARY = "---"
 LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
@@ -358,15 +359,8 @@ def resolve_internal_link(target: str, source_relative_path: str, root: Path) ->
     if not path_text:
         return source_relative_path
 
-    if path_text.startswith("/"):
-        candidate = root / path_text.lstrip("/")
-    else:
-        candidate = root / Path(source_relative_path).parent / path_text
-    normalized = candidate.resolve()
-    try:
-        return normalized.relative_to(root).as_posix()
-    except ValueError:
-        return None
+    # Lexical resolution does not inspect the filesystem and preserves case.
+    return normalize_bundle_path(source_relative_path, path_text)
 
 
 def extract_anchors(body: str) -> list[str]:
