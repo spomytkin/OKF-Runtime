@@ -1,0 +1,179 @@
+{
+  "result_schema_version": "1",
+  "adapter": "reference",
+  "aggregates": {
+    "deterministic_replay": {
+      "applicable": true,
+      "count": 1,
+      "pass_rate": 1,
+      "passed_count": 1
+    },
+    "groundedness": {
+      "applicable": true,
+      "count": 4,
+      "mean": 1,
+      "passed_count": 4
+    },
+    "protocol_valid": {
+      "applicable": true,
+      "count": 23,
+      "pass_rate": 1,
+      "passed_count": 23
+    },
+    "result_correctness": {
+      "applicable": true,
+      "count": 19,
+      "mean": 1,
+      "passed_count": 19
+    },
+    "source_unchanged": {
+      "applicable": true,
+      "count": 23,
+      "pass_rate": 1,
+      "passed_count": 23
+    },
+    "structured:output.structured.backlinks": {
+      "applicable": true,
+      "count": 2,
+      "mean": 1,
+      "passed_count": 2
+    },
+    "structured:output.structured.catalog_ids": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.compose.files": {
+      "applicable": true,
+      "count": 2,
+      "mean": 1,
+      "passed_count": 2
+    },
+    "structured:output.structured.compose.start_id": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.discover": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.graph.nodes": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.links": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.lint": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.query_ids": {
+      "applicable": true,
+      "count": 5,
+      "mean": 1,
+      "passed_count": 5
+    },
+    "structured:output.structured.show": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.show.body": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.show.id": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.trust.concept_count": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.trust.okf_version": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:output.structured.trust.trust_tier": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "structured:status": {
+      "applicable": true,
+      "count": 1,
+      "mean": 1,
+      "passed_count": 1
+    },
+    "task_success": {
+      "applicable": true,
+      "count": 23,
+      "pass_rate": 1,
+      "passed_count": 23
+    },
+    "tool_or_operation_selection": {
+      "applicable": true,
+      "count": 7,
+      "mean": 1,
+      "passed_count": 7
+    }
+  },
+  "gates": {
+    "checks": {
+      "case_error_count_max": {
+        "passed": true,
+        "threshold": 0,
+        "value": 0
+      },
+      "protocol_valid_pass_rate": {
+        "passed": true,
+        "threshold": 1,
+        "value": 1
+      },
+      "result_correctness_mean": {
+        "passed": true,
+        "threshold": 1,
+        "value": 1
+      },
+      "source_unchanged_pass_rate": {
+        "passed": true,
+        "threshold": 1,
+        "value": 1
+      }
+    },
+    "config": {
+      "case_error_count_max": 0,
+      "protocol_valid_pass_rate": 1,
+      "result_correctness_mean": 1,
+      "source_unchanged_pass_rate": 1
+    },
+    "passed": true
+  },
+  "metadata": {
+    "baseline_cases": 23,
+    "note": "Normalized reference baseline; per-case runtime artifacts intentionally excluded."
+  }
+}
