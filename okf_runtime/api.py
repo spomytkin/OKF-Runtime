@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+import hashlib
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 from . import cache, metadata as metadata_module, scanner
 from .compose import compose_bundle
 from .graph import neighborhood
 from .links import lint_links as lint_link_index
+from .links import build_reverse_links
+from .paths import normalize_bundle_path
 
 
 def discover(root: str | Path = ".") -> list[dict[str, object]]:
@@ -60,13 +64,27 @@ def backlinks(root: str | Path = ".", concept_id: str | None = None, cache_dir: 
     return index.reverse_links.get(concept_id.removesuffix(".md"), [])
 
 
-def graph(root: str | Path, concept_id: str, depth: int = 1, resolve_resources: bool = False, cache_dir: str | Path | None = None) -> dict[str, Any]:
+def graph(
+    root: str | Path,
+    concept_id: str,
+    depth: int = 1,
+    resolve_resources: bool = False,
+    cache_dir: str | Path | None = None,
+    via: list[str] | None = None,
+) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
     normalized = concept_id.removesuffix(".md")
     if normalized not in index.metadata_index:
         raise KeyError(f"Unknown concept: {concept_id}")
-    forward, reverse = resource_edges(index) if resolve_resources else (index.forward_links, index.reverse_links)
-    return neighborhood(normalized, forward, reverse, depth=depth)
+    warnings: list[dict[str, Any]] = []
+    if resolve_resources:
+        forward, reverse, warnings = resource_edges(index)
+    else:
+        forward, reverse = index.forward_links, index.reverse_links
+    result = neighborhood(normalized, forward, reverse, depth=depth, via=via)
+    if warnings:
+        result["warnings"] = warnings
+    return result
 
 
 def compose(
@@ -79,9 +97,14 @@ def compose(
     cache_dir: str | Path | None = None,
 ) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
+    forward, reverse = index.forward_links, index.reverse_links
+    warnings: list[dict[str, Any]] = []
     if resolve_resources:
-        index.forward_links, index.reverse_links = resource_edges(index)
-    return compose_bundle(index, topic, output_dir=output_dir, depth=depth, min_trust=min_trust)
+        forward, reverse, warnings = resource_edges(index)
+    return compose_bundle(
+        index, topic, output_dir=output_dir, depth=depth, min_trust=min_trust,
+        forward_links=forward, reverse_links=reverse, warnings=warnings,
+    )
 
 
 def trust(root: str | Path = ".", concept_id: str | None = None, cache_dir: str | Path | None = None) -> dict[str, Any]:
@@ -111,40 +134,55 @@ def lint_links(root: str | Path = ".", cache_dir: str | Path | None = None) -> l
     return lint_link_index(index.documents, index.forward_links, index.reverse_links)
 
 
-def resource_edges(index: Any) -> tuple[dict[str, list[dict[str, Any]]], dict[str, list[dict[str, Any]]]]:
-    """Add opt-in edges where a frontmatter string equals a concept resource."""
-    from .links import build_reverse_links
-
+def resource_edges(index: Any) -> tuple[dict[str, list[dict[str, Any]]], dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
+    """Build local opt-in graph edges for exact frontmatter resource matches."""
     forward = {key: list(value) for key, value in index.forward_links.items()}
-    resources = {str(doc.metadata["resource"]): key for key, doc in index.documents.items()
-                 if not doc.is_reserved and isinstance(doc.metadata.get("resource"), str)}
+    resource_owners: dict[str, list[str]] = {}
+    for concept_id, document in index.documents.items():
+        resource = document.metadata.get("resource")
+        if not document.is_reserved and isinstance(resource, str):
+            resource_owners.setdefault(resource, []).append(concept_id)
 
-    def strings(value: Any):
+    warnings = [
+        {"type": "duplicate_resource", "resource": value, "concepts": sorted(concepts)}
+        for value, concepts in sorted(resource_owners.items())
+        if len(concepts) > 1
+    ]
+    unique_resources = {value: concepts[0] for value, concepts in resource_owners.items() if len(concepts) == 1}
+
+    def strings(value: Any, key_path: str = ""):
         if isinstance(value, str):
-            yield value
+            yield value, key_path
         elif isinstance(value, dict):
-            for child in value.values():
-                yield from strings(child)
+            for key, child in value.items():
+                child_path = f"{key_path}.{key}" if key_path else str(key)
+                yield from strings(child, child_path)
         elif isinstance(value, list):
             for child in value:
-                yield from strings(child)
+                if isinstance(child, dict):
+                    selector_key = next(
+                        (candidate for candidate in ("kind", "id", "type", "name")
+                         if candidate in child and isinstance(child[candidate], (str, int, float, bool))),
+                        None,
+                    )
+                    selector = f"[{selector_key}={child[selector_key]}]" if selector_key else "[]"
+                    yield from strings(child, f"{key_path}{selector}")
+                else:
+                    yield from strings(child, key_path)
 
     for source_id, document in index.documents.items():
         if document.is_reserved:
             continue
-        for value in strings(document.metadata):
-            target_id = resources.get(value)
+        for value, key_path in strings(document.metadata):
+            target_id = unique_resources.get(value)
             if target_id and target_id != source_id:
                 forward.setdefault(source_id, []).append({"text": value, "target": value, "raw_target": value,
                     "anchor": None, "external": False, "resolved_path": index.documents[target_id].relative_path,
-                    "resolved_id": target_id, "resource": True})
-    return forward, build_reverse_links(forward)
+                    "resolved_id": target_id, "resource": True, "via": key_path})
+    return forward, build_reverse_links(forward), warnings
 
 
 def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
-    import hashlib
-    from pathlib import PurePosixPath
-
     index = cache.load_or_rebuild(root, cache_dir)
     checked = missing = mismatched = 0
     problems: list[dict[str, str]] = []
@@ -158,27 +196,46 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
             if not isinstance(entry, dict) or not isinstance(entry.get("resource"), str):
                 continue
             resource = entry["resource"]
-            from urllib.parse import urlparse
-            if urlparse(resource).scheme or resource.startswith("/"):
+            if urlparse(resource).scheme:
                 continue
             checked += 1
-            parts: list[str] = []
-            for part in PurePosixPath((Path(document.relative_path).parent / resource).as_posix()).parts:
-                if part in {"", "."}: continue
-                if part == "..":
-                    if not parts: break
-                    parts.pop()
-                else: parts.append(part)
-            else:
-                target = index.root.joinpath(*parts)
-                if target.is_file():
-                    expected = entry.get("x-sha256")
-                    if expected is not None:
-                        actual = hashlib.sha256(target.read_bytes()).hexdigest()
-                        if str(expected).lower() != actual:
-                            mismatched += 1
-                            problems.append({"id": source_id, "resource": resource, "type": "mismatched", "expected": str(expected), "actual": actual})
-                    continue
-            missing += 1
-            problems.append({"id": source_id, "resource": resource, "type": "missing"})
+            relative = normalize_bundle_path(document.relative_path, resource)
+            if relative is None:
+                problems.append({"id": source_id, "resource": resource, "type": "out_of_root"})
+                continue
+            target = index.root.joinpath(*relative.split("/"))
+            exists = target.is_file()
+            version = _version_at_most_02(index.okf_version)
+            if not exists and not resource.startswith("/") and version:
+                root_relative = normalize_bundle_path("index.md", resource)
+                if root_relative is not None:
+                    root_target = index.root.joinpath(*root_relative.split("/"))
+                    if root_target.is_file():
+                        target = root_target
+                        exists = True
+            if not exists:
+                missing += 1
+                problems.append({"id": source_id, "resource": resource, "type": "missing"})
+                continue
+            expected = entry.get("x-sha256")
+            if expected is not None:
+                digest = hashlib.sha256()
+                with target.open("rb") as handle:
+                    for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                        digest.update(chunk)
+                actual = digest.hexdigest()
+                if str(expected).lower() != actual:
+                    mismatched += 1
+                    problems.append({"id": source_id, "resource": resource, "type": "mismatched", "expected": str(expected), "actual": actual})
     return {"checked": checked, "missing": missing, "mismatched": mismatched, "problems": problems}
+
+
+def _version_at_most_02(version: str | None) -> bool:
+    if version is None:
+        return True
+    try:
+        parts = tuple(int(part) for part in version.split("."))
+    except ValueError:
+        return False
+    padded = parts + (0,) * max(0, 3 - len(parts))
+    return padded[:3] <= (0, 2, 0)

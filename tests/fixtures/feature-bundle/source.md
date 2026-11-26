@@ -2,6 +2,7 @@
 type: Concept
 title: Source
 resource: source.md
+literal.key: exact
 relations:
   - kind: depends_on
     target: target.md

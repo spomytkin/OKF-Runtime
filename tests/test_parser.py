@@ -1,7 +1,12 @@
 from __future__ import annotations
 
 import unittest
+import sys
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from okf_runtime.parser import parse_frontmatter, split_frontmatter
 
@@ -22,7 +27,15 @@ class FrontmatterParserTests(unittest.TestCase):
         )
 
     def test_v02_sources_list_of_dicts_parsing(self) -> None:
-        sample = Path("tests/fixtures/samples/bundles/acme_retail/metrics/gross-margin-period.md")
+        sample = (
+            Path(__file__).resolve().parent
+            / "fixtures"
+            / "samples"
+            / "bundles"
+            / "acme_retail"
+            / "metrics"
+            / "gross-margin-period.md"
+        )
         metadata, _, errors = split_frontmatter(sample.read_text(encoding="utf-8"))
 
         self.assertEqual(errors, [])

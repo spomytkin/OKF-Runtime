@@ -2,16 +2,23 @@ from __future__ import annotations
 
 import json
 import shutil
+import sys
+import tempfile
 import unittest
 import uuid
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from okf_runtime import api
 
 
 class RuntimeTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.workspace_tmp = Path.cwd() / ".test-tmp"
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.workspace_tmp = Path(self.temp_dir.name)
         self.root = self.workspace_tmp / f"{self._testMethodName}-{uuid.uuid4().hex}"
         if self.root.exists():
             shutil.rmtree(self.root, ignore_errors=True)
@@ -47,8 +54,7 @@ Customer rows.
         )
 
     def tearDown(self) -> None:
-        if self.workspace_tmp.exists():
-            shutil.rmtree(self.workspace_tmp, ignore_errors=True)
+        self.temp_dir.cleanup()
 
     def test_catalog_query_and_cache(self) -> None:
         catalog = api.catalog(self.root)

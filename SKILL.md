@@ -118,11 +118,15 @@ Check each in-bundle `sources[].resource` path and compare `x-sha256` when prese
 python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle verify-sources
 ```
 
-### Nested `--via` filters
-Use `--via` for a list of mappings selected by a sibling key, such as:
+### Nested metadata filters
+Filter a list of mappings by a sibling key directly in the filter path, such as:
 ```powershell
-python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle query --via "relations[kind=depends_on].target=target.md"
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle query "relations[kind=depends_on].target=target.md"
 ```
+
+`graph --via` is repeatable and filters traversal edges by source key path. Body links use `via=body`; frontmatter resource edges use the path of the exact string that matched, such as `relations[kind=depends_on].target`.
+
+With `--resolve-resources`, graph and compose compare exact strings across all frontmatter values, including `sources[].resource`, with other concepts' `resource` values. Duplicate resource values are reported as warnings and produce no edges.
 
 ---
 

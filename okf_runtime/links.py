@@ -22,6 +22,7 @@ def build_forward_links(documents: dict[str, Document]) -> dict[str, list[dict[s
                 "external": link.is_external,
                 "resolved_path": link.resolved_path,
                 "resolved_id": path_to_concept_id(link.resolved_path),
+                "via": "body",
             }
             for link in document.links
         ]
@@ -41,6 +42,7 @@ def build_reverse_links(forward_links: dict[str, list[dict[str, Any]]]) -> dict[
                     "source_text": link["text"],
                     "raw_target": link["raw_target"],
                     "anchor": link["anchor"],
+                    "via": link.get("via", "body"),
                 }
             )
     return {key: sorted(value, key=lambda item: item["source_id"]) for key, value in sorted(reverse.items())}

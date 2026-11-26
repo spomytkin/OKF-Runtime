@@ -16,6 +16,7 @@ MANIFEST_FILE = "manifest.json"
 METADATA_FILE = "metadata.json"
 LINKS_FILE = "links.json"
 REVERSE_LINKS_FILE = "reverse_links.json"
+CACHE_SCHEMA_VERSION = 2
 
 
 def load_or_rebuild(root: str | Path, cache_dir: str | Path | None = None) -> RuntimeIndex:
@@ -36,7 +37,10 @@ def is_cache_fresh(root: Path, cache_dir: Path | None = None) -> bool:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return False
-    return float(manifest.get("source_mtime", -1)) >= scanner.max_markdown_mtime(root)
+    return (
+        manifest.get("schema_version") == CACHE_SCHEMA_VERSION
+        and float(manifest.get("source_mtime", -1)) >= scanner.max_markdown_mtime(root)
+    )
 
 
 def rebuild_cache(root: Path, cache_dir: Path | None = None) -> RuntimeIndex:
@@ -72,7 +76,11 @@ def rebuild_cache(root: Path, cache_dir: Path | None = None) -> RuntimeIndex:
     (target_cache_dir / LINKS_FILE).write_text(json.dumps(forward, indent=2, sort_keys=True), encoding="utf-8")
     (target_cache_dir / REVERSE_LINKS_FILE).write_text(json.dumps(reverse, indent=2, sort_keys=True), encoding="utf-8")
     (target_cache_dir / MANIFEST_FILE).write_text(
-        json.dumps({"source_mtime": source_mtime, "document_count": len(documents)}, indent=2, sort_keys=True),
+        json.dumps(
+            {"schema_version": CACHE_SCHEMA_VERSION, "source_mtime": source_mtime, "document_count": len(documents)},
+            indent=2,
+            sort_keys=True,
+        ),
         encoding="utf-8",
     )
 

@@ -1,9 +1,15 @@
 from __future__ import annotations
 
 import shutil
+import sys
+import tempfile
 import unittest
 import uuid
 from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
 
 from okf_runtime import api, cache
 
@@ -11,14 +17,16 @@ from okf_runtime import api, cache
 class TrustTests(unittest.TestCase):
     @property
     def fixture(self) -> Path:
-        return Path(__file__).parent / "fixtures" / "v02-income-statement"
+        return Path(__file__).resolve().parent / "fixtures" / "v02-income-statement"
 
     def setUp(self) -> None:
-        self.root = Path.cwd() / ".test-tmp" / f"trust-{uuid.uuid4().hex}"
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp_dir.name) / f"trust-{uuid.uuid4().hex}"
         shutil.copytree(self.fixture, self.root)
 
     def tearDown(self) -> None:
         shutil.rmtree(self.root, ignore_errors=True)
+        self.temp_dir.cleanup()
 
     def test_v02_frontmatter_and_trust_derivation(self) -> None:
         index = cache.rebuild_cache(self.root)

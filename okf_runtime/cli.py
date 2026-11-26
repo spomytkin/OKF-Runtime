@@ -37,7 +37,6 @@ def build_parser() -> argparse.ArgumentParser:
 
     query_parser = subparsers.add_parser("query")
     query_parser.add_argument("filters", nargs="*", help="Metadata filters as key=value.")
-    query_parser.add_argument("--via", action="append", default=[], metavar="KEY=VALUE", help="Filter nested list-of-mapping metadata.")
 
     show_parser = subparsers.add_parser("show")
     show_parser.add_argument("concept_id")
@@ -53,6 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("concept_id")
     graph_parser.add_argument("--depth", type=int, default=1)
     graph_parser.add_argument("--resolve-resources", action="store_true")
+    graph_parser.add_argument("--via", action="append", default=[], help="Traverse edges with this source key path (repeatable).")
 
     compose_parser = subparsers.add_parser("compose")
     compose_parser.add_argument("topic")
@@ -76,7 +76,7 @@ def run_command(args: argparse.Namespace) -> Any:
         records = api.catalog(args.root, include_links=args.verbose, cache_dir=args.cache_dir)
         return short_catalog(records) if args.short else records
     if args.command == "query":
-        return api.query(args.root, cache_dir=args.cache_dir, **parse_filters(args.filters + args.via))
+        return api.query(args.root, cache_dir=args.cache_dir, **parse_filters(args.filters))
     if args.command == "show":
         return api.show(args.root, args.concept_id, include_body=args.body, cache_dir=args.cache_dir)
     if args.command == "links":
@@ -84,7 +84,7 @@ def run_command(args: argparse.Namespace) -> Any:
     if args.command == "backlinks":
         return api.backlinks(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "graph":
-        return api.graph(args.root, args.concept_id, depth=args.depth, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir)
+        return api.graph(args.root, args.concept_id, depth=args.depth, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir, via=args.via or None)
     if args.command == "compose":
         return api.compose(args.root, args.topic, output_dir=args.output_dir, depth=args.depth, min_trust=args.min_trust, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir)
     if args.command == "trust":

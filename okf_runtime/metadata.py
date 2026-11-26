@@ -79,9 +79,11 @@ def _scalar_or_list_matches(value: Any, expected: str) -> bool:
 
 def _path_values(root: Any, path: str) -> list[Any]:
     """Read dotted metadata paths, optionally filtering mapping lists by siblings."""
+    if isinstance(root, dict) and path in root:
+        return [root[path]]
     pattern = r"[^.[\]]+(?:\[[^=\]]+=[^\]]*\])?(?:\.[^.[\]]+(?:\[[^=\]]+=[^\]]*\])?)*"
     if not re.fullmatch(pattern, path):
-        return []
+        raise ValueError(f"Invalid metadata path: {path}")
     tokens = []
     for token in path.split("."):
         match = re.fullmatch(r"([^\[]+)(?:\[([^=\]]+)=([^\]]*)\])?", token)
