@@ -20,6 +20,7 @@ Global options:
 
 - `--root <path>`: bundle root or scan root. Defaults to the current directory.
 - `--format json|yaml`: output format. Defaults to `json`.
+- `--cache-dir <path>`: place the disposable cache outside the bundle. Defaults to `<root>/.cache`.
 
 All retrieval commands automatically rebuild the disposable `.cache/` index when markdown files are newer than the cache.
 
@@ -113,6 +114,7 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples query type="BigQuery 
 ```
 
 Filters are exact `key=value` matches. For list fields such as `tags`, a record matches when the list contains the requested value.
+Nested list-of-mapping fields can select an item by a sibling key using `--via`, for example `query --via 'relations[kind=depends_on].target=payments.md'`.
 
 Derived v0.2 filters are also available:
 
@@ -164,6 +166,8 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackov
 python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
 
+Resource matching is opt-in: add `--resolve-resources` to treat an exact frontmatter string matching another concept's `resource` value as a graph edge.
+
 The result contains:
 
 - `start`
@@ -194,6 +198,15 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questio
 ```
 
 The ordering is `unverified`, `machine-confirmed`, then `human-reviewed`.
+Add `--resolve-resources` to include opt-in resource-value edges while choosing the composed neighborhood.
+
+### `verify-sources`
+
+Check each `sources[].resource` path relative to its document. Existing in-bundle resources carrying `x-sha256` are hashed and compared. The JSON result reports `checked`, `missing`, `mismatched`, and a `problems` list.
+
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle verify-sources
+```
 
 ### `trust`
 
@@ -242,10 +255,11 @@ Available API functions:
 - `compose(root, topic, output_dir=None, depth=1, min_trust=None)`
 - `trust(root=".", concept_id=None)`
 - `lint_links(root=".")`
+- `verify_sources(root=".", cache_dir=None)`
 
 ## Cache Behavior
 
-The runtime writes derived files under `.cache/` inside the root:
+The runtime writes derived files under `.cache/` inside the root, or under the directory passed with `--cache-dir`:
 
 - `manifest.json`
 - `metadata.json`

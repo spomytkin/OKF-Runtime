@@ -362,11 +362,25 @@ def resolve_internal_link(target: str, source_relative_path: str, root: Path) ->
         candidate = root / path_text.lstrip("/")
     else:
         candidate = root / Path(source_relative_path).parent / path_text
-    normalized = candidate.resolve()
+    # Resolve lexically: link linting must not depend on filesystem existence,
+    # and POSIX normalization preserves case on every host platform.
+    from pathlib import PurePosixPath
+
     try:
-        return normalized.relative_to(root).as_posix()
+        relative = candidate.relative_to(root).as_posix()
     except ValueError:
         return None
+    parts: list[str] = []
+    for part in PurePosixPath(relative.replace("\\", "/")).parts:
+        if part in {"", "."}:
+            continue
+        if part == "..":
+            if not parts:
+                return None
+            parts.pop()
+        else:
+            parts.append(part)
+    return "/".join(parts)
 
 
 def extract_anchors(body: str) -> list[str]:

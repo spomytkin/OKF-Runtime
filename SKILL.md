@@ -35,6 +35,7 @@ The module invocation is the primary no-install path. After installing the packa
 ### Global Flags
 - `--root <path>`: Directory containing OKF bundles. Defaults to `.`.
 - `--format <json|yaml>`: Standardize output for programmatic parsing or token-efficient agent reading. Defaults to `json`.
+- `--cache-dir <path>`: Store the disposable runtime cache outside the bundle. Defaults to `<root>/.cache`.
 
 ---
 
@@ -84,12 +85,14 @@ Build a deterministic neighborhood around a concept node.
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
+- Add `--resolve-resources` to opt in to edges when a frontmatter string exactly matches another concept's `resource` value.
 
 ### 7. `compose`
 Generate a temporary sub-bundle composed of relevant files centered on a topic or start concept, using radial graph pruning to respect token/context limits.
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions --output-dir .cache\composed-output --depth 2
 ```
+- Add `--resolve-resources` to use exact resource-value matches as graph edges during composition.
 - **Flag**: `--min-trust unverified|machine-confirmed|human-reviewed` excludes concepts below the requested derived trust tier.
 - Copies matched markdown files into the output directory.
 - Generates `boundary.json` at the root of the composed folder to identify dangling/external links mapping to their original source bundle locations.
@@ -105,6 +108,20 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust b
 Check for broken internal links, anchor issues, parser errors, or unreachable orphan documents.
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/samples lint-links
+```
+
+Internal paths are normalized lexically and compared case-sensitively, without checking the filesystem during resolution.
+
+### 10. `verify-sources`
+Check each in-bundle `sources[].resource` path and compare `x-sha256` when present. Output includes checked, missing, and mismatched counts plus problem details.
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle verify-sources
+```
+
+### Nested `--via` filters
+Use `--via` for a list of mappings selected by a sibling key, such as:
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle query --via "relations[kind=depends_on].target=target.md"
 ```
 
 ---
@@ -130,7 +147,7 @@ Before completing work on OKF markdown files:
 
 - **Frontmatter subset:** The dependency-free parser supports scalars, inline collections, indented mappings, list-of-dicts, and folded scalar continuations. It is not a complete YAML 1.2 implementation.
 - **Comma-Separated Lists:** YAML tags must be formatted as lists (e.g., `- posts` or `[posts]`). Comma-separated strings (e.g., `tags: legacy, posts`) are parsed as a single string and will not match list queries like `tags=posts`.
-- **Cache Folder:** The tool automatically creates a `.cache/` folder under the root. This directory contains `manifest.json`, `metadata.json`, `links.json`, and `reverse_links.json`. It is safe to delete and will rebuild silently on the next command.
+- **Cache Folder:** The tool automatically creates `.cache/` under the root, unless `--cache-dir` selects another directory. The cache contains `manifest.json`, `metadata.json`, `links.json`, and `reverse_links.json`; it is safe to delete.
 
 ## References
 
