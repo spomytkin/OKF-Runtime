@@ -183,6 +183,11 @@ def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
     legacy = is_legacy(index.okf_version)
     for concept_id, document in index.documents.items():
         for error in document.errors:
+            # §11.1: a .md file with no frontmatter (or no type on v0.3)
+            # is not a concept and does not break conformance. On legacy
+            # bundles the v0.2 "type required" error still counts.
+            if error == "Missing YAML frontmatter block":
+                continue
             if legacy or error != "Missing required non-empty frontmatter field: type":
                 errors.append({"id": concept_id, "message": error})
         if document.is_reserved and document.metadata and document.relative_path != "index.md":

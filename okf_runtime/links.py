@@ -69,14 +69,22 @@ def lint_links(
 ) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
     valid_paths = {document.relative_path for document in documents.values() if document.is_concept}
+    legacy = all(document.legacy for document in documents.values())
 
     for concept_id, document in documents.items():
         for error in document.errors:
             issues.append({"level": "error", "type": "parse", "id": concept_id, "message": error})
-        for warning in document.warnings:
-            issues.append({"level": "warning", "type": "parse_warning", "id": concept_id, "message": warning})
         if not document.is_concept and not document.is_reserved:
             issues.append({"level": "warning", "type": "non_concept", "id": concept_id})
+        if not legacy:
+            # The warnings below are a v0.3-facing lint surface; legacy
+            # bundles keep their v0.2 lint output.
+            if document.is_reserved and document.metadata and document.relative_path != "index.md":
+                # Subdirectory index.md / any log.md with frontmatter (§8/§9):
+                # a warning, not an error.
+                issues.append({"level": "warning", "type": "reserved_frontmatter", "id": concept_id})
+            for warning in document.warnings:
+                issues.append({"level": "warning", "type": "parse_warning", "id": concept_id, "message": warning})
 
     for source_id, items in forward_links.items():
         for link in items:

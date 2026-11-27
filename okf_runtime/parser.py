@@ -28,8 +28,12 @@ def parse_document(file: MarkdownFile, root: str | Path, legacy: bool = True) ->
     errors = [error for error in errors if not error.startswith("warning: ")]
     links = extract_links(body, file.relative_path, root_path)
     anchors = extract_anchors(body)
-    is_concept = not file.is_reserved and bool(str(metadata.get("type", "")).strip())
-    if not is_concept and not file.is_reserved and legacy:
+    has_type = bool(str(metadata.get("type", "")).strip())
+    # Legacy bundles keep the v0.2 error for a missing type, and the
+    # document stays a concept (§12.1 gating, spec item 1c); v0.3+
+    # bundles treat it as a non-concept instead.
+    is_concept = not file.is_reserved and (legacy or has_type)
+    if not has_type and not file.is_reserved and legacy:
         errors.append("Missing required non-empty frontmatter field: type")
     return Document(
         path=file.path,

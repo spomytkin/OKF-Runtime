@@ -37,10 +37,28 @@ def is_cache_fresh(root: Path, cache_dir: Path | None = None) -> bool:
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
         return False
-    return (
-        manifest.get("schema_version") == CACHE_SCHEMA_VERSION
-        and float(manifest.get("source_mtime", -1)) >= scanner.max_markdown_mtime(root)
-    )
+    if manifest.get("schema_version") != CACHE_SCHEMA_VERSION:
+        return False
+    if "okf_version" in manifest:
+        # A version change in the root index.md invalidates the cache even
+        # when file mtimes are unchanged (e.g. a checkout that preserves
+        # mtimes), because derived data is version-dependent.
+        if manifest.get("okf_version") != _read_root_okf_version(root):
+            return False
+    return float(manifest.get("source_mtime", -1)) >= scanner.max_markdown_mtime(root)
+
+
+def _read_root_okf_version(root: Path) -> str | None:
+    """Read okf_version from the bundle-root index.md frontmatter only."""
+    index_path = root / "index.md"
+    if not index_path.is_file():
+        return None
+    try:
+        metadata, _, _ = parser.split_frontmatter(index_path.read_text(encoding="utf-8"), allow_missing=True)
+    except (OSError, UnicodeDecodeError):
+        return None
+    value = metadata.get("okf_version") if isinstance(metadata, dict) else None
+    return str(value) if value is not None else None
 
 
 def rebuild_cache(root: Path, cache_dir: Path | None = None) -> RuntimeIndex:
@@ -78,7 +96,12 @@ def rebuild_cache(root: Path, cache_dir: Path | None = None) -> RuntimeIndex:
     (target_cache_dir / REVERSE_LINKS_FILE).write_text(json.dumps(reverse, indent=2, sort_keys=True), encoding="utf-8")
     (target_cache_dir / MANIFEST_FILE).write_text(
         json.dumps(
-            {"schema_version": CACHE_SCHEMA_VERSION, "source_mtime": source_mtime, "document_count": len(documents)},
+            {
+                "schema_version": CACHE_SCHEMA_VERSION,
+                "source_mtime": source_mtime,
+                "document_count": len(documents),
+                "okf_version": detect_okf_version(documents),
+            },
             indent=2,
             sort_keys=True,
         ),
@@ -165,6 +188,12 @@ def document_from_json(root: Path, payload: dict[str, Any]) -> Document:
         for item in payload.get("links", [])
     ]
     relative_path = payload["relative_path"]
+    # Recompute trust from metadata, but do not reuse the cached warnings
+    # list as the sink: extract_trust_signals appends to it, which would
+    # duplicate every cached warning on each load. The cached warnings are
+    # already the parse-time result, so they are restored as-is below.
+    # Pass the cached legacy flag so the v0.1 timestamp fallback is not
+    # re-applied to v0.3 bundles loaded from cache.
     return Document(
         path=root / relative_path,
         relative_path=relative_path,
@@ -172,7 +201,9 @@ def document_from_json(root: Path, payload: dict[str, Any]) -> Document:
         is_reserved=bool(payload.get("reserved")),
         metadata=payload.get("metadata", {}),
         body=payload.get("body", ""),
-        trust=parser.extract_trust_signals(payload.get("metadata", {}), warnings=payload.get("warnings", [])),
+        trust=parser.extract_trust_signals(
+            payload.get("metadata", {}), legacy=bool(payload.get("legacy", True)), warnings=[]
+        ),
         links=links,
         anchors=payload.get("anchors", []),
         errors=payload.get("errors", []),

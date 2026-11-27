@@ -94,7 +94,8 @@ class TrustSignals:
         try:
             return now() >= parse_instant(self.stale_after)
         except ValueError:
-            return False
+            # Unparseable stale_after is never fresh (§5.5).
+            return True
 
     def to_dict(self) -> dict[str, Any]:
         return {**asdict(self), "trust_tier": self.trust_tier, "is_stale": self.is_stale}
