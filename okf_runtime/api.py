@@ -4,16 +4,15 @@ from __future__ import annotations
 
 import hashlib
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
-from urllib.parse import urlparse
 
 from . import cache, metadata as metadata_module, scanner
 from .compose import compose_bundle
 from .graph import neighborhood
 from .links import lint_links as lint_link_index
 from .links import build_reverse_links
-from .paths import normalize_bundle_path
+from .paths import resolve_path
 from .spec import is_legacy
 
 
@@ -156,6 +155,7 @@ def _compat_trust(value: dict[str, Any], version: str | None) -> dict[str, Any]:
     result.pop("verified_current", None)
     result.pop("verified_history", None)
     result.pop("stale_after_malformed", None)
+    result.pop("superseded_by_id", None)
     return result
 
 
@@ -171,8 +171,9 @@ def bundle_info(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
     result = {"okf_version": index.okf_version, **metadata}
     license_value = metadata.get("license")
     if isinstance(license_value, str) and ("/" in license_value or license_value.startswith(".")):
-        resolved = normalize_bundle_path("index.md", license_value)
-        result["license_path"] = resolved
+        resolved, external = resolve_path("index.md", license_value)
+        if not external and resolved:
+            result["license_path"] = resolved
     return result
 
 
@@ -230,10 +231,17 @@ def computations(root: str | Path = ".", cache_dir: str | Path | None = None) ->
 def _computation_source(index: Any, document: Any) -> dict[str, Any]:
     computation = document.metadata.get("computation")
     if isinstance(computation, str):
-        path = normalize_bundle_path(document.relative_path, computation)
-        target = index.root.joinpath(*(path or "").split("/"))
-        if path and target.is_file():
-            return {"kind": "file", "path": path}
+        resolved, external = resolve_path(document.relative_path, computation)
+        if not external and resolved:
+            target = index.root.joinpath(*resolved.split("/"))
+            if target.is_file():
+                return {"kind": "file", "path": resolved}
+        if not external and document.legacy and not computation.startswith("/"):
+            fallback, _ = resolve_path("index.md", computation)
+            if fallback:
+                target = index.root.joinpath(*fallback.split("/"))
+                if target.is_file():
+                    return {"kind": "file", "path": fallback}
         return {"kind": "missing"}
     heading = re.compile(r"^(#{1,6})\s+Computation\s*$", re.MULTILINE | re.IGNORECASE)
     match = heading.search(document.body)
@@ -304,14 +312,14 @@ def add_path_edges(index: Any, original: dict[str, list[dict[str, Any]]]) -> tup
         if not document.is_concept:
             continue
         for value, field_path in _path_field_values(document.metadata):
-            if not isinstance(value, str) or urlparse(value).scheme:
+            if not isinstance(value, str):
                 continue
-            resolved = normalize_bundle_path(document.relative_path, value)
-            if resolved is None:
+            resolved, external = resolve_path(document.relative_path, value)
+            if external or resolved is None:
                 continue
             target_id = resolved.removesuffix(".md")
             if target_id not in index.documents and is_legacy(index.okf_version) and not value.startswith("/"):
-                fallback = normalize_bundle_path("index.md", value)
+                fallback, _ = resolve_path("index.md", value)
                 target_id = (fallback or "").removesuffix(".md")
                 resolved = fallback
             target = index.documents.get(target_id)
@@ -359,10 +367,11 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
             if not isinstance(entry, dict) or not isinstance(entry.get("resource"), str):
                 continue
             resource = entry["resource"]
-            if urlparse(resource).scheme:
+            resolved, external = resolve_path(document.relative_path, resource)
+            if external:
                 continue
             checked += 1
-            relative = normalize_bundle_path(document.relative_path, resource)
+            relative = resolved
             if relative is None:
                 problems.append({"id": source_id, "resource": resource, "type": "out_of_root"})
                 continue
@@ -370,13 +379,18 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
             exists = target.is_file()
             version = is_legacy(index.okf_version)
             if not exists and not resource.startswith("/") and version:
-                root_relative = normalize_bundle_path("index.md", resource)
+                root_relative, _ = resolve_path("index.md", resource)
                 if root_relative is not None:
                     root_target = index.root.joinpath(*root_relative.split("/"))
                     if root_target.is_file():
                         target = root_target
                         exists = True
             if not exists:
+                if not version and _is_scope_descriptor(resource):
+                    # v0.3: a sources[].resource that resolves to no file
+                    # may be a scope descriptor (§5.1); only path-looking
+                    # values are still reported missing.
+                    continue
                 missing += 1
                 problems.append({"id": source_id, "resource": resource, "type": "missing"})
                 continue
@@ -390,6 +404,15 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
                     mismatched += 1
                     problems.append({"id": source_id, "resource": resource, "type": "mismatched", "expected": str(expected), "actual": actual})
     return {"checked": checked, "missing": missing, "mismatched": mismatched, "problems": problems}
+
+
+def _is_scope_descriptor(resource: str) -> bool:
+    """True when a v0.3 sources[].resource looks like a scope descriptor
+    (§5.1) rather than a path: it does not start with /, ./ or ../ and
+    does not end in a file extension."""
+    if resource.startswith(("/", "./", "../")):
+        return False
+    return not PurePosixPath(resource).suffix
 
 
 def _sha256_file(path: Path) -> str:

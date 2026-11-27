@@ -20,11 +20,16 @@ def build_tag_index(metadata_index: dict[str, dict[str, Any]]) -> dict[str, list
     index: dict[str, list[str]] = {}
     for concept_id, record in metadata_index.items():
         tags = record["metadata"].get("tags", [])
+        if tags is None or tags == "" or tags == []:
+            continue
         if isinstance(tags, str):
+            # A scalar tags value is ONE tag, never comma-split (§11.2).
             tags = [tags]
         if not isinstance(tags, list):
             continue
         for tag in tags:
+            if tag is None or tag == "":
+                continue
             index.setdefault(str(tag), []).append(concept_id)
     return {key: sorted(value) for key, value in sorted(index.items())}
 

@@ -41,6 +41,25 @@ def compose_bundle(
             if concept_id in index.documents and TRUST_TIER_ORDER[index.documents[concept_id].trust_tier] >= threshold
         }
 
+    # Follow superseded_by chains from deprecated concepts so the
+    # replacement is included with current knowledge (§5.4): cycle-safe,
+    # at most 10 hops.
+    for concept_id in list(selected_ids):
+        document = index.documents.get(concept_id)
+        if document is None or document.status != "deprecated":
+            continue
+        seen = {concept_id}
+        current = document
+        for _ in range(10):
+            replacement = current.trust.superseded_by_id
+            if replacement is None or replacement in seen:
+                break
+            seen.add(replacement)
+            selected_ids.add(replacement)
+            current = index.documents.get(replacement)
+            if current is None:
+                break
+
     if output_dir:
         destination = Path(output_dir).expanduser().resolve()
     else:

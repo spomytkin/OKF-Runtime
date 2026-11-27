@@ -3,19 +3,20 @@
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
 from .models import ActorEvent, Document, Link, MarkdownFile, Source, TrustSignals
-from .paths import normalize_bundle_path, resolve_path
+from .paths import resolve_path
 from .spec import is_legacy
 from .timestamps import parse_instant
 
 FRONTMATTER_BOUNDARY = "---"
 LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
 REFERENCE_DEF_RE = re.compile(r"^\s*\[([^\]]+)\]:\s*(\S+).*$", re.MULTILINE)
-REFERENCE_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\](?:\[([^\]]*)\])")
+REFERENCE_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\](?:\[([^\]]*)\])?")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$", re.MULTILINE)
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 
@@ -59,7 +60,31 @@ def parse_documents(files: list[MarkdownFile], root: str | Path) -> dict[str, Do
         version, _, _ = split_frontmatter(root_index.path.read_text(encoding="utf-8"), allow_missing=True)
         version = version.get("okf_version") if isinstance(version, dict) else None
     legacy = is_legacy(str(version) if version is not None else None)
-    return {item.concept_id: parse_document(item, root, legacy) for item in files}
+    documents = {item.concept_id: parse_document(item, root, legacy) for item in files}
+    for document in documents.values():
+        document.trust = replace(document.trust, superseded_by_id=resolve_superseded_by_id(documents, document))
+    return documents
+
+
+def resolve_superseded_by_id(documents: dict[str, Document], document: Document) -> str | None:
+    """Resolve a document's `superseded_by` path field to a concept id (§5.4)."""
+    value = document.metadata.get("superseded_by")
+    if not isinstance(value, str) or not value:
+        return None
+    resolved, external = resolve_path(document.relative_path, value)
+    target_id = _concept_id_for_path(documents, resolved)
+    if target_id is None and document.legacy and not value.startswith("/"):
+        fallback, _ = resolve_path("index.md", value)
+        target_id = _concept_id_for_path(documents, fallback)
+    return target_id
+
+
+def _concept_id_for_path(documents: dict[str, Document], resolved: str | None) -> str | None:
+    if resolved is None:
+        return None
+    target_id = resolved.removesuffix(".md")
+    target = documents.get(target_id)
+    return target_id if target is not None and target.is_concept else None
 
 
 def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warnings: list[str] | None = None) -> TrustSignals:
@@ -72,13 +97,25 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
         return ActorEvent(by=str(value["by"]), at=str(at) if at is not None else None)
 
     warnings = warnings if warnings is not None else []
-    generated = event(metadata.get("generated"))
+    generated_raw = metadata.get("generated")
+    generated = event(generated_raw)
+    if generated is None and generated_raw is not None:
+        # A present generated entry without a usable `by` is ignored (§11.2
+        # rule 3: entries missing a REQUIRED key are ignored, with a warning).
+        warnings.append("generated entry missing by")
     if generated is None and legacy and metadata.get("timestamp") is not None:
         generated = ActorEvent(by="process:legacy", at=str(metadata["timestamp"]))
     verified_raw = metadata.get("verified", [])
     if isinstance(verified_raw, dict):
         verified_raw = [verified_raw]
-    verified = [item for value in verified_raw if (item := event(value))] if isinstance(verified_raw, list) else []
+    verified: list[ActorEvent] = []
+    if isinstance(verified_raw, list):
+        for value in verified_raw:
+            item = event(value)
+            if item is None:
+                warnings.append("verified entry missing by")
+                continue
+            verified.append(item)
     verified_current: list[ActorEvent] = []
     verified_history: list[ActorEvent] = []
     generated_at = None
@@ -118,6 +155,7 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
     if isinstance(sources_raw, list):
         for value in sources_raw:
             if not isinstance(value, dict) or not value.get("resource"):
+                warnings.append("sources entry missing resource")
                 continue
             source_window = value.get("usage_window")
             sources.append(
@@ -133,10 +171,12 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
                     else None,
                 )
             )
+    status_raw = metadata.get("status")
+    status = str(status_raw) if status_raw not in (None, "", []) else "stable"
     return TrustSignals(
         generated=generated,
         verified=verified,
-        status=str(metadata.get("status", "stable")),
+        status=status,
         stale_after=stale_after,
         sources=sources,
         usage_window=usage_window,
@@ -147,7 +187,10 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
 
 
 def _optional_string(value: Any) -> str | None:
-    return str(value) if value is not None else None
+    # §11.2: null, empty string and empty list are all "absent".
+    if value is None or value == "" or value == []:
+        return None
+    return str(value)
 
 
 def split_frontmatter(text: str, allow_missing: bool = False) -> tuple[dict[str, Any], str, list[str]]:
@@ -396,6 +439,14 @@ def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link
     for match in LINK_RE.finditer(body):
         append_link(match.group(1), match.group(2).strip())
     for match in REFERENCE_LINK_RE.finditer(body):
+        # With the label optional, the pattern also matches inline links
+        # ([text](target)) and link definitions ([label]: target); skip
+        # those, and the label half of an image reference (![alt][label]).
+        following = body[match.end():match.end() + 1]
+        if following in ("(", ":"):
+            continue
+        if match.group(2) is None and re.search(r"!\[[^\]]*\]$", body[:match.start()]):
+            continue
         label = (match.group(2) or match.group(1)).casefold()
         if label in definitions:
             append_link(match.group(1), definitions[label])
@@ -416,16 +467,13 @@ def is_external_link(target: str) -> bool:
 
 
 def resolve_internal_link(target: str, source_relative_path: str, root: Path) -> str | None:
+    """Resolve a body-link target through the shared path resolver (§6)."""
     if not target or target.startswith("#"):
         return source_relative_path
-    decoded = unquote(target)
-    parsed = urlparse(decoded)
-    path_text = parsed.path
-    if not path_text:
+    if not urlparse(unquote(target)).path:
         return source_relative_path
-
-    # Lexical resolution does not inspect the filesystem and preserves case.
-    return normalize_bundle_path(source_relative_path, path_text)
+    resolved, _external = resolve_path(source_relative_path, target)
+    return resolved
 
 
 def extract_anchors(body: str) -> list[str]:

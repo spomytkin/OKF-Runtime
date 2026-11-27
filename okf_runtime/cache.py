@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -132,6 +133,12 @@ def load_cache(root: Path, stale_rebuilt: bool, cache_dir: Path | None = None) -
         item["concept_id"]: document_from_json(root, item)
         for item in metadata_payload.get("documents", [])
     }
+    # The cached trust payloads are recomputed from metadata on load, so
+    # re-apply the superseded_by resolution here (as parse_documents does)
+    # and rebuild the trust indexes from the documents: a cache load must
+    # agree with a fresh parse.
+    for document in documents.values():
+        document.trust = replace(document.trust, superseded_by_id=parser.resolve_superseded_by_id(documents, document))
     trust_index, trust_tier_index = metadata_module.build_trust_index(documents)
     return RuntimeIndex(
         root=root,
@@ -141,8 +148,8 @@ def load_cache(root: Path, stale_rebuilt: bool, cache_dir: Path | None = None) -
         metadata_index=metadata_payload.get("metadata_index", {}),
         tag_index=metadata_payload.get("tag_index", {}),
         type_index=metadata_payload.get("type_index", {}),
-        trust_index=metadata_payload.get("trust_index", trust_index),
-        trust_tier_index=metadata_payload.get("trust_tier_index", trust_tier_index),
+        trust_index=trust_index,
+        trust_tier_index=trust_tier_index,
         okf_version=metadata_payload.get("okf_version", detect_okf_version(documents)),
         stale_rebuilt=stale_rebuilt,
     )
