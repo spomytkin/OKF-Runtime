@@ -12,7 +12,7 @@ from .compose import compose_bundle
 from .graph import neighborhood
 from .links import lint_links as lint_link_index
 from .links import build_reverse_links
-from .paths import resolve_path
+from .paths import case_sensitive_is_file, resolve_path
 from .spec import is_legacy
 
 
@@ -244,14 +244,12 @@ def _computation_source(index: Any, document: Any) -> dict[str, Any]:
     if isinstance(computation, str):
         resolved, external = resolve_path(document.relative_path, computation)
         if not external and resolved:
-            target = index.root.joinpath(*resolved.split("/"))
-            if target.is_file():
+            if case_sensitive_is_file(index.root, resolved):
                 return {"kind": "file", "path": resolved}
         if not external and document.legacy and not computation.startswith("/"):
             fallback, _ = resolve_path("index.md", computation)
             if fallback:
-                target = index.root.joinpath(*fallback.split("/"))
-                if target.is_file():
+                if case_sensitive_is_file(index.root, fallback):
                     return {"kind": "file", "path": fallback}
         return {"kind": "missing"}
     heading = re.compile(r"^(#{1,6})\s+Computation\s*$", re.MULTILINE | re.IGNORECASE)
@@ -387,13 +385,13 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
                 problems.append({"id": source_id, "resource": resource, "type": "out_of_root"})
                 continue
             target = index.root.joinpath(*relative.split("/"))
-            exists = target.is_file()
+            exists = case_sensitive_is_file(index.root, relative)
             version = is_legacy(index.okf_version)
             if not exists and not resource.startswith("/") and version:
                 root_relative, _ = resolve_path("index.md", resource)
                 if root_relative is not None:
                     root_target = index.root.joinpath(*root_relative.split("/"))
-                    if root_target.is_file():
+                    if case_sensitive_is_file(index.root, root_relative):
                         target = root_target
                         exists = True
             if not exists:

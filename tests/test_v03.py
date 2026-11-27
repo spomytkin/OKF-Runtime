@@ -325,6 +325,15 @@ class V03Tests(unittest.TestCase):
         self.assertEqual(by_via["sources[].resource"], {"shared", "concepts/my file"})
         self.assertEqual(by_via["executor.resource"], {"concepts/target"})
 
+    def test_v03_paths_case_sensitive(self) -> None:
+        """Path matching is case-sensitive, even on case-insensitive filesystems (§6)."""
+        from okf_runtime.paths import case_sensitive_is_file
+
+        self.assertTrue(case_sensitive_is_file(V03, "concepts/target.md"))
+        self.assertFalse(case_sensitive_is_file(V03, "concepts/TARGET.md"))
+        self.assertFalse(case_sensitive_is_file(V03, "concepts/nope.md"))
+        self.assertFalse(case_sensitive_is_file(V03, "CONCEPTS/target.md"))
+
     def test_v03_links(self) -> None:
         """Reference-style links; wikilinks ignored; asset links valid (§6.1)."""
         links = api.links(V03, "concepts/links", cache_dir=self.cache_dir)
