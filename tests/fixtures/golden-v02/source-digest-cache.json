@@ -1,0 +1,242 @@
+{
+  "backlinks": {},
+  "catalog": [
+    {
+      "errors": [],
+      "id": "concepts/a",
+      "is_stale": false,
+      "metadata": {
+        "sources": [
+          {
+            "resource": "../references/shared.txt",
+            "x-sha256": "HASH_PLACEHOLDER"
+          }
+        ],
+        "title": "A",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "concepts/a.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "concepts/b",
+      "is_stale": false,
+      "metadata": {
+        "sources": [
+          {
+            "resource": "../references/shared.txt",
+            "x-sha256": "HASH_PLACEHOLDER"
+          },
+          {
+            "resource": "../references/shared.txt",
+            "x-sha256": "WRONG_HASH_PLACEHOLDER"
+          }
+        ],
+        "title": "B",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "concepts/b.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    }
+  ],
+  "graph": {
+    "concepts/a": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/a"
+        ],
+        "start": "concepts/a"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/a"
+        ],
+        "start": "concepts/a"
+      }
+    },
+    "concepts/b": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/b"
+        ],
+        "start": "concepts/b"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/b"
+        ],
+        "start": "concepts/b"
+      }
+    }
+  },
+  "links": {
+    "concepts/a": [],
+    "concepts/b": []
+  },
+  "lint_links": [
+    {
+      "id": "concepts/a",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "concepts/b",
+      "level": "info",
+      "type": "orphan"
+    }
+  ],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [],
+        "id": "concepts/a",
+        "is_stale": false,
+        "metadata": {
+          "sources": [
+            {
+              "resource": "../references/shared.txt",
+              "x-sha256": "HASH_PLACEHOLDER"
+            }
+          ],
+          "title": "A",
+          "type": "Concept"
+        },
+        "path": "concepts/a.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "concepts/b",
+        "is_stale": false,
+        "metadata": {
+          "sources": [
+            {
+              "resource": "../references/shared.txt",
+              "x-sha256": "HASH_PLACEHOLDER"
+            },
+            {
+              "resource": "../references/shared.txt",
+              "x-sha256": "WRONG_HASH_PLACEHOLDER"
+            }
+          ],
+          "title": "B",
+          "type": "Concept"
+        },
+        "path": "concepts/b.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      }
+    ],
+    "stale_true": [],
+    "status_deprecated": [],
+    "status_draft": [],
+    "trust_tier_human_reviewed": [],
+    "trust_tier_machine_confirmed": []
+  },
+  "trust": {
+    "concepts": {
+      "concepts/a": {
+        "generated": null,
+        "id": "concepts/a",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "../references/shared.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "concepts/b": {
+        "generated": null,
+        "id": "concepts/b",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "../references/shared.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "../references/shared.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      }
+    },
+    "summary": {
+      "concept_count": 2,
+      "okf_version": "0.2",
+      "stale_count": 0,
+      "status": {
+        "stable": 2
+      },
+      "trust_tiers": {
+        "unverified": 2
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 3,
+    "mismatched": 0,
+    "missing": 3,
+    "problems": [
+      {
+        "id": "concepts/a",
+        "resource": "../references/shared.txt",
+        "type": "missing"
+      },
+      {
+        "id": "concepts/b",
+        "resource": "../references/shared.txt",
+        "type": "missing"
+      },
+      {
+        "id": "concepts/b",
+        "resource": "../references/shared.txt",
+        "type": "missing"
+      }
+    ]
+  }
+}

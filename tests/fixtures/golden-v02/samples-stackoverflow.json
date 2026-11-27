@@ -1,0 +1,722 @@
+{
+  "backlinks": {},
+  "catalog": [
+    {
+      "errors": [],
+      "id": "tables/post_links",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow links between related posts.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "answers",
+            "resource": "posts_answers.md",
+            "title": "Answers"
+          },
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "links",
+          "posts",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Post Links",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "path": "tables/post_links.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "tables/posts_answers",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow answers table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "answers",
+          "posts",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Posts Answers",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "path": "tables/posts_answers.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "tables/posts_questions",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow questions table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "answers",
+            "resource": "posts_answers.md",
+            "title": "Answers"
+          },
+          {
+            "id": "votes",
+            "resource": "votes.md",
+            "title": "Votes"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "posts",
+          "questions",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Posts Questions",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "path": "tables/posts_questions.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "tables/votes",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow votes table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "posts",
+          "stackoverflow",
+          "votes"
+        ],
+        "title": "StackOverflow Votes",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "path": "tables/votes.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    }
+  ],
+  "graph": {
+    "tables/post_links": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/post_links"
+        ],
+        "start": "tables/post_links"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/post_links"
+        ],
+        "start": "tables/post_links"
+      }
+    },
+    "tables/posts_answers": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/posts_answers"
+        ],
+        "start": "tables/posts_answers"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/posts_answers"
+        ],
+        "start": "tables/posts_answers"
+      }
+    },
+    "tables/posts_questions": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/posts_questions"
+        ],
+        "start": "tables/posts_questions"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/posts_questions"
+        ],
+        "start": "tables/posts_questions"
+      }
+    },
+    "tables/votes": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/votes"
+        ],
+        "start": "tables/votes"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "tables/votes"
+        ],
+        "start": "tables/votes"
+      }
+    }
+  },
+  "links": {
+    "tables/post_links": [],
+    "tables/posts_answers": [],
+    "tables/posts_questions": [],
+    "tables/votes": []
+  },
+  "lint_links": [
+    {
+      "id": "tables/post_links",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "tables/posts_answers",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "tables/posts_questions",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "tables/votes",
+      "level": "info",
+      "type": "orphan"
+    }
+  ],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [],
+        "id": "tables/post_links",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow links between related posts.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "links",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Post Links",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/post_links.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/posts_answers",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow answers table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "answers",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Answers",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/posts_answers.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/posts_questions",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow questions table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "votes",
+              "resource": "votes.md",
+              "title": "Votes"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "questions",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Questions",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/posts_questions.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/votes",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow votes table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "stackoverflow",
+            "votes"
+          ],
+          "title": "StackOverflow Votes",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/votes.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "stale_true": [],
+    "status_deprecated": [],
+    "status_draft": [],
+    "trust_tier_human_reviewed": [
+      {
+        "errors": [],
+        "id": "tables/post_links",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow links between related posts.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "links",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Post Links",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/post_links.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/posts_answers",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow answers table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "answers",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Answers",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/posts_answers.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/posts_questions",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow questions table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "votes",
+              "resource": "votes.md",
+              "title": "Votes"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "questions",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Questions",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/posts_questions.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "tables/votes",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow votes table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "stackoverflow",
+            "votes"
+          ],
+          "title": "StackOverflow Votes",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "tables/votes.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "trust_tier_machine_confirmed": []
+  },
+  "trust": {
+    "concepts": {
+      "tables/post_links": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "tables/post_links",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "answers",
+            "last_modified": null,
+            "resource": "posts_answers.md",
+            "title": "Answers",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "tables/posts_answers": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "tables/posts_answers",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "tables/posts_questions": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "tables/posts_questions",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "answers",
+            "last_modified": null,
+            "resource": "posts_answers.md",
+            "title": "Answers",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "votes",
+            "last_modified": null,
+            "resource": "votes.md",
+            "title": "Votes",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "tables/votes": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "tables/votes",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      }
+    },
+    "summary": {
+      "concept_count": 4,
+      "okf_version": null,
+      "stale_count": 0,
+      "status": {
+        "stable": 4
+      },
+      "trust_tiers": {
+        "human-reviewed": 4
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 6,
+    "mismatched": 0,
+    "missing": 0,
+    "problems": []
+  }
+}

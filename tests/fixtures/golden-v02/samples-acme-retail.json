@@ -1,0 +1,2171 @@
+{
+  "backlinks": {
+    "metrics/gross-margin-period": [
+      {
+        "anchor": null,
+        "raw_target": "../metrics/gross-margin-period.md",
+        "source_id": "policies/revenue-recognition",
+        "source_text": "Gross margin",
+        "via": "body"
+      }
+    ],
+    "metrics/revenue": [
+      {
+        "anchor": null,
+        "raw_target": "../metrics/revenue.md",
+        "source_id": "policies/revenue-recognition",
+        "source_text": "Revenue metric",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "revenue.md",
+        "source_id": "metrics/gross-margin-period",
+        "source_text": "Revenue",
+        "via": "body"
+      }
+    ],
+    "payments/authentication": [
+      {
+        "anchor": null,
+        "raw_target": "authentication.md",
+        "source_id": "payments/payment-processing",
+        "source_text": "Payment Authentication",
+        "via": "body"
+      }
+    ],
+    "payments/payment-processing": [
+      {
+        "anchor": null,
+        "raw_target": "payment-processing.md",
+        "source_id": "payments/authentication",
+        "source_text": "Payment Processing",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "payment-processing.md",
+        "source_id": "payments/payment-risk",
+        "source_text": "Payment Processing",
+        "via": "body"
+      }
+    ],
+    "payments/payment-risk": [
+      {
+        "anchor": null,
+        "raw_target": "payment-risk.md",
+        "source_id": "payments/authentication",
+        "source_text": "Payment Risk",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "payment-risk.md",
+        "source_id": "payments/payment-processing",
+        "source_text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "policies/margin-standard": [
+      {
+        "anchor": null,
+        "raw_target": "../policies/margin-standard.md",
+        "source_id": "metrics/gross-margin-period",
+        "source_text": "Gross Margin Standard",
+        "via": "body"
+      }
+    ],
+    "policies/revenue-recognition": [
+      {
+        "anchor": null,
+        "raw_target": "../policies/revenue-recognition.md",
+        "source_id": "metrics/revenue",
+        "source_text": "Revenue Recognition Policy",
+        "via": "body"
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "errors": [],
+      "id": "metrics/gross-margin-period",
+      "is_stale": false,
+      "metadata": {
+        "description": "Period gross-margin metric derived from revenue and the margin standard.",
+        "generated": {
+          "at": "2026-06-30T15:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "sources": [
+          {
+            "id": "margin-standard",
+            "resource": "../policies/margin-standard.md",
+            "title": "Gross margin standard"
+          },
+          {
+            "id": "revenue",
+            "resource": "revenue.md",
+            "title": "Revenue metric"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "margin",
+          "metric",
+          "revenue"
+        ],
+        "title": "Gross Margin by Period",
+        "type": "Metric",
+        "verified": {
+          "at": "2026-07-01T09:30:00Z",
+          "by": "human:analyst"
+        }
+      },
+      "path": "metrics/gross-margin-period.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "metrics/revenue",
+      "is_stale": false,
+      "metadata": {
+        "attester": {
+          "resource": "../../../tests/test_trust.py"
+        },
+        "description": "Acme Retail recognized revenue metric.",
+        "executor": {
+          "receipt": [
+            "job_id"
+          ],
+          "resource": "skills/run.md"
+        },
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy",
+            "last_modified": "2026-06-15",
+            "resource": "../policies/revenue-recognition.md",
+            "title": "Revenue recognition policy",
+            "usage_count": 12
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "metric",
+          "revenue"
+        ],
+        "title": "Revenue",
+        "type": "Metric",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": {
+          "at": "2026-07-01T09:00:00Z",
+          "by": "human:analyst"
+        }
+      },
+      "path": "metrics/revenue.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "payments/authentication",
+      "is_stale": false,
+      "metadata": {
+        "description": "Authentication step in the Acme Retail payment flow.",
+        "generated": {
+          "at": "2026-05-18T10:00:00Z",
+          "by": "human:payments"
+        },
+        "sources": [
+          {
+            "id": "payment-processing",
+            "resource": "payment-processing.md",
+            "title": "Payment processing"
+          },
+          {
+            "id": "risk",
+            "resource": "payment-risk.md",
+            "title": "Payment risk"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "authentication",
+          "payments",
+          "security"
+        ],
+        "title": "Payment Authentication",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:security"
+        }
+      },
+      "path": "payments/authentication.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "payments/payment-processing",
+      "is_stale": false,
+      "metadata": {
+        "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+        "generated": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:payments"
+        },
+        "sources": [
+          {
+            "id": "authentication",
+            "resource": "authentication.md",
+            "title": "Payment authentication"
+          },
+          {
+            "id": "risk",
+            "resource": "payment-risk.md",
+            "title": "Payment risk"
+          },
+          {
+            "id": "stackoverflow-example",
+            "resource": "../../stackoverflow/tables/posts_questions.md",
+            "title": "Related data example"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "payments",
+          "processing"
+        ],
+        "title": "Payment Processing",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-21T10:00:00Z",
+          "by": "human:payments-lead"
+        }
+      },
+      "path": "payments/payment-processing.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "payments/payment-risk",
+      "is_stale": false,
+      "metadata": {
+        "description": "Risk evaluation performed during Acme Retail payment processing.",
+        "generated": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:risk"
+        },
+        "sources": [
+          {
+            "id": "authentication",
+            "resource": "authentication.md",
+            "title": "Payment authentication"
+          },
+          {
+            "id": "processing",
+            "resource": "payment-processing.md",
+            "title": "Payment processing"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "payments",
+          "risk",
+          "security"
+        ],
+        "title": "Payment Risk",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:risk-lead"
+        }
+      },
+      "path": "payments/payment-risk.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "policies/margin-standard",
+      "is_stale": false,
+      "metadata": {
+        "description": "Acme Retail standard for gross-margin calculations.",
+        "generated": {
+          "at": "2026-04-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "margin-source",
+            "resource": "policies/margin-source.md",
+            "title": "Margin policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "accounting",
+          "margin",
+          "policy"
+        ],
+        "title": "Gross Margin Standard",
+        "type": "Policy",
+        "verified": {
+          "at": "2026-04-05T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "path": "policies/margin-standard.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "policies/revenue-recognition",
+      "is_stale": false,
+      "metadata": {
+        "description": "Current Acme Retail policy for recognizing product revenue.",
+        "generated": {
+          "at": "2026-05-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Revenue policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "accounting",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": {
+          "at": "2026-05-10T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "path": "policies/revenue-recognition.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "policies/revenue-recognition-draft",
+      "is_stale": false,
+      "metadata": {
+        "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+        "generated": {
+          "at": "2026-08-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "draft-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Proposed revenue policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "draft",
+        "tags": [
+          "accounting",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": []
+      },
+      "path": "policies/revenue-recognition-draft.md",
+      "reserved": false,
+      "status": "draft",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "policies/revenue-recognition-legacy",
+      "is_stale": true,
+      "metadata": {
+        "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+        "generated": {
+          "at": "2024-01-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "legacy-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Historical revenue policy source"
+          }
+        ],
+        "stale_after": "2025-12-31",
+        "status": "deprecated",
+        "tags": [
+          "accounting",
+          "legacy",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": {
+          "at": "2024-01-15T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "path": "policies/revenue-recognition-legacy.md",
+      "reserved": false,
+      "status": "deprecated",
+      "trust_tier": "human-reviewed"
+    }
+  ],
+  "graph": {
+    "metrics/gross-margin-period": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "metrics/gross-margin-period",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "metrics/gross-margin-period",
+            "target": "policies/margin-standard",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/gross-margin-period",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/margin-standard",
+          "policies/revenue-recognition"
+        ],
+        "start": "metrics/gross-margin-period"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "metrics/gross-margin-period",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "metrics/gross-margin-period",
+            "target": "policies/margin-standard",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/gross-margin-period",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/margin-standard",
+          "policies/revenue-recognition"
+        ],
+        "start": "metrics/gross-margin-period"
+      }
+    },
+    "metrics/revenue": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "metrics/revenue",
+            "target": "policies/revenue-recognition",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "metrics/gross-margin-period",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/revenue",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/revenue-recognition"
+        ],
+        "start": "metrics/revenue"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "metrics/revenue",
+            "target": "policies/revenue-recognition",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "metrics/gross-margin-period",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/revenue",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/revenue-recognition"
+        ],
+        "start": "metrics/revenue"
+      }
+    },
+    "payments/authentication": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/authentication",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "payments/authentication",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-processing",
+            "target": "payments/authentication",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/authentication"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/authentication",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "payments/authentication",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-processing",
+            "target": "payments/authentication",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/authentication"
+      }
+    },
+    "payments/payment-processing": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/payment-processing",
+            "target": "payments/authentication",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "payments/payment-processing",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/authentication",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-risk",
+            "target": "payments/payment-processing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/payment-processing"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/payment-processing",
+            "target": "payments/authentication",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "payments/payment-processing",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/authentication",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-risk",
+            "target": "payments/payment-processing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/payment-processing"
+      }
+    },
+    "payments/payment-risk": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/payment-risk",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/authentication",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-processing",
+            "target": "payments/payment-risk",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/payment-risk"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "payments/payment-risk",
+            "target": "payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/authentication",
+            "target": "payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "payments/payment-processing",
+            "target": "payments/payment-risk",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "payments/authentication",
+          "payments/payment-processing",
+          "payments/payment-risk"
+        ],
+        "start": "payments/payment-risk"
+      }
+    },
+    "policies/margin-standard": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "metrics/gross-margin-period",
+            "target": "policies/margin-standard",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "policies/margin-standard"
+        ],
+        "start": "policies/margin-standard"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "metrics/gross-margin-period",
+            "target": "policies/margin-standard",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "policies/margin-standard"
+        ],
+        "start": "policies/margin-standard"
+      }
+    },
+    "policies/revenue-recognition": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/gross-margin-period",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "metrics/revenue",
+            "target": "policies/revenue-recognition",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/revenue-recognition"
+        ],
+        "start": "policies/revenue-recognition"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/gross-margin-period",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "policies/revenue-recognition",
+            "target": "metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "metrics/revenue",
+            "target": "policies/revenue-recognition",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "metrics/gross-margin-period",
+          "metrics/revenue",
+          "policies/revenue-recognition"
+        ],
+        "start": "policies/revenue-recognition"
+      }
+    },
+    "policies/revenue-recognition-draft": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "policies/revenue-recognition-draft"
+        ],
+        "start": "policies/revenue-recognition-draft"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "policies/revenue-recognition-draft"
+        ],
+        "start": "policies/revenue-recognition-draft"
+      }
+    },
+    "policies/revenue-recognition-legacy": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "policies/revenue-recognition-legacy"
+        ],
+        "start": "policies/revenue-recognition-legacy"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "policies/revenue-recognition-legacy"
+        ],
+        "start": "policies/revenue-recognition-legacy"
+      }
+    }
+  },
+  "links": {
+    "metrics/gross-margin-period": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../policies/margin-standard.md",
+        "resolved_id": "policies/margin-standard",
+        "resolved_path": "policies/margin-standard.md",
+        "target": "../policies/margin-standard.md",
+        "text": "Gross Margin Standard",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "revenue.md",
+        "resolved_id": "metrics/revenue",
+        "resolved_path": "metrics/revenue.md",
+        "target": "revenue.md",
+        "text": "Revenue",
+        "via": "body"
+      }
+    ],
+    "metrics/revenue": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../policies/revenue-recognition.md",
+        "resolved_id": "policies/revenue-recognition",
+        "resolved_path": "policies/revenue-recognition.md",
+        "target": "../policies/revenue-recognition.md",
+        "text": "Revenue Recognition Policy",
+        "via": "body"
+      }
+    ],
+    "payments/authentication": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-processing.md",
+        "resolved_id": "payments/payment-processing",
+        "resolved_path": "payments/payment-processing.md",
+        "target": "payment-processing.md",
+        "text": "Payment Processing",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-risk.md",
+        "resolved_id": "payments/payment-risk",
+        "resolved_path": "payments/payment-risk.md",
+        "target": "payment-risk.md",
+        "text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "payments/payment-processing": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../../stackoverflow/tables/posts_questions.md",
+        "resolved_id": null,
+        "resolved_path": null,
+        "target": "../../stackoverflow/tables/posts_questions.md",
+        "text": "Stack Overflow data example",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "authentication.md",
+        "resolved_id": "payments/authentication",
+        "resolved_path": "payments/authentication.md",
+        "target": "authentication.md",
+        "text": "Payment Authentication",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-risk.md",
+        "resolved_id": "payments/payment-risk",
+        "resolved_path": "payments/payment-risk.md",
+        "target": "payment-risk.md",
+        "text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "payments/payment-risk": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-processing.md",
+        "resolved_id": "payments/payment-processing",
+        "resolved_path": "payments/payment-processing.md",
+        "target": "payment-processing.md",
+        "text": "Payment Processing",
+        "via": "body"
+      }
+    ],
+    "policies/margin-standard": [],
+    "policies/revenue-recognition": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../metrics/gross-margin-period.md",
+        "resolved_id": "metrics/gross-margin-period",
+        "resolved_path": "metrics/gross-margin-period.md",
+        "target": "../metrics/gross-margin-period.md",
+        "text": "Gross margin",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../metrics/revenue.md",
+        "resolved_id": "metrics/revenue",
+        "resolved_path": "metrics/revenue.md",
+        "target": "../metrics/revenue.md",
+        "text": "Revenue metric",
+        "via": "body"
+      }
+    ],
+    "policies/revenue-recognition-draft": [],
+    "policies/revenue-recognition-legacy": []
+  },
+  "lint_links": [
+    {
+      "id": "payments/payment-processing",
+      "level": "warning",
+      "target": "../../stackoverflow/tables/posts_questions.md",
+      "type": "broken_link"
+    },
+    {
+      "id": "policies/revenue-recognition-draft",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "policies/revenue-recognition-legacy",
+      "level": "info",
+      "type": "orphan"
+    }
+  ],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [],
+        "id": "metrics/gross-margin-period",
+        "is_stale": false,
+        "metadata": {
+          "description": "Period gross-margin metric derived from revenue and the margin standard.",
+          "generated": {
+            "at": "2026-06-30T15:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "id": "margin-standard",
+              "resource": "../policies/margin-standard.md",
+              "title": "Gross margin standard"
+            },
+            {
+              "id": "revenue",
+              "resource": "revenue.md",
+              "title": "Revenue metric"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "margin",
+            "metric",
+            "revenue"
+          ],
+          "title": "Gross Margin by Period",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "metrics/gross-margin-period.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "metrics/revenue",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "../../../tests/test_trust.py"
+          },
+          "description": "Acme Retail recognized revenue metric.",
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy",
+              "last_modified": "2026-06-15",
+              "resource": "../policies/revenue-recognition.md",
+              "title": "Revenue recognition policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metric",
+            "revenue"
+          ],
+          "title": "Revenue",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "metrics/revenue.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/authentication",
+        "is_stale": false,
+        "metadata": {
+          "description": "Authentication step in the Acme Retail payment flow.",
+          "generated": {
+            "at": "2026-05-18T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "payment-processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "authentication",
+            "payments",
+            "security"
+          ],
+          "title": "Payment Authentication",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        },
+        "path": "payments/authentication.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/payment-processing",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+          "generated": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            },
+            {
+              "id": "stackoverflow-example",
+              "resource": "../../stackoverflow/tables/posts_questions.md",
+              "title": "Related data example"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "processing"
+          ],
+          "title": "Payment Processing",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        },
+        "path": "payments/payment-processing.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/payment-risk",
+        "is_stale": false,
+        "metadata": {
+          "description": "Risk evaluation performed during Acme Retail payment processing.",
+          "generated": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:risk"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "risk",
+            "security"
+          ],
+          "title": "Payment Risk",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        },
+        "path": "payments/payment-risk.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/margin-standard",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail standard for gross-margin calculations.",
+          "generated": {
+            "at": "2026-04-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "margin-source",
+              "resource": "policies/margin-source.md",
+              "title": "Margin policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "margin",
+            "policy"
+          ],
+          "title": "Gross Margin Standard",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/margin-standard.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition",
+        "is_stale": false,
+        "metadata": {
+          "description": "Current Acme Retail policy for recognizing product revenue.",
+          "generated": {
+            "at": "2026-05-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/revenue-recognition.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition-draft",
+        "is_stale": false,
+        "metadata": {
+          "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+          "generated": {
+            "at": "2026-08-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "draft-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Proposed revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "draft",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": []
+        },
+        "path": "policies/revenue-recognition-draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      }
+    ],
+    "stale_true": [
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "status_deprecated": [
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "status_draft": [
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition-draft",
+        "is_stale": false,
+        "metadata": {
+          "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+          "generated": {
+            "at": "2026-08-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "draft-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Proposed revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "draft",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": []
+        },
+        "path": "policies/revenue-recognition-draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      }
+    ],
+    "trust_tier_human_reviewed": [
+      {
+        "errors": [],
+        "id": "metrics/gross-margin-period",
+        "is_stale": false,
+        "metadata": {
+          "description": "Period gross-margin metric derived from revenue and the margin standard.",
+          "generated": {
+            "at": "2026-06-30T15:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "id": "margin-standard",
+              "resource": "../policies/margin-standard.md",
+              "title": "Gross margin standard"
+            },
+            {
+              "id": "revenue",
+              "resource": "revenue.md",
+              "title": "Revenue metric"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "margin",
+            "metric",
+            "revenue"
+          ],
+          "title": "Gross Margin by Period",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "metrics/gross-margin-period.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "metrics/revenue",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "../../../tests/test_trust.py"
+          },
+          "description": "Acme Retail recognized revenue metric.",
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy",
+              "last_modified": "2026-06-15",
+              "resource": "../policies/revenue-recognition.md",
+              "title": "Revenue recognition policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metric",
+            "revenue"
+          ],
+          "title": "Revenue",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "metrics/revenue.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/authentication",
+        "is_stale": false,
+        "metadata": {
+          "description": "Authentication step in the Acme Retail payment flow.",
+          "generated": {
+            "at": "2026-05-18T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "payment-processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "authentication",
+            "payments",
+            "security"
+          ],
+          "title": "Payment Authentication",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        },
+        "path": "payments/authentication.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/payment-processing",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+          "generated": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            },
+            {
+              "id": "stackoverflow-example",
+              "resource": "../../stackoverflow/tables/posts_questions.md",
+              "title": "Related data example"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "processing"
+          ],
+          "title": "Payment Processing",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        },
+        "path": "payments/payment-processing.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "payments/payment-risk",
+        "is_stale": false,
+        "metadata": {
+          "description": "Risk evaluation performed during Acme Retail payment processing.",
+          "generated": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:risk"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "risk",
+            "security"
+          ],
+          "title": "Payment Risk",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        },
+        "path": "payments/payment-risk.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/margin-standard",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail standard for gross-margin calculations.",
+          "generated": {
+            "at": "2026-04-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "margin-source",
+              "resource": "policies/margin-source.md",
+              "title": "Margin policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "margin",
+            "policy"
+          ],
+          "title": "Gross Margin Standard",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/margin-standard.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition",
+        "is_stale": false,
+        "metadata": {
+          "description": "Current Acme Retail policy for recognizing product revenue.",
+          "generated": {
+            "at": "2026-05-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/revenue-recognition.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "trust_tier_machine_confirmed": []
+  },
+  "trust": {
+    "concepts": {
+      "metrics/gross-margin-period": {
+        "generated": {
+          "at": "2026-06-30T15:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "id": "metrics/gross-margin-period",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "margin-standard",
+            "last_modified": null,
+            "resource": "../policies/margin-standard.md",
+            "title": "Gross margin standard",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "revenue",
+            "last_modified": null,
+            "resource": "revenue.md",
+            "title": "Revenue metric",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        ]
+      },
+      "metrics/revenue": {
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "id": "metrics/revenue",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy",
+            "last_modified": "2026-06-15",
+            "resource": "../policies/revenue-recognition.md",
+            "title": "Revenue recognition policy",
+            "usage_count": 12,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": [
+          {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        ]
+      },
+      "payments/authentication": {
+        "generated": {
+          "at": "2026-05-18T10:00:00Z",
+          "by": "human:payments"
+        },
+        "id": "payments/authentication",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "payment-processing",
+            "last_modified": null,
+            "resource": "payment-processing.md",
+            "title": "Payment processing",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "risk",
+            "last_modified": null,
+            "resource": "payment-risk.md",
+            "title": "Payment risk",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        ]
+      },
+      "payments/payment-processing": {
+        "generated": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:payments"
+        },
+        "id": "payments/payment-processing",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "authentication",
+            "last_modified": null,
+            "resource": "authentication.md",
+            "title": "Payment authentication",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "risk",
+            "last_modified": null,
+            "resource": "payment-risk.md",
+            "title": "Payment risk",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "stackoverflow-example",
+            "last_modified": null,
+            "resource": "../../stackoverflow/tables/posts_questions.md",
+            "title": "Related data example",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        ]
+      },
+      "payments/payment-risk": {
+        "generated": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:risk"
+        },
+        "id": "payments/payment-risk",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "authentication",
+            "last_modified": null,
+            "resource": "authentication.md",
+            "title": "Payment authentication",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "processing",
+            "last_modified": null,
+            "resource": "payment-processing.md",
+            "title": "Payment processing",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        ]
+      },
+      "policies/margin-standard": {
+        "generated": {
+          "at": "2026-04-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "policies/margin-standard",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "margin-source",
+            "last_modified": null,
+            "resource": "policies/margin-source.md",
+            "title": "Margin policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      },
+      "policies/revenue-recognition": {
+        "generated": {
+          "at": "2026-05-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "policies/revenue-recognition",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      },
+      "policies/revenue-recognition-draft": {
+        "generated": {
+          "at": "2026-08-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "policies/revenue-recognition-draft",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "draft-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Proposed revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "draft",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "policies/revenue-recognition-legacy": {
+        "generated": {
+          "at": "2024-01-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "sources": [
+          {
+            "author": null,
+            "id": "legacy-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Historical revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2025-12-31",
+        "status": "deprecated",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      }
+    },
+    "summary": {
+      "concept_count": 9,
+      "okf_version": null,
+      "stale_count": 1,
+      "status": {
+        "deprecated": 1,
+        "draft": 1,
+        "stable": 7
+      },
+      "trust_tiers": {
+        "human-reviewed": 8,
+        "unverified": 1
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 14,
+    "mismatched": 0,
+    "missing": 4,
+    "problems": [
+      {
+        "id": "payments/payment-processing",
+        "resource": "../../stackoverflow/tables/posts_questions.md",
+        "type": "out_of_root"
+      },
+      {
+        "id": "policies/margin-standard",
+        "resource": "policies/margin-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "policies/revenue-recognition",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "policies/revenue-recognition-draft",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "policies/revenue-recognition-legacy",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      }
+    ]
+  }
+}

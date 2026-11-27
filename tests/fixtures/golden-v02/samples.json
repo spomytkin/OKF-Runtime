@@ -1,0 +1,4708 @@
+{
+  "backlinks": {
+    "bundles/acme_retail/metrics/gross-margin-period": [
+      {
+        "anchor": null,
+        "raw_target": "../metrics/gross-margin-period.md",
+        "source_id": "bundles/acme_retail/policies/revenue-recognition",
+        "source_text": "Gross margin",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/metrics/revenue": [
+      {
+        "anchor": null,
+        "raw_target": "../metrics/revenue.md",
+        "source_id": "bundles/acme_retail/policies/revenue-recognition",
+        "source_text": "Revenue metric",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "revenue.md",
+        "source_id": "bundles/acme_retail/metrics/gross-margin-period",
+        "source_text": "Revenue",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/authentication": [
+      {
+        "anchor": null,
+        "raw_target": "authentication.md",
+        "source_id": "bundles/acme_retail/payments/payment-processing",
+        "source_text": "Payment Authentication",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/payment-processing": [
+      {
+        "anchor": null,
+        "raw_target": "payment-processing.md",
+        "source_id": "bundles/acme_retail/payments/authentication",
+        "source_text": "Payment Processing",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "payment-processing.md",
+        "source_id": "bundles/acme_retail/payments/payment-risk",
+        "source_text": "Payment Processing",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/payment-risk": [
+      {
+        "anchor": null,
+        "raw_target": "payment-risk.md",
+        "source_id": "bundles/acme_retail/payments/authentication",
+        "source_text": "Payment Risk",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "payment-risk.md",
+        "source_id": "bundles/acme_retail/payments/payment-processing",
+        "source_text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/policies/margin-standard": [
+      {
+        "anchor": null,
+        "raw_target": "../policies/margin-standard.md",
+        "source_id": "bundles/acme_retail/metrics/gross-margin-period",
+        "source_text": "Gross Margin Standard",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/policies/revenue-recognition": [
+      {
+        "anchor": null,
+        "raw_target": "../policies/revenue-recognition.md",
+        "source_id": "bundles/acme_retail/metrics/revenue",
+        "source_text": "Revenue Recognition Policy",
+        "via": "body"
+      }
+    ],
+    "bundles/stackoverflow/tables/posts_questions": [
+      {
+        "anchor": null,
+        "raw_target": "../../stackoverflow/tables/posts_questions.md",
+        "source_id": "bundles/acme_retail/payments/payment-processing",
+        "source_text": "Stack Overflow data example",
+        "via": "body"
+      }
+    ],
+    "concepts/agent_skills": [
+      {
+        "anchor": null,
+        "raw_target": "agent_skills.md",
+        "source_id": "concepts/okf_runtime",
+        "source_text": "Agent Skills",
+        "via": "body"
+      }
+    ],
+    "concepts/okf_runtime": [
+      {
+        "anchor": null,
+        "raw_target": "okf_runtime.md",
+        "source_id": "concepts/agent_skills",
+        "source_text": "OKF Runtime",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "okf_runtime.md",
+        "source_id": "concepts/progressive_loading",
+        "source_text": "OKF Runtime Engine",
+        "via": "body"
+      }
+    ],
+    "concepts/okf_spec": [
+      {
+        "anchor": null,
+        "raw_target": "okf_spec.md",
+        "source_id": "concepts/okf_runtime",
+        "source_text": "Open Knowledge Format",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "raw_target": "okf_spec.md",
+        "source_id": "concepts/trust_and_provenance",
+        "source_text": "Open Knowledge Format",
+        "via": "body"
+      }
+    ],
+    "edge-cases/missing": [
+      {
+        "anchor": null,
+        "raw_target": "missing.md",
+        "source_id": "edge-cases/broken-link",
+        "source_text": "a missing document",
+        "via": "body"
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "errors": [
+        "Missing YAML frontmatter block",
+        "Missing required non-empty frontmatter field: type"
+      ],
+      "id": "README",
+      "is_stale": false,
+      "metadata": {},
+      "okf_version": "0.2",
+      "path": "README.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [
+        "Missing YAML frontmatter block",
+        "Missing required non-empty frontmatter field: type"
+      ],
+      "id": "okf_runtime_samples/README",
+      "is_stale": false,
+      "metadata": {},
+      "okf_version": "0.2",
+      "path": "okf_runtime_samples/README.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/metrics/gross-margin-period",
+      "is_stale": false,
+      "metadata": {
+        "description": "Period gross-margin metric derived from revenue and the margin standard.",
+        "generated": {
+          "at": "2026-06-30T15:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "sources": [
+          {
+            "id": "margin-standard",
+            "resource": "../policies/margin-standard.md",
+            "title": "Gross margin standard"
+          },
+          {
+            "id": "revenue",
+            "resource": "revenue.md",
+            "title": "Revenue metric"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "margin",
+          "metric",
+          "revenue"
+        ],
+        "title": "Gross Margin by Period",
+        "type": "Metric",
+        "verified": {
+          "at": "2026-07-01T09:30:00Z",
+          "by": "human:analyst"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/metrics/gross-margin-period.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/metrics/revenue",
+      "is_stale": false,
+      "metadata": {
+        "attester": {
+          "resource": "../../../tests/test_trust.py"
+        },
+        "description": "Acme Retail recognized revenue metric.",
+        "executor": {
+          "receipt": [
+            "job_id"
+          ],
+          "resource": "skills/run.md"
+        },
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy",
+            "last_modified": "2026-06-15",
+            "resource": "../policies/revenue-recognition.md",
+            "title": "Revenue recognition policy",
+            "usage_count": 12
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "metric",
+          "revenue"
+        ],
+        "title": "Revenue",
+        "type": "Metric",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": {
+          "at": "2026-07-01T09:00:00Z",
+          "by": "human:analyst"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/metrics/revenue.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/payments/authentication",
+      "is_stale": false,
+      "metadata": {
+        "description": "Authentication step in the Acme Retail payment flow.",
+        "generated": {
+          "at": "2026-05-18T10:00:00Z",
+          "by": "human:payments"
+        },
+        "sources": [
+          {
+            "id": "payment-processing",
+            "resource": "payment-processing.md",
+            "title": "Payment processing"
+          },
+          {
+            "id": "risk",
+            "resource": "payment-risk.md",
+            "title": "Payment risk"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "authentication",
+          "payments",
+          "security"
+        ],
+        "title": "Payment Authentication",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:security"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/payments/authentication.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/payments/payment-processing",
+      "is_stale": false,
+      "metadata": {
+        "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+        "generated": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:payments"
+        },
+        "sources": [
+          {
+            "id": "authentication",
+            "resource": "authentication.md",
+            "title": "Payment authentication"
+          },
+          {
+            "id": "risk",
+            "resource": "payment-risk.md",
+            "title": "Payment risk"
+          },
+          {
+            "id": "stackoverflow-example",
+            "resource": "../../stackoverflow/tables/posts_questions.md",
+            "title": "Related data example"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "payments",
+          "processing"
+        ],
+        "title": "Payment Processing",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-21T10:00:00Z",
+          "by": "human:payments-lead"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/payments/payment-processing.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/payments/payment-risk",
+      "is_stale": false,
+      "metadata": {
+        "description": "Risk evaluation performed during Acme Retail payment processing.",
+        "generated": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:risk"
+        },
+        "sources": [
+          {
+            "id": "authentication",
+            "resource": "authentication.md",
+            "title": "Payment authentication"
+          },
+          {
+            "id": "processing",
+            "resource": "payment-processing.md",
+            "title": "Payment processing"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "payments",
+          "risk",
+          "security"
+        ],
+        "title": "Payment Risk",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:risk-lead"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/payments/payment-risk.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/policies/margin-standard",
+      "is_stale": false,
+      "metadata": {
+        "description": "Acme Retail standard for gross-margin calculations.",
+        "generated": {
+          "at": "2026-04-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "margin-source",
+            "resource": "policies/margin-source.md",
+            "title": "Margin policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "accounting",
+          "margin",
+          "policy"
+        ],
+        "title": "Gross Margin Standard",
+        "type": "Policy",
+        "verified": {
+          "at": "2026-04-05T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/policies/margin-standard.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/policies/revenue-recognition",
+      "is_stale": false,
+      "metadata": {
+        "description": "Current Acme Retail policy for recognizing product revenue.",
+        "generated": {
+          "at": "2026-05-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Revenue policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "accounting",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": {
+          "at": "2026-05-10T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/policies/revenue-recognition.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+      "is_stale": false,
+      "metadata": {
+        "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+        "generated": {
+          "at": "2026-08-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "draft-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Proposed revenue policy source"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "draft",
+        "tags": [
+          "accounting",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": []
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/policies/revenue-recognition-draft.md",
+      "reserved": false,
+      "status": "draft",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+      "is_stale": true,
+      "metadata": {
+        "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+        "generated": {
+          "at": "2024-01-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "sources": [
+          {
+            "id": "legacy-source",
+            "resource": "policies/revenue-source.md",
+            "title": "Historical revenue policy source"
+          }
+        ],
+        "stale_after": "2025-12-31",
+        "status": "deprecated",
+        "tags": [
+          "accounting",
+          "legacy",
+          "policy",
+          "revenue"
+        ],
+        "title": "Revenue Recognition Policy",
+        "type": "Policy",
+        "verified": {
+          "at": "2024-01-15T11:00:00Z",
+          "by": "human:controller"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/acme_retail/policies/revenue-recognition-legacy.md",
+      "reserved": false,
+      "status": "deprecated",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/stackoverflow/tables/post_links",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow links between related posts.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "answers",
+            "resource": "posts_answers.md",
+            "title": "Answers"
+          },
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "links",
+          "posts",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Post Links",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/stackoverflow/tables/post_links.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/stackoverflow/tables/posts_answers",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow answers table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "answers",
+          "posts",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Posts Answers",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/stackoverflow/tables/posts_answers.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/stackoverflow/tables/posts_questions",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow questions table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "answers",
+            "resource": "posts_answers.md",
+            "title": "Answers"
+          },
+          {
+            "id": "votes",
+            "resource": "votes.md",
+            "title": "Votes"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "posts",
+          "questions",
+          "stackoverflow"
+        ],
+        "title": "StackOverflow Posts Questions",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/stackoverflow/tables/posts_questions.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "bundles/stackoverflow/tables/votes",
+      "is_stale": false,
+      "metadata": {
+        "description": "Stack Overflow votes table.",
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "sources": [
+          {
+            "id": "questions",
+            "resource": "posts_questions.md",
+            "title": "Questions"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "posts",
+          "stackoverflow",
+          "votes"
+        ],
+        "title": "StackOverflow Votes",
+        "type": "BigQuery Table",
+        "verified": {
+          "at": "2026-04-02T10:00:00Z",
+          "by": "human:data-owner"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "bundles/stackoverflow/tables/votes.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "computations/validate_bundle",
+      "is_stale": false,
+      "metadata": {
+        "attester": {
+          "resource": "../../../tests/test_trust.py"
+        },
+        "description": "Deterministically checks frontmatter parseability and link consistency across a target bundle.",
+        "executor": {
+          "receipt": [
+            "error_count",
+            "scanned_files",
+            "status"
+          ],
+          "resource": "scripts/okf.py"
+        },
+        "generated": {
+          "at": "2026-03-05T12:00:00Z",
+          "by": "process:ci-builder"
+        },
+        "parameters": [
+          {
+            "name": "bundle_path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "runtime": "python",
+        "sources": [
+          {
+            "id": "okf-min-spec",
+            "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+            "title": "OKF Conformance Checklist"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "computation",
+          "lint",
+          "validation"
+        ],
+        "title": "Validate OKF Bundle Conformance",
+        "type": "Attested Computation"
+      },
+      "okf_version": "0.2",
+      "path": "computations/validate_bundle.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "concepts/agent_skills",
+      "is_stale": false,
+      "metadata": {
+        "description": "Standardized directory layout and format for providing AI agents with reusable capabilities.",
+        "generated": {
+          "at": "2026-02-15T08:30:00Z",
+          "by": "process:skills-generator"
+        },
+        "sources": [
+          {
+            "id": "skills-io",
+            "resource": "https://agentskills.io/specification",
+            "title": "Agent Skills Open Specification"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "agent",
+          "skills",
+          "standard"
+        ],
+        "title": "Agent Skills Specification",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-02-20T14:00:00Z",
+          "by": "human:spomytkin"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "concepts/agent_skills.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "concepts/deterministic_retrieval",
+      "is_stale": false,
+      "metadata": {
+        "description": "Using deterministic local operations to locate and select knowledge before asking an LLM to reason over the selected context.",
+        "generated": {
+          "at": "2026-03-12T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "sources": [
+          {
+            "id": "okf-runtime",
+            "resource": "okf_runtime.md",
+            "title": "OKF Runtime Engine"
+          },
+          {
+            "id": "progressive-loading",
+            "resource": "progressive_loading.md",
+            "title": "Progressive Loading"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "agents",
+          "deterministic",
+          "retrieval"
+        ],
+        "title": "Deterministic Retrieval",
+        "type": "Concept",
+        "verified": {
+          "by": "human:spomytkin at: 2026-03-13T00:00:00Z"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "concepts/deterministic_retrieval.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "concepts/okf_runtime",
+      "is_stale": false,
+      "metadata": {
+        "description": "A lightweight Python engine for deterministic discovery, graph traversal, trust evaluation, and composition of OKF repositories.",
+        "generated": {
+          "at": "2026-03-01T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "sources": [
+          {
+            "id": "okf-runtime-repo",
+            "resource": "https://github.com/spomytkin/OKF-Runtime",
+            "title": "OKF-Runtime Source Repository"
+          }
+        ],
+        "stale_after": "2027-01-01",
+        "status": "stable",
+        "tags": [
+          "deterministic",
+          "python",
+          "runtime"
+        ],
+        "title": "OKF Runtime Engine",
+        "type": "Architecture",
+        "verified": [
+          {
+            "at": "2026-03-02T10:00:00Z",
+            "by": "human:spomytkin"
+          }
+        ]
+      },
+      "okf_version": "0.2",
+      "path": "concepts/okf_runtime.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "concepts/okf_spec",
+      "is_stale": false,
+      "metadata": {
+        "description": "A lightweight, human- and agent-friendly specification for organizing structured knowledge using Markdown and YAML frontmatter.",
+        "generated": {
+          "at": "2026-01-10T10:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "sources": [
+          {
+            "author": "GoogleCloudPlatform",
+            "id": "okf-spec-v02",
+            "last_modified": "2026-01-01",
+            "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+            "title": "OKF v0.2 Authoritative Specification"
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "tags": [
+          "metadata",
+          "okf",
+          "specification"
+        ],
+        "title": "Open Knowledge Format (OKF)",
+        "type": "Concept",
+        "verified": [
+          {
+            "at": "2026-02-01T12:00:00Z",
+            "by": "human:ahormati"
+          }
+        ]
+      },
+      "okf_version": "0.2",
+      "path": "concepts/okf_spec.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "concepts/progressive_loading",
+      "is_stale": false,
+      "metadata": {
+        "description": "Loading only the information required for the current agent task instead of reading an entire knowledge repository.",
+        "generated": {
+          "at": "2026-03-10T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "sources": [
+          {
+            "id": "okf-runtime",
+            "resource": "../concepts/okf_runtime.md",
+            "title": "OKF Runtime Engine"
+          }
+        ],
+        "status": "stable",
+        "tags": [
+          "agents",
+          "context",
+          "retrieval"
+        ],
+        "title": "Progressive Loading",
+        "type": "Concept",
+        "verified": {
+          "at": "2026-03-11T00:00:00Z",
+          "by": "human:spomytkin"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "concepts/progressive_loading.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "concepts/trust_and_provenance",
+      "is_stale": false,
+      "metadata": {
+        "description": "Using verification, lifecycle, freshness, and source metadata to select an appropriate knowledge artifact.",
+        "generated": {
+          "at": "2026-03-14T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "sources": [
+          {
+            "id": "okf-spec",
+            "resource": "okf_spec.md",
+            "title": "Open Knowledge Format"
+          }
+        ],
+        "stale_after": "2028-01-01",
+        "status": "stable",
+        "tags": [
+          "lifecycle",
+          "provenance",
+          "trust"
+        ],
+        "title": "Trust and Provenance",
+        "type": "Concept",
+        "verified": {
+          "by": "human:ahormati at: 2026-03-15T00:00:00Z"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "concepts/trust_and_provenance.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "edge-cases/broken-link",
+      "is_stale": false,
+      "metadata": {
+        "description": "Deliberate internal link to a missing OKF document for lint evaluation.",
+        "generated": {
+          "at": "2026-06-01T00:00:00Z",
+          "by": "human:test"
+        },
+        "status": "stable",
+        "tags": [
+          "broken-link",
+          "edge-case"
+        ],
+        "title": "Broken Link Example",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "edge-cases/broken-link.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "edge-cases/external-link",
+      "is_stale": false,
+      "metadata": {
+        "description": "Deliberate external reference used to test composition boundaries and link handling.",
+        "generated": {
+          "at": "2026-06-02T00:00:00Z",
+          "by": "human:test"
+        },
+        "status": "stable",
+        "tags": [
+          "edge-case",
+          "external-link"
+        ],
+        "title": "External Link Example",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "edge-cases/external-link.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "edge-cases/orphan",
+      "is_stale": false,
+      "metadata": {
+        "description": "Deliberate document that is not linked from the corpus index, used to test orphan discovery.",
+        "generated": {
+          "at": "2026-06-03T00:00:00Z",
+          "by": "human:test"
+        },
+        "status": "stable",
+        "tags": [
+          "edge-case",
+          "orphan"
+        ],
+        "title": "Orphan Example",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "edge-cases/orphan.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    }
+  ],
+  "graph": {
+    "README": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "README"
+        ],
+        "start": "README"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "README"
+        ],
+        "start": "README"
+      }
+    },
+    "bundles/acme_retail/metrics/gross-margin-period": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/policies/margin-standard",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/gross-margin-period",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/margin-standard",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/metrics/gross-margin-period"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/policies/margin-standard",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/gross-margin-period",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/margin-standard",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/metrics/gross-margin-period"
+      }
+    },
+    "bundles/acme_retail/metrics/revenue": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/revenue",
+            "target": "bundles/acme_retail/policies/revenue-recognition",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/metrics/revenue"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/metrics/revenue",
+            "target": "bundles/acme_retail/policies/revenue-recognition",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/metrics/revenue"
+      }
+    },
+    "bundles/acme_retail/payments/authentication": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/authentication",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk"
+        ],
+        "start": "bundles/acme_retail/payments/authentication"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/authentication",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk"
+        ],
+        "start": "bundles/acme_retail/payments/authentication"
+      }
+    },
+    "bundles/acme_retail/payments/payment-processing": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/authentication",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/stackoverflow/tables/posts_questions",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-risk",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk",
+          "bundles/stackoverflow/tables/posts_questions"
+        ],
+        "start": "bundles/acme_retail/payments/payment-processing"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/authentication",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/stackoverflow/tables/posts_questions",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-risk",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk",
+          "bundles/stackoverflow/tables/posts_questions"
+        ],
+        "start": "bundles/acme_retail/payments/payment-processing"
+      }
+    },
+    "bundles/acme_retail/payments/payment-risk": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-risk",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk"
+        ],
+        "start": "bundles/acme_retail/payments/payment-risk"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/payments/payment-risk",
+            "target": "bundles/acme_retail/payments/payment-processing",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/authentication",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/acme_retail/payments/payment-risk",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/authentication",
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/acme_retail/payments/payment-risk"
+        ],
+        "start": "bundles/acme_retail/payments/payment-risk"
+      }
+    },
+    "bundles/acme_retail/policies/margin-standard": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/policies/margin-standard",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/policies/margin-standard"
+        ],
+        "start": "bundles/acme_retail/policies/margin-standard"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/gross-margin-period",
+            "target": "bundles/acme_retail/policies/margin-standard",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/policies/margin-standard"
+        ],
+        "start": "bundles/acme_retail/policies/margin-standard"
+      }
+    },
+    "bundles/acme_retail/policies/revenue-recognition": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/gross-margin-period",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/revenue",
+            "target": "bundles/acme_retail/policies/revenue-recognition",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/gross-margin-period",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "bundles/acme_retail/policies/revenue-recognition",
+            "target": "bundles/acme_retail/metrics/revenue",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/metrics/revenue",
+            "target": "bundles/acme_retail/policies/revenue-recognition",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/metrics/gross-margin-period",
+          "bundles/acme_retail/metrics/revenue",
+          "bundles/acme_retail/policies/revenue-recognition"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition"
+      }
+    },
+    "bundles/acme_retail/policies/revenue-recognition-draft": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/acme_retail/policies/revenue-recognition-draft"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition-draft"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/acme_retail/policies/revenue-recognition-draft"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition-draft"
+      }
+    },
+    "bundles/acme_retail/policies/revenue-recognition-legacy": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/acme_retail/policies/revenue-recognition-legacy"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition-legacy"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/acme_retail/policies/revenue-recognition-legacy"
+        ],
+        "start": "bundles/acme_retail/policies/revenue-recognition-legacy"
+      }
+    },
+    "bundles/stackoverflow/tables/post_links": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/post_links"
+        ],
+        "start": "bundles/stackoverflow/tables/post_links"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/post_links"
+        ],
+        "start": "bundles/stackoverflow/tables/post_links"
+      }
+    },
+    "bundles/stackoverflow/tables/posts_answers": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/posts_answers"
+        ],
+        "start": "bundles/stackoverflow/tables/posts_answers"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/posts_answers"
+        ],
+        "start": "bundles/stackoverflow/tables/posts_answers"
+      }
+    },
+    "bundles/stackoverflow/tables/posts_questions": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/stackoverflow/tables/posts_questions",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/stackoverflow/tables/posts_questions"
+        ],
+        "start": "bundles/stackoverflow/tables/posts_questions"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "bundles/acme_retail/payments/payment-processing",
+            "target": "bundles/stackoverflow/tables/posts_questions",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "bundles/acme_retail/payments/payment-processing",
+          "bundles/stackoverflow/tables/posts_questions"
+        ],
+        "start": "bundles/stackoverflow/tables/posts_questions"
+      }
+    },
+    "bundles/stackoverflow/tables/votes": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/votes"
+        ],
+        "start": "bundles/stackoverflow/tables/votes"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "bundles/stackoverflow/tables/votes"
+        ],
+        "start": "bundles/stackoverflow/tables/votes"
+      }
+    },
+    "computations/validate_bundle": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "computations/validate_bundle"
+        ],
+        "start": "computations/validate_bundle"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "computations/validate_bundle"
+        ],
+        "start": "computations/validate_bundle"
+      }
+    },
+    "concepts/agent_skills": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/agent_skills",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/agent_skills",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/agent_skills",
+          "concepts/okf_runtime"
+        ],
+        "start": "concepts/agent_skills"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/agent_skills",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/agent_skills",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/agent_skills",
+          "concepts/okf_runtime"
+        ],
+        "start": "concepts/agent_skills"
+      }
+    },
+    "concepts/deterministic_retrieval": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/deterministic_retrieval"
+        ],
+        "start": "concepts/deterministic_retrieval"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "concepts/deterministic_retrieval"
+        ],
+        "start": "concepts/deterministic_retrieval"
+      }
+    },
+    "concepts/okf_runtime": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/agent_skills",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/agent_skills",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/progressive_loading",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/agent_skills",
+          "concepts/okf_runtime",
+          "concepts/okf_spec",
+          "concepts/progressive_loading"
+        ],
+        "start": "concepts/okf_runtime"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/agent_skills",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/agent_skills",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/progressive_loading",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/agent_skills",
+          "concepts/okf_runtime",
+          "concepts/okf_spec",
+          "concepts/progressive_loading"
+        ],
+        "start": "concepts/okf_runtime"
+      }
+    },
+    "concepts/okf_spec": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/trust_and_provenance",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_runtime",
+          "concepts/okf_spec",
+          "concepts/trust_and_provenance"
+        ],
+        "start": "concepts/okf_spec"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "concepts/okf_runtime",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          },
+          {
+            "direction": "reverse",
+            "source": "concepts/trust_and_provenance",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_runtime",
+          "concepts/okf_spec",
+          "concepts/trust_and_provenance"
+        ],
+        "start": "concepts/okf_spec"
+      }
+    },
+    "concepts/progressive_loading": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/progressive_loading",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_runtime",
+          "concepts/progressive_loading"
+        ],
+        "start": "concepts/progressive_loading"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/progressive_loading",
+            "target": "concepts/okf_runtime",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_runtime",
+          "concepts/progressive_loading"
+        ],
+        "start": "concepts/progressive_loading"
+      }
+    },
+    "concepts/trust_and_provenance": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/trust_and_provenance",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_spec",
+          "concepts/trust_and_provenance"
+        ],
+        "start": "concepts/trust_and_provenance"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "concepts/trust_and_provenance",
+            "target": "concepts/okf_spec",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "concepts/okf_spec",
+          "concepts/trust_and_provenance"
+        ],
+        "start": "concepts/trust_and_provenance"
+      }
+    },
+    "edge-cases/broken-link": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "edge-cases/broken-link",
+            "target": "edge-cases/missing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "edge-cases/broken-link",
+          "edge-cases/missing"
+        ],
+        "start": "edge-cases/broken-link"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "edge-cases/broken-link",
+            "target": "edge-cases/missing",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "edge-cases/broken-link",
+          "edge-cases/missing"
+        ],
+        "start": "edge-cases/broken-link"
+      }
+    },
+    "edge-cases/external-link": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "edge-cases/external-link"
+        ],
+        "start": "edge-cases/external-link"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "edge-cases/external-link"
+        ],
+        "start": "edge-cases/external-link"
+      }
+    },
+    "edge-cases/orphan": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "edge-cases/orphan"
+        ],
+        "start": "edge-cases/orphan"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "edge-cases/orphan"
+        ],
+        "start": "edge-cases/orphan"
+      }
+    },
+    "okf_runtime_samples/README": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "okf_runtime_samples/README"
+        ],
+        "start": "okf_runtime_samples/README"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "okf_runtime_samples/README"
+        ],
+        "start": "okf_runtime_samples/README"
+      }
+    }
+  },
+  "links": {
+    "README": [],
+    "bundles/acme_retail/metrics/gross-margin-period": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../policies/margin-standard.md",
+        "resolved_id": "bundles/acme_retail/policies/margin-standard",
+        "resolved_path": "bundles/acme_retail/policies/margin-standard.md",
+        "target": "../policies/margin-standard.md",
+        "text": "Gross Margin Standard",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "revenue.md",
+        "resolved_id": "bundles/acme_retail/metrics/revenue",
+        "resolved_path": "bundles/acme_retail/metrics/revenue.md",
+        "target": "revenue.md",
+        "text": "Revenue",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/metrics/revenue": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../policies/revenue-recognition.md",
+        "resolved_id": "bundles/acme_retail/policies/revenue-recognition",
+        "resolved_path": "bundles/acme_retail/policies/revenue-recognition.md",
+        "target": "../policies/revenue-recognition.md",
+        "text": "Revenue Recognition Policy",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/authentication": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-processing.md",
+        "resolved_id": "bundles/acme_retail/payments/payment-processing",
+        "resolved_path": "bundles/acme_retail/payments/payment-processing.md",
+        "target": "payment-processing.md",
+        "text": "Payment Processing",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-risk.md",
+        "resolved_id": "bundles/acme_retail/payments/payment-risk",
+        "resolved_path": "bundles/acme_retail/payments/payment-risk.md",
+        "target": "payment-risk.md",
+        "text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/payment-processing": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../../stackoverflow/tables/posts_questions.md",
+        "resolved_id": "bundles/stackoverflow/tables/posts_questions",
+        "resolved_path": "bundles/stackoverflow/tables/posts_questions.md",
+        "target": "../../stackoverflow/tables/posts_questions.md",
+        "text": "Stack Overflow data example",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "authentication.md",
+        "resolved_id": "bundles/acme_retail/payments/authentication",
+        "resolved_path": "bundles/acme_retail/payments/authentication.md",
+        "target": "authentication.md",
+        "text": "Payment Authentication",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-risk.md",
+        "resolved_id": "bundles/acme_retail/payments/payment-risk",
+        "resolved_path": "bundles/acme_retail/payments/payment-risk.md",
+        "target": "payment-risk.md",
+        "text": "Payment Risk",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/payments/payment-risk": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "payment-processing.md",
+        "resolved_id": "bundles/acme_retail/payments/payment-processing",
+        "resolved_path": "bundles/acme_retail/payments/payment-processing.md",
+        "target": "payment-processing.md",
+        "text": "Payment Processing",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/policies/margin-standard": [],
+    "bundles/acme_retail/policies/revenue-recognition": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../metrics/gross-margin-period.md",
+        "resolved_id": "bundles/acme_retail/metrics/gross-margin-period",
+        "resolved_path": "bundles/acme_retail/metrics/gross-margin-period.md",
+        "target": "../metrics/gross-margin-period.md",
+        "text": "Gross margin",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "../metrics/revenue.md",
+        "resolved_id": "bundles/acme_retail/metrics/revenue",
+        "resolved_path": "bundles/acme_retail/metrics/revenue.md",
+        "target": "../metrics/revenue.md",
+        "text": "Revenue metric",
+        "via": "body"
+      }
+    ],
+    "bundles/acme_retail/policies/revenue-recognition-draft": [],
+    "bundles/acme_retail/policies/revenue-recognition-legacy": [],
+    "bundles/stackoverflow/tables/post_links": [],
+    "bundles/stackoverflow/tables/posts_answers": [],
+    "bundles/stackoverflow/tables/posts_questions": [],
+    "bundles/stackoverflow/tables/votes": [],
+    "computations/validate_bundle": [],
+    "concepts/agent_skills": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "okf_runtime.md",
+        "resolved_id": "concepts/okf_runtime",
+        "resolved_path": "concepts/okf_runtime.md",
+        "target": "okf_runtime.md",
+        "text": "OKF Runtime",
+        "via": "body"
+      }
+    ],
+    "concepts/deterministic_retrieval": [],
+    "concepts/okf_runtime": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "agent_skills.md",
+        "resolved_id": "concepts/agent_skills",
+        "resolved_path": "concepts/agent_skills.md",
+        "target": "agent_skills.md",
+        "text": "Agent Skills",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "okf_spec.md",
+        "resolved_id": "concepts/okf_spec",
+        "resolved_path": "concepts/okf_spec.md",
+        "target": "okf_spec.md",
+        "text": "Open Knowledge Format",
+        "via": "body"
+      }
+    ],
+    "concepts/okf_spec": [
+      {
+        "anchor": null,
+        "external": true,
+        "raw_target": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+        "resolved_id": null,
+        "resolved_path": null,
+        "target": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+        "text": "OKF v0.2 Authoritative Specification",
+        "via": "body"
+      }
+    ],
+    "concepts/progressive_loading": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "okf_runtime.md",
+        "resolved_id": "concepts/okf_runtime",
+        "resolved_path": "concepts/okf_runtime.md",
+        "target": "okf_runtime.md",
+        "text": "OKF Runtime Engine",
+        "via": "body"
+      }
+    ],
+    "concepts/trust_and_provenance": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "okf_spec.md",
+        "resolved_id": "concepts/okf_spec",
+        "resolved_path": "concepts/okf_spec.md",
+        "target": "okf_spec.md",
+        "text": "Open Knowledge Format",
+        "via": "body"
+      }
+    ],
+    "edge-cases/broken-link": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "missing.md",
+        "resolved_id": "edge-cases/missing",
+        "resolved_path": "edge-cases/missing.md",
+        "target": "missing.md",
+        "text": "a missing document",
+        "via": "body"
+      }
+    ],
+    "edge-cases/external-link": [
+      {
+        "anchor": null,
+        "external": true,
+        "raw_target": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+        "resolved_id": null,
+        "resolved_path": null,
+        "target": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+        "text": "authoritative OKF specification",
+        "via": "body"
+      }
+    ],
+    "edge-cases/orphan": [],
+    "okf_runtime_samples/README": []
+  },
+  "lint_links": [
+    {
+      "id": "README",
+      "level": "error",
+      "message": "Missing YAML frontmatter block",
+      "type": "parse"
+    },
+    {
+      "id": "README",
+      "level": "error",
+      "message": "Missing required non-empty frontmatter field: type",
+      "type": "parse"
+    },
+    {
+      "id": "README",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "bundles/stackoverflow/tables/post_links",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "bundles/stackoverflow/tables/posts_answers",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "bundles/stackoverflow/tables/votes",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "computations/validate_bundle",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "concepts/deterministic_retrieval",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "edge-cases/broken-link",
+      "level": "warning",
+      "target": "missing.md",
+      "type": "broken_link"
+    },
+    {
+      "id": "edge-cases/orphan",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "okf_runtime_samples/README",
+      "level": "error",
+      "message": "Missing YAML frontmatter block",
+      "type": "parse"
+    },
+    {
+      "id": "okf_runtime_samples/README",
+      "level": "error",
+      "message": "Missing required non-empty frontmatter field: type",
+      "type": "parse"
+    },
+    {
+      "id": "okf_runtime_samples/README",
+      "level": "info",
+      "type": "orphan"
+    }
+  ],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [
+          "Missing YAML frontmatter block",
+          "Missing required non-empty frontmatter field: type"
+        ],
+        "id": "README",
+        "is_stale": false,
+        "metadata": {},
+        "path": "README.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [
+          "Missing YAML frontmatter block",
+          "Missing required non-empty frontmatter field: type"
+        ],
+        "id": "okf_runtime_samples/README",
+        "is_stale": false,
+        "metadata": {},
+        "path": "okf_runtime_samples/README.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/metrics/gross-margin-period",
+        "is_stale": false,
+        "metadata": {
+          "description": "Period gross-margin metric derived from revenue and the margin standard.",
+          "generated": {
+            "at": "2026-06-30T15:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "id": "margin-standard",
+              "resource": "../policies/margin-standard.md",
+              "title": "Gross margin standard"
+            },
+            {
+              "id": "revenue",
+              "resource": "revenue.md",
+              "title": "Revenue metric"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "margin",
+            "metric",
+            "revenue"
+          ],
+          "title": "Gross Margin by Period",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "bundles/acme_retail/metrics/gross-margin-period.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/metrics/revenue",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "../../../tests/test_trust.py"
+          },
+          "description": "Acme Retail recognized revenue metric.",
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy",
+              "last_modified": "2026-06-15",
+              "resource": "../policies/revenue-recognition.md",
+              "title": "Revenue recognition policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metric",
+            "revenue"
+          ],
+          "title": "Revenue",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "bundles/acme_retail/metrics/revenue.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/authentication",
+        "is_stale": false,
+        "metadata": {
+          "description": "Authentication step in the Acme Retail payment flow.",
+          "generated": {
+            "at": "2026-05-18T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "payment-processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "authentication",
+            "payments",
+            "security"
+          ],
+          "title": "Payment Authentication",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        },
+        "path": "bundles/acme_retail/payments/authentication.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/payment-processing",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+          "generated": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            },
+            {
+              "id": "stackoverflow-example",
+              "resource": "../../stackoverflow/tables/posts_questions.md",
+              "title": "Related data example"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "processing"
+          ],
+          "title": "Payment Processing",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        },
+        "path": "bundles/acme_retail/payments/payment-processing.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/payment-risk",
+        "is_stale": false,
+        "metadata": {
+          "description": "Risk evaluation performed during Acme Retail payment processing.",
+          "generated": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:risk"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "risk",
+            "security"
+          ],
+          "title": "Payment Risk",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        },
+        "path": "bundles/acme_retail/payments/payment-risk.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/margin-standard",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail standard for gross-margin calculations.",
+          "generated": {
+            "at": "2026-04-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "margin-source",
+              "resource": "policies/margin-source.md",
+              "title": "Margin policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "margin",
+            "policy"
+          ],
+          "title": "Gross Margin Standard",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/margin-standard.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition",
+        "is_stale": false,
+        "metadata": {
+          "description": "Current Acme Retail policy for recognizing product revenue.",
+          "generated": {
+            "at": "2026-05-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+        "is_stale": false,
+        "metadata": {
+          "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+          "generated": {
+            "at": "2026-08-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "draft-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Proposed revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "draft",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": []
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition-draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/post_links",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow links between related posts.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "links",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Post Links",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/post_links.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/posts_answers",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow answers table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "answers",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Answers",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/posts_answers.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/posts_questions",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow questions table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "votes",
+              "resource": "votes.md",
+              "title": "Votes"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "questions",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Questions",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/posts_questions.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/votes",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow votes table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "stackoverflow",
+            "votes"
+          ],
+          "title": "StackOverflow Votes",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/votes.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "computations/validate_bundle",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "../../../tests/test_trust.py"
+          },
+          "description": "Deterministically checks frontmatter parseability and link consistency across a target bundle.",
+          "executor": {
+            "receipt": [
+              "error_count",
+              "scanned_files",
+              "status"
+            ],
+            "resource": "scripts/okf.py"
+          },
+          "generated": {
+            "at": "2026-03-05T12:00:00Z",
+            "by": "process:ci-builder"
+          },
+          "parameters": [
+            {
+              "name": "bundle_path",
+              "required": true,
+              "type": "string"
+            }
+          ],
+          "runtime": "python",
+          "sources": [
+            {
+              "id": "okf-min-spec",
+              "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+              "title": "OKF Conformance Checklist"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "computation",
+            "lint",
+            "validation"
+          ],
+          "title": "Validate OKF Bundle Conformance",
+          "type": "Attested Computation"
+        },
+        "path": "computations/validate_bundle.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "concepts/agent_skills",
+        "is_stale": false,
+        "metadata": {
+          "description": "Standardized directory layout and format for providing AI agents with reusable capabilities.",
+          "generated": {
+            "at": "2026-02-15T08:30:00Z",
+            "by": "process:skills-generator"
+          },
+          "sources": [
+            {
+              "id": "skills-io",
+              "resource": "https://agentskills.io/specification",
+              "title": "Agent Skills Open Specification"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agent",
+            "skills",
+            "standard"
+          ],
+          "title": "Agent Skills Specification",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-02-20T14:00:00Z",
+            "by": "human:spomytkin"
+          }
+        },
+        "path": "concepts/agent_skills.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/deterministic_retrieval",
+        "is_stale": false,
+        "metadata": {
+          "description": "Using deterministic local operations to locate and select knowledge before asking an LLM to reason over the selected context.",
+          "generated": {
+            "at": "2026-03-12T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime",
+              "resource": "okf_runtime.md",
+              "title": "OKF Runtime Engine"
+            },
+            {
+              "id": "progressive-loading",
+              "resource": "progressive_loading.md",
+              "title": "Progressive Loading"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agents",
+            "deterministic",
+            "retrieval"
+          ],
+          "title": "Deterministic Retrieval",
+          "type": "Concept",
+          "verified": {
+            "by": "human:spomytkin at: 2026-03-13T00:00:00Z"
+          }
+        },
+        "path": "concepts/deterministic_retrieval.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/okf_runtime",
+        "is_stale": false,
+        "metadata": {
+          "description": "A lightweight Python engine for deterministic discovery, graph traversal, trust evaluation, and composition of OKF repositories.",
+          "generated": {
+            "at": "2026-03-01T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime-repo",
+              "resource": "https://github.com/spomytkin/OKF-Runtime",
+              "title": "OKF-Runtime Source Repository"
+            }
+          ],
+          "stale_after": "2027-01-01",
+          "status": "stable",
+          "tags": [
+            "deterministic",
+            "python",
+            "runtime"
+          ],
+          "title": "OKF Runtime Engine",
+          "type": "Architecture",
+          "verified": [
+            {
+              "at": "2026-03-02T10:00:00Z",
+              "by": "human:spomytkin"
+            }
+          ]
+        },
+        "path": "concepts/okf_runtime.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/okf_spec",
+        "is_stale": false,
+        "metadata": {
+          "description": "A lightweight, human- and agent-friendly specification for organizing structured knowledge using Markdown and YAML frontmatter.",
+          "generated": {
+            "at": "2026-01-10T10:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "author": "GoogleCloudPlatform",
+              "id": "okf-spec-v02",
+              "last_modified": "2026-01-01",
+              "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+              "title": "OKF v0.2 Authoritative Specification"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metadata",
+            "okf",
+            "specification"
+          ],
+          "title": "Open Knowledge Format (OKF)",
+          "type": "Concept",
+          "verified": [
+            {
+              "at": "2026-02-01T12:00:00Z",
+              "by": "human:ahormati"
+            }
+          ]
+        },
+        "path": "concepts/okf_spec.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/progressive_loading",
+        "is_stale": false,
+        "metadata": {
+          "description": "Loading only the information required for the current agent task instead of reading an entire knowledge repository.",
+          "generated": {
+            "at": "2026-03-10T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime",
+              "resource": "../concepts/okf_runtime.md",
+              "title": "OKF Runtime Engine"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agents",
+            "context",
+            "retrieval"
+          ],
+          "title": "Progressive Loading",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-03-11T00:00:00Z",
+            "by": "human:spomytkin"
+          }
+        },
+        "path": "concepts/progressive_loading.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/trust_and_provenance",
+        "is_stale": false,
+        "metadata": {
+          "description": "Using verification, lifecycle, freshness, and source metadata to select an appropriate knowledge artifact.",
+          "generated": {
+            "at": "2026-03-14T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-spec",
+              "resource": "okf_spec.md",
+              "title": "Open Knowledge Format"
+            }
+          ],
+          "stale_after": "2028-01-01",
+          "status": "stable",
+          "tags": [
+            "lifecycle",
+            "provenance",
+            "trust"
+          ],
+          "title": "Trust and Provenance",
+          "type": "Concept",
+          "verified": {
+            "by": "human:ahormati at: 2026-03-15T00:00:00Z"
+          }
+        },
+        "path": "concepts/trust_and_provenance.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "edge-cases/broken-link",
+        "is_stale": false,
+        "metadata": {
+          "description": "Deliberate internal link to a missing OKF document for lint evaluation.",
+          "generated": {
+            "at": "2026-06-01T00:00:00Z",
+            "by": "human:test"
+          },
+          "status": "stable",
+          "tags": [
+            "broken-link",
+            "edge-case"
+          ],
+          "title": "Broken Link Example",
+          "type": "Concept"
+        },
+        "path": "edge-cases/broken-link.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "edge-cases/external-link",
+        "is_stale": false,
+        "metadata": {
+          "description": "Deliberate external reference used to test composition boundaries and link handling.",
+          "generated": {
+            "at": "2026-06-02T00:00:00Z",
+            "by": "human:test"
+          },
+          "status": "stable",
+          "tags": [
+            "edge-case",
+            "external-link"
+          ],
+          "title": "External Link Example",
+          "type": "Concept"
+        },
+        "path": "edge-cases/external-link.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "edge-cases/orphan",
+        "is_stale": false,
+        "metadata": {
+          "description": "Deliberate document that is not linked from the corpus index, used to test orphan discovery.",
+          "generated": {
+            "at": "2026-06-03T00:00:00Z",
+            "by": "human:test"
+          },
+          "status": "stable",
+          "tags": [
+            "edge-case",
+            "orphan"
+          ],
+          "title": "Orphan Example",
+          "type": "Concept"
+        },
+        "path": "edge-cases/orphan.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      }
+    ],
+    "stale_true": [
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "status_deprecated": [
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "status_draft": [
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+        "is_stale": false,
+        "metadata": {
+          "description": "Proposed future revision of Acme Retail revenue recognition policy.",
+          "generated": {
+            "at": "2026-08-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "draft-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Proposed revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "draft",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": []
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition-draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      }
+    ],
+    "trust_tier_human_reviewed": [
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/metrics/gross-margin-period",
+        "is_stale": false,
+        "metadata": {
+          "description": "Period gross-margin metric derived from revenue and the margin standard.",
+          "generated": {
+            "at": "2026-06-30T15:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "id": "margin-standard",
+              "resource": "../policies/margin-standard.md",
+              "title": "Gross margin standard"
+            },
+            {
+              "id": "revenue",
+              "resource": "revenue.md",
+              "title": "Revenue metric"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "margin",
+            "metric",
+            "revenue"
+          ],
+          "title": "Gross Margin by Period",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "bundles/acme_retail/metrics/gross-margin-period.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/metrics/revenue",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "../../../tests/test_trust.py"
+          },
+          "description": "Acme Retail recognized revenue metric.",
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy",
+              "last_modified": "2026-06-15",
+              "resource": "../policies/revenue-recognition.md",
+              "title": "Revenue recognition policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metric",
+            "revenue"
+          ],
+          "title": "Revenue",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "bundles/acme_retail/metrics/revenue.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/authentication",
+        "is_stale": false,
+        "metadata": {
+          "description": "Authentication step in the Acme Retail payment flow.",
+          "generated": {
+            "at": "2026-05-18T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "payment-processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "authentication",
+            "payments",
+            "security"
+          ],
+          "title": "Payment Authentication",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        },
+        "path": "bundles/acme_retail/payments/authentication.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/payment-processing",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail payment-processing flow from authentication through risk checks and settlement.",
+          "generated": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:payments"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "risk",
+              "resource": "payment-risk.md",
+              "title": "Payment risk"
+            },
+            {
+              "id": "stackoverflow-example",
+              "resource": "../../stackoverflow/tables/posts_questions.md",
+              "title": "Related data example"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "processing"
+          ],
+          "title": "Payment Processing",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        },
+        "path": "bundles/acme_retail/payments/payment-processing.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/payments/payment-risk",
+        "is_stale": false,
+        "metadata": {
+          "description": "Risk evaluation performed during Acme Retail payment processing.",
+          "generated": {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:risk"
+          },
+          "sources": [
+            {
+              "id": "authentication",
+              "resource": "authentication.md",
+              "title": "Payment authentication"
+            },
+            {
+              "id": "processing",
+              "resource": "payment-processing.md",
+              "title": "Payment processing"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "payments",
+            "risk",
+            "security"
+          ],
+          "title": "Payment Risk",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        },
+        "path": "bundles/acme_retail/payments/payment-risk.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/margin-standard",
+        "is_stale": false,
+        "metadata": {
+          "description": "Acme Retail standard for gross-margin calculations.",
+          "generated": {
+            "at": "2026-04-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "margin-source",
+              "resource": "policies/margin-source.md",
+              "title": "Margin policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "margin",
+            "policy"
+          ],
+          "title": "Gross Margin Standard",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/margin-standard.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition",
+        "is_stale": false,
+        "metadata": {
+          "description": "Current Acme Retail policy for recognizing product revenue.",
+          "generated": {
+            "at": "2026-05-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "author": "human:controller",
+              "id": "revenue-policy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Revenue policy source"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "accounting",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "metadata": {
+          "description": "Historical Acme Retail revenue recognition policy retained for audit context.",
+          "generated": {
+            "at": "2024-01-01T09:00:00Z",
+            "by": "human:finance"
+          },
+          "sources": [
+            {
+              "id": "legacy-source",
+              "resource": "policies/revenue-source.md",
+              "title": "Historical revenue policy source"
+            }
+          ],
+          "stale_after": "2025-12-31",
+          "status": "deprecated",
+          "tags": [
+            "accounting",
+            "legacy",
+            "policy",
+            "revenue"
+          ],
+          "title": "Revenue Recognition Policy",
+          "type": "Policy",
+          "verified": {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        },
+        "path": "bundles/acme_retail/policies/revenue-recognition-legacy.md",
+        "reserved": false,
+        "status": "deprecated",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/post_links",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow links between related posts.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "links",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Post Links",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/post_links.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/posts_answers",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow answers table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "answers",
+            "posts",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Answers",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/posts_answers.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/posts_questions",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow questions table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "answers",
+              "resource": "posts_answers.md",
+              "title": "Answers"
+            },
+            {
+              "id": "votes",
+              "resource": "votes.md",
+              "title": "Votes"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "questions",
+            "stackoverflow"
+          ],
+          "title": "StackOverflow Posts Questions",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/posts_questions.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "bundles/stackoverflow/tables/votes",
+        "is_stale": false,
+        "metadata": {
+          "description": "Stack Overflow votes table.",
+          "generated": {
+            "at": "2026-04-01T10:00:00Z",
+            "by": "human:data"
+          },
+          "sources": [
+            {
+              "id": "questions",
+              "resource": "posts_questions.md",
+              "title": "Questions"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "posts",
+            "stackoverflow",
+            "votes"
+          ],
+          "title": "StackOverflow Votes",
+          "type": "BigQuery Table",
+          "verified": {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        },
+        "path": "bundles/stackoverflow/tables/votes.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/agent_skills",
+        "is_stale": false,
+        "metadata": {
+          "description": "Standardized directory layout and format for providing AI agents with reusable capabilities.",
+          "generated": {
+            "at": "2026-02-15T08:30:00Z",
+            "by": "process:skills-generator"
+          },
+          "sources": [
+            {
+              "id": "skills-io",
+              "resource": "https://agentskills.io/specification",
+              "title": "Agent Skills Open Specification"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agent",
+            "skills",
+            "standard"
+          ],
+          "title": "Agent Skills Specification",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-02-20T14:00:00Z",
+            "by": "human:spomytkin"
+          }
+        },
+        "path": "concepts/agent_skills.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/deterministic_retrieval",
+        "is_stale": false,
+        "metadata": {
+          "description": "Using deterministic local operations to locate and select knowledge before asking an LLM to reason over the selected context.",
+          "generated": {
+            "at": "2026-03-12T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime",
+              "resource": "okf_runtime.md",
+              "title": "OKF Runtime Engine"
+            },
+            {
+              "id": "progressive-loading",
+              "resource": "progressive_loading.md",
+              "title": "Progressive Loading"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agents",
+            "deterministic",
+            "retrieval"
+          ],
+          "title": "Deterministic Retrieval",
+          "type": "Concept",
+          "verified": {
+            "by": "human:spomytkin at: 2026-03-13T00:00:00Z"
+          }
+        },
+        "path": "concepts/deterministic_retrieval.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/okf_runtime",
+        "is_stale": false,
+        "metadata": {
+          "description": "A lightweight Python engine for deterministic discovery, graph traversal, trust evaluation, and composition of OKF repositories.",
+          "generated": {
+            "at": "2026-03-01T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime-repo",
+              "resource": "https://github.com/spomytkin/OKF-Runtime",
+              "title": "OKF-Runtime Source Repository"
+            }
+          ],
+          "stale_after": "2027-01-01",
+          "status": "stable",
+          "tags": [
+            "deterministic",
+            "python",
+            "runtime"
+          ],
+          "title": "OKF Runtime Engine",
+          "type": "Architecture",
+          "verified": [
+            {
+              "at": "2026-03-02T10:00:00Z",
+              "by": "human:spomytkin"
+            }
+          ]
+        },
+        "path": "concepts/okf_runtime.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/okf_spec",
+        "is_stale": false,
+        "metadata": {
+          "description": "A lightweight, human- and agent-friendly specification for organizing structured knowledge using Markdown and YAML frontmatter.",
+          "generated": {
+            "at": "2026-01-10T10:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "author": "GoogleCloudPlatform",
+              "id": "okf-spec-v02",
+              "last_modified": "2026-01-01",
+              "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+              "title": "OKF v0.2 Authoritative Specification"
+            }
+          ],
+          "stale_after": "2027-12-31",
+          "status": "stable",
+          "tags": [
+            "metadata",
+            "okf",
+            "specification"
+          ],
+          "title": "Open Knowledge Format (OKF)",
+          "type": "Concept",
+          "verified": [
+            {
+              "at": "2026-02-01T12:00:00Z",
+              "by": "human:ahormati"
+            }
+          ]
+        },
+        "path": "concepts/okf_spec.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/progressive_loading",
+        "is_stale": false,
+        "metadata": {
+          "description": "Loading only the information required for the current agent task instead of reading an entire knowledge repository.",
+          "generated": {
+            "at": "2026-03-10T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-runtime",
+              "resource": "../concepts/okf_runtime.md",
+              "title": "OKF Runtime Engine"
+            }
+          ],
+          "status": "stable",
+          "tags": [
+            "agents",
+            "context",
+            "retrieval"
+          ],
+          "title": "Progressive Loading",
+          "type": "Concept",
+          "verified": {
+            "at": "2026-03-11T00:00:00Z",
+            "by": "human:spomytkin"
+          }
+        },
+        "path": "concepts/progressive_loading.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "concepts/trust_and_provenance",
+        "is_stale": false,
+        "metadata": {
+          "description": "Using verification, lifecycle, freshness, and source metadata to select an appropriate knowledge artifact.",
+          "generated": {
+            "at": "2026-03-14T00:00:00Z",
+            "by": "human:spomytkin"
+          },
+          "sources": [
+            {
+              "id": "okf-spec",
+              "resource": "okf_spec.md",
+              "title": "Open Knowledge Format"
+            }
+          ],
+          "stale_after": "2028-01-01",
+          "status": "stable",
+          "tags": [
+            "lifecycle",
+            "provenance",
+            "trust"
+          ],
+          "title": "Trust and Provenance",
+          "type": "Concept",
+          "verified": {
+            "by": "human:ahormati at: 2026-03-15T00:00:00Z"
+          }
+        },
+        "path": "concepts/trust_and_provenance.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "trust_tier_machine_confirmed": []
+  },
+  "trust": {
+    "concepts": {
+      "README": {
+        "generated": null,
+        "id": "README",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "bundles/acme_retail/metrics/gross-margin-period": {
+        "generated": {
+          "at": "2026-06-30T15:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "id": "bundles/acme_retail/metrics/gross-margin-period",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "margin-standard",
+            "last_modified": null,
+            "resource": "../policies/margin-standard.md",
+            "title": "Gross margin standard",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "revenue",
+            "last_modified": null,
+            "resource": "revenue.md",
+            "title": "Revenue metric",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-07-01T09:30:00Z",
+            "by": "human:analyst"
+          }
+        ]
+      },
+      "bundles/acme_retail/metrics/revenue": {
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "id": "bundles/acme_retail/metrics/revenue",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy",
+            "last_modified": "2026-06-15",
+            "resource": "../policies/revenue-recognition.md",
+            "title": "Revenue recognition policy",
+            "usage_count": 12,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": [
+          {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        ]
+      },
+      "bundles/acme_retail/payments/authentication": {
+        "generated": {
+          "at": "2026-05-18T10:00:00Z",
+          "by": "human:payments"
+        },
+        "id": "bundles/acme_retail/payments/authentication",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "payment-processing",
+            "last_modified": null,
+            "resource": "payment-processing.md",
+            "title": "Payment processing",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "risk",
+            "last_modified": null,
+            "resource": "payment-risk.md",
+            "title": "Payment risk",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-19T10:00:00Z",
+            "by": "human:security"
+          }
+        ]
+      },
+      "bundles/acme_retail/payments/payment-processing": {
+        "generated": {
+          "at": "2026-05-20T10:00:00Z",
+          "by": "human:payments"
+        },
+        "id": "bundles/acme_retail/payments/payment-processing",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "authentication",
+            "last_modified": null,
+            "resource": "authentication.md",
+            "title": "Payment authentication",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "risk",
+            "last_modified": null,
+            "resource": "payment-risk.md",
+            "title": "Payment risk",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "stackoverflow-example",
+            "last_modified": null,
+            "resource": "../../stackoverflow/tables/posts_questions.md",
+            "title": "Related data example",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-21T10:00:00Z",
+            "by": "human:payments-lead"
+          }
+        ]
+      },
+      "bundles/acme_retail/payments/payment-risk": {
+        "generated": {
+          "at": "2026-05-19T10:00:00Z",
+          "by": "human:risk"
+        },
+        "id": "bundles/acme_retail/payments/payment-risk",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "authentication",
+            "last_modified": null,
+            "resource": "authentication.md",
+            "title": "Payment authentication",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "processing",
+            "last_modified": null,
+            "resource": "payment-processing.md",
+            "title": "Payment processing",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-20T10:00:00Z",
+            "by": "human:risk-lead"
+          }
+        ]
+      },
+      "bundles/acme_retail/policies/margin-standard": {
+        "generated": {
+          "at": "2026-04-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "bundles/acme_retail/policies/margin-standard",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "margin-source",
+            "last_modified": null,
+            "resource": "policies/margin-source.md",
+            "title": "Margin policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-05T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      },
+      "bundles/acme_retail/policies/revenue-recognition": {
+        "generated": {
+          "at": "2026-05-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "bundles/acme_retail/policies/revenue-recognition",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "human:controller",
+            "id": "revenue-policy-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-05-10T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      },
+      "bundles/acme_retail/policies/revenue-recognition-draft": {
+        "generated": {
+          "at": "2026-08-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "draft-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Proposed revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "draft",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "bundles/acme_retail/policies/revenue-recognition-legacy": {
+        "generated": {
+          "at": "2024-01-01T09:00:00Z",
+          "by": "human:finance"
+        },
+        "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+        "is_stale": true,
+        "sources": [
+          {
+            "author": null,
+            "id": "legacy-source",
+            "last_modified": null,
+            "resource": "policies/revenue-source.md",
+            "title": "Historical revenue policy source",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2025-12-31",
+        "status": "deprecated",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2024-01-15T11:00:00Z",
+            "by": "human:controller"
+          }
+        ]
+      },
+      "bundles/stackoverflow/tables/post_links": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "bundles/stackoverflow/tables/post_links",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "answers",
+            "last_modified": null,
+            "resource": "posts_answers.md",
+            "title": "Answers",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "bundles/stackoverflow/tables/posts_answers": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "bundles/stackoverflow/tables/posts_answers",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "bundles/stackoverflow/tables/posts_questions": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "bundles/stackoverflow/tables/posts_questions",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "answers",
+            "last_modified": null,
+            "resource": "posts_answers.md",
+            "title": "Answers",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "votes",
+            "last_modified": null,
+            "resource": "votes.md",
+            "title": "Votes",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "bundles/stackoverflow/tables/votes": {
+        "generated": {
+          "at": "2026-04-01T10:00:00Z",
+          "by": "human:data"
+        },
+        "id": "bundles/stackoverflow/tables/votes",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "questions",
+            "last_modified": null,
+            "resource": "posts_questions.md",
+            "title": "Questions",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-04-02T10:00:00Z",
+            "by": "human:data-owner"
+          }
+        ]
+      },
+      "computations/validate_bundle": {
+        "generated": {
+          "at": "2026-03-05T12:00:00Z",
+          "by": "process:ci-builder"
+        },
+        "id": "computations/validate_bundle",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "okf-min-spec",
+            "last_modified": null,
+            "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+            "title": "OKF Conformance Checklist",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "concepts/agent_skills": {
+        "generated": {
+          "at": "2026-02-15T08:30:00Z",
+          "by": "process:skills-generator"
+        },
+        "id": "concepts/agent_skills",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "skills-io",
+            "last_modified": null,
+            "resource": "https://agentskills.io/specification",
+            "title": "Agent Skills Open Specification",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-02-20T14:00:00Z",
+            "by": "human:spomytkin"
+          }
+        ]
+      },
+      "concepts/deterministic_retrieval": {
+        "generated": {
+          "at": "2026-03-12T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "id": "concepts/deterministic_retrieval",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "okf-runtime",
+            "last_modified": null,
+            "resource": "okf_runtime.md",
+            "title": "OKF Runtime Engine",
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": "progressive-loading",
+            "last_modified": null,
+            "resource": "progressive_loading.md",
+            "title": "Progressive Loading",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": null,
+            "by": "human:spomytkin at: 2026-03-13T00:00:00Z"
+          }
+        ]
+      },
+      "concepts/okf_runtime": {
+        "generated": {
+          "at": "2026-03-01T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "id": "concepts/okf_runtime",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "okf-runtime-repo",
+            "last_modified": null,
+            "resource": "https://github.com/spomytkin/OKF-Runtime",
+            "title": "OKF-Runtime Source Repository",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-01-01",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-03-02T10:00:00Z",
+            "by": "human:spomytkin"
+          }
+        ]
+      },
+      "concepts/okf_spec": {
+        "generated": {
+          "at": "2026-01-10T10:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "id": "concepts/okf_spec",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "GoogleCloudPlatform",
+            "id": "okf-spec-v02",
+            "last_modified": "2026-01-01",
+            "resource": "https://github.com/GoogleCloudPlatform/knowledge-catalog/blob/main/okf/SPEC.md",
+            "title": "OKF v0.2 Authoritative Specification",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2027-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-02-01T12:00:00Z",
+            "by": "human:ahormati"
+          }
+        ]
+      },
+      "concepts/progressive_loading": {
+        "generated": {
+          "at": "2026-03-10T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "id": "concepts/progressive_loading",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "okf-runtime",
+            "last_modified": null,
+            "resource": "../concepts/okf_runtime.md",
+            "title": "OKF Runtime Engine",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-03-11T00:00:00Z",
+            "by": "human:spomytkin"
+          }
+        ]
+      },
+      "concepts/trust_and_provenance": {
+        "generated": {
+          "at": "2026-03-14T00:00:00Z",
+          "by": "human:spomytkin"
+        },
+        "id": "concepts/trust_and_provenance",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": "okf-spec",
+            "last_modified": null,
+            "resource": "okf_spec.md",
+            "title": "Open Knowledge Format",
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2028-01-01",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": null,
+            "by": "human:ahormati at: 2026-03-15T00:00:00Z"
+          }
+        ]
+      },
+      "edge-cases/broken-link": {
+        "generated": {
+          "at": "2026-06-01T00:00:00Z",
+          "by": "human:test"
+        },
+        "id": "edge-cases/broken-link",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "edge-cases/external-link": {
+        "generated": {
+          "at": "2026-06-02T00:00:00Z",
+          "by": "human:test"
+        },
+        "id": "edge-cases/external-link",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "edge-cases/orphan": {
+        "generated": {
+          "at": "2026-06-03T00:00:00Z",
+          "by": "human:test"
+        },
+        "id": "edge-cases/orphan",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "okf_runtime_samples/README": {
+        "generated": null,
+        "id": "okf_runtime_samples/README",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      }
+    },
+    "summary": {
+      "concept_count": 25,
+      "okf_version": "0.2",
+      "stale_count": 1,
+      "status": {
+        "deprecated": 1,
+        "draft": 1,
+        "stable": 23
+      },
+      "trust_tiers": {
+        "human-reviewed": 18,
+        "unverified": 7
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 24,
+    "mismatched": 0,
+    "missing": 4,
+    "problems": [
+      {
+        "id": "bundles/acme_retail/policies/margin-standard",
+        "resource": "policies/margin-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "bundles/acme_retail/policies/revenue-recognition",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "bundles/acme_retail/policies/revenue-recognition-draft",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      },
+      {
+        "id": "bundles/acme_retail/policies/revenue-recognition-legacy",
+        "resource": "policies/revenue-source.md",
+        "type": "missing"
+      }
+    ]
+  }
+}

@@ -1,0 +1,514 @@
+{
+  "backlinks": {
+    "draft": [
+      {
+        "anchor": null,
+        "raw_target": "draft.md",
+        "source_id": "income-statement",
+        "source_text": "Draft metric",
+        "via": "body"
+      }
+    ],
+    "machine": [
+      {
+        "anchor": null,
+        "raw_target": "machine.md",
+        "source_id": "income-statement",
+        "source_text": "Machine metric",
+        "via": "body"
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "errors": [],
+      "id": "draft",
+      "is_stale": true,
+      "metadata": {
+        "stale_after": "2000-01-01",
+        "status": "draft",
+        "title": "Draft metric",
+        "type": "Metric"
+      },
+      "okf_version": "0.2",
+      "path": "draft.md",
+      "reserved": false,
+      "status": "draft",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "income-statement",
+      "is_stale": false,
+      "metadata": {
+        "attester": {
+          "resource": "attesters/check.py"
+        },
+        "executor": {
+          "receipt": [
+            "job_id"
+          ],
+          "resource": "skills/run.md"
+        },
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "sources": [
+          {
+            "author": "human:analyst",
+            "id": "income-policy",
+            "last_modified": "2026-06-15",
+            "resource": "policies/income.md",
+            "title": "Income policy",
+            "usage_count": 12
+          }
+        ],
+        "stale_after": "2999-12-31",
+        "status": "stable",
+        "title": "Income Statement",
+        "type": "Metric",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": {
+          "at": "2026-07-01T09:00:00Z",
+          "by": "human:analyst"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "income-statement.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "human-reviewed"
+    },
+    {
+      "errors": [],
+      "id": "machine",
+      "is_stale": false,
+      "metadata": {
+        "stale_after": "2999-12-31",
+        "status": "stable",
+        "title": "Machine metric",
+        "type": "Metric",
+        "verified": {
+          "at": "2026-07-02T00:00:00Z",
+          "by": "process:validator"
+        }
+      },
+      "okf_version": "0.2",
+      "path": "machine.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "machine-confirmed"
+    }
+  ],
+  "graph": {
+    "draft": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "income-statement",
+            "target": "draft",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "draft",
+          "income-statement"
+        ],
+        "start": "draft"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "income-statement",
+            "target": "draft",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "draft",
+          "income-statement"
+        ],
+        "start": "draft"
+      }
+    },
+    "income-statement": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "income-statement",
+            "target": "draft",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "income-statement",
+            "target": "machine",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "draft",
+          "income-statement",
+          "machine"
+        ],
+        "start": "income-statement"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "income-statement",
+            "target": "draft",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "income-statement",
+            "target": "machine",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "draft",
+          "income-statement",
+          "machine"
+        ],
+        "start": "income-statement"
+      }
+    },
+    "machine": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "income-statement",
+            "target": "machine",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "income-statement",
+          "machine"
+        ],
+        "start": "machine"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "income-statement",
+            "target": "machine",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "income-statement",
+          "machine"
+        ],
+        "start": "machine"
+      }
+    }
+  },
+  "links": {
+    "draft": [],
+    "income-statement": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "draft.md",
+        "resolved_id": "draft",
+        "resolved_path": "draft.md",
+        "target": "draft.md",
+        "text": "Draft metric",
+        "via": "body"
+      },
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "machine.md",
+        "resolved_id": "machine",
+        "resolved_path": "machine.md",
+        "target": "machine.md",
+        "text": "Machine metric",
+        "via": "body"
+      }
+    ],
+    "machine": []
+  },
+  "lint_links": [],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [],
+        "id": "income-statement",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "attesters/check.py"
+          },
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:analyst",
+              "id": "income-policy",
+              "last_modified": "2026-06-15",
+              "resource": "policies/income.md",
+              "title": "Income policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2999-12-31",
+          "status": "stable",
+          "title": "Income Statement",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "income-statement.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      },
+      {
+        "errors": [],
+        "id": "machine",
+        "is_stale": false,
+        "metadata": {
+          "stale_after": "2999-12-31",
+          "status": "stable",
+          "title": "Machine metric",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-02T00:00:00Z",
+            "by": "process:validator"
+          }
+        },
+        "path": "machine.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "machine-confirmed"
+      }
+    ],
+    "stale_true": [
+      {
+        "errors": [],
+        "id": "draft",
+        "is_stale": true,
+        "metadata": {
+          "stale_after": "2000-01-01",
+          "status": "draft",
+          "title": "Draft metric",
+          "type": "Metric"
+        },
+        "path": "draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      }
+    ],
+    "status_deprecated": [],
+    "status_draft": [
+      {
+        "errors": [],
+        "id": "draft",
+        "is_stale": true,
+        "metadata": {
+          "stale_after": "2000-01-01",
+          "status": "draft",
+          "title": "Draft metric",
+          "type": "Metric"
+        },
+        "path": "draft.md",
+        "reserved": false,
+        "status": "draft",
+        "trust_tier": "unverified"
+      }
+    ],
+    "trust_tier_human_reviewed": [
+      {
+        "errors": [],
+        "id": "income-statement",
+        "is_stale": false,
+        "metadata": {
+          "attester": {
+            "resource": "attesters/check.py"
+          },
+          "executor": {
+            "receipt": [
+              "job_id"
+            ],
+            "resource": "skills/run.md"
+          },
+          "generated": {
+            "at": "2026-06-30T14:00:00Z",
+            "by": "reference_agent/gemini-2.5-pro"
+          },
+          "sources": [
+            {
+              "author": "human:analyst",
+              "id": "income-policy",
+              "last_modified": "2026-06-15",
+              "resource": "policies/income.md",
+              "title": "Income policy",
+              "usage_count": 12
+            }
+          ],
+          "stale_after": "2999-12-31",
+          "status": "stable",
+          "title": "Income Statement",
+          "type": "Metric",
+          "usage_window": {
+            "from": "2026-01-01",
+            "to": "2026-06-30"
+          },
+          "verified": {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        },
+        "path": "income-statement.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "human-reviewed"
+      }
+    ],
+    "trust_tier_machine_confirmed": [
+      {
+        "errors": [],
+        "id": "machine",
+        "is_stale": false,
+        "metadata": {
+          "stale_after": "2999-12-31",
+          "status": "stable",
+          "title": "Machine metric",
+          "type": "Metric",
+          "verified": {
+            "at": "2026-07-02T00:00:00Z",
+            "by": "process:validator"
+          }
+        },
+        "path": "machine.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "machine-confirmed"
+      }
+    ]
+  },
+  "trust": {
+    "concepts": {
+      "draft": {
+        "generated": null,
+        "id": "draft",
+        "is_stale": true,
+        "sources": [],
+        "stale_after": "2000-01-01",
+        "status": "draft",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "income-statement": {
+        "generated": {
+          "at": "2026-06-30T14:00:00Z",
+          "by": "reference_agent/gemini-2.5-pro"
+        },
+        "id": "income-statement",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": "human:analyst",
+            "id": "income-policy",
+            "last_modified": "2026-06-15",
+            "resource": "policies/income.md",
+            "title": "Income policy",
+            "usage_count": 12,
+            "usage_window": null
+          }
+        ],
+        "stale_after": "2999-12-31",
+        "status": "stable",
+        "trust_tier": "human-reviewed",
+        "usage_window": {
+          "from": "2026-01-01",
+          "to": "2026-06-30"
+        },
+        "verified": [
+          {
+            "at": "2026-07-01T09:00:00Z",
+            "by": "human:analyst"
+          }
+        ]
+      },
+      "machine": {
+        "generated": null,
+        "id": "machine",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": "2999-12-31",
+        "status": "stable",
+        "trust_tier": "machine-confirmed",
+        "usage_window": null,
+        "verified": [
+          {
+            "at": "2026-07-02T00:00:00Z",
+            "by": "process:validator"
+          }
+        ]
+      }
+    },
+    "summary": {
+      "concept_count": 3,
+      "okf_version": "0.2",
+      "stale_count": 1,
+      "status": {
+        "draft": 1,
+        "stable": 2
+      },
+      "trust_tiers": {
+        "human-reviewed": 1,
+        "machine-confirmed": 1,
+        "unverified": 1
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 1,
+    "mismatched": 0,
+    "missing": 1,
+    "problems": [
+      {
+        "id": "income-statement",
+        "resource": "policies/income.md",
+        "type": "missing"
+      }
+    ]
+  }
+}

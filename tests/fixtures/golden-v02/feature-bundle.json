@@ -1,0 +1,663 @@
+{
+  "backlinks": {
+    "Target": [
+      {
+        "anchor": null,
+        "raw_target": "Target.md",
+        "source_id": "source",
+        "source_text": "wrong case",
+        "via": "body"
+      }
+    ]
+  },
+  "catalog": [
+    {
+      "errors": [],
+      "id": "duplicate-one",
+      "is_stale": false,
+      "metadata": {
+        "resource": "shared.md",
+        "title": "Duplicate one",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "duplicate-one.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "duplicate-ref",
+      "is_stale": false,
+      "metadata": {
+        "target": "shared.md",
+        "title": "Duplicate reference",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "duplicate-ref.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "duplicate-two",
+      "is_stale": false,
+      "metadata": {
+        "resource": "shared.md",
+        "title": "Duplicate two",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "duplicate-two.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "reports/citations",
+      "is_stale": false,
+      "metadata": {
+        "sources": [
+          {
+            "resource": "../../outside.txt"
+          },
+          {
+            "resource": "/payload.txt"
+          },
+          {
+            "resource": "https://example.test/resource.txt"
+          },
+          {
+            "resource": "payload.txt"
+          }
+        ],
+        "title": "Nested citations",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "reports/citations.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "source",
+      "is_stale": false,
+      "metadata": {
+        "literal.key": "exact",
+        "relations": [
+          {
+            "kind": "depends_on",
+            "target": "target.md"
+          }
+        ],
+        "resource": "source.md",
+        "sources": [
+          {
+            "resource": "missing.txt"
+          },
+          {
+            "resource": "payload.txt",
+            "x-sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+          }
+        ],
+        "title": "Source",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "source.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    },
+    {
+      "errors": [],
+      "id": "target",
+      "is_stale": false,
+      "metadata": {
+        "resource": "target.md",
+        "title": "Target",
+        "type": "Concept"
+      },
+      "okf_version": "0.2",
+      "path": "target.md",
+      "reserved": false,
+      "status": "stable",
+      "trust_tier": "unverified"
+    }
+  ],
+  "graph": {
+    "duplicate-one": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-one"
+        ],
+        "start": "duplicate-one"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-one"
+        ],
+        "start": "duplicate-one",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    },
+    "duplicate-ref": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-ref"
+        ],
+        "start": "duplicate-ref"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-ref"
+        ],
+        "start": "duplicate-ref",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    },
+    "duplicate-two": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-two"
+        ],
+        "start": "duplicate-two"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "duplicate-two"
+        ],
+        "start": "duplicate-two",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    },
+    "reports/citations": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "reports/citations"
+        ],
+        "start": "reports/citations"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "reports/citations"
+        ],
+        "start": "reports/citations",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    },
+    "source": {
+      "default": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "source",
+            "target": "Target",
+            "via": "body"
+          }
+        ],
+        "nodes": [
+          "Target",
+          "source"
+        ],
+        "start": "source"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "forward",
+            "source": "source",
+            "target": "Target",
+            "via": "body"
+          },
+          {
+            "direction": "forward",
+            "source": "source",
+            "target": "target",
+            "via": "relations[kind=depends_on].target"
+          }
+        ],
+        "nodes": [
+          "Target",
+          "source",
+          "target"
+        ],
+        "start": "source",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    },
+    "target": {
+      "default": {
+        "depth": 1,
+        "edges": [],
+        "nodes": [
+          "target"
+        ],
+        "start": "target"
+      },
+      "resolve_resources": {
+        "depth": 1,
+        "edges": [
+          {
+            "direction": "reverse",
+            "source": "source",
+            "target": "target",
+            "via": "relations[kind=depends_on].target"
+          }
+        ],
+        "nodes": [
+          "source",
+          "target"
+        ],
+        "start": "target",
+        "warnings": [
+          {
+            "concepts": [
+              "duplicate-one",
+              "duplicate-two"
+            ],
+            "resource": "shared.md",
+            "type": "duplicate_resource"
+          }
+        ]
+      }
+    }
+  },
+  "links": {
+    "duplicate-one": [],
+    "duplicate-ref": [],
+    "duplicate-two": [],
+    "reports/citations": [],
+    "source": [
+      {
+        "anchor": null,
+        "external": false,
+        "raw_target": "Target.md",
+        "resolved_id": "Target",
+        "resolved_path": "Target.md",
+        "target": "Target.md",
+        "text": "wrong case",
+        "via": "body"
+      }
+    ],
+    "target": []
+  },
+  "lint_links": [
+    {
+      "id": "duplicate-one",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "duplicate-ref",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "duplicate-two",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "reports/citations",
+      "level": "info",
+      "type": "orphan"
+    },
+    {
+      "id": "source",
+      "level": "warning",
+      "target": "Target.md",
+      "type": "broken_link"
+    },
+    {
+      "id": "target",
+      "level": "info",
+      "type": "orphan"
+    }
+  ],
+  "query": {
+    "stale_false": [
+      {
+        "errors": [],
+        "id": "duplicate-one",
+        "is_stale": false,
+        "metadata": {
+          "resource": "shared.md",
+          "title": "Duplicate one",
+          "type": "Concept"
+        },
+        "path": "duplicate-one.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "duplicate-ref",
+        "is_stale": false,
+        "metadata": {
+          "target": "shared.md",
+          "title": "Duplicate reference",
+          "type": "Concept"
+        },
+        "path": "duplicate-ref.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "duplicate-two",
+        "is_stale": false,
+        "metadata": {
+          "resource": "shared.md",
+          "title": "Duplicate two",
+          "type": "Concept"
+        },
+        "path": "duplicate-two.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "reports/citations",
+        "is_stale": false,
+        "metadata": {
+          "sources": [
+            {
+              "resource": "../../outside.txt"
+            },
+            {
+              "resource": "/payload.txt"
+            },
+            {
+              "resource": "https://example.test/resource.txt"
+            },
+            {
+              "resource": "payload.txt"
+            }
+          ],
+          "title": "Nested citations",
+          "type": "Concept"
+        },
+        "path": "reports/citations.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "source",
+        "is_stale": false,
+        "metadata": {
+          "literal.key": "exact",
+          "relations": [
+            {
+              "kind": "depends_on",
+              "target": "target.md"
+            }
+          ],
+          "resource": "source.md",
+          "sources": [
+            {
+              "resource": "missing.txt"
+            },
+            {
+              "resource": "payload.txt",
+              "x-sha256": "5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03"
+            }
+          ],
+          "title": "Source",
+          "type": "Concept"
+        },
+        "path": "source.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      },
+      {
+        "errors": [],
+        "id": "target",
+        "is_stale": false,
+        "metadata": {
+          "resource": "target.md",
+          "title": "Target",
+          "type": "Concept"
+        },
+        "path": "target.md",
+        "reserved": false,
+        "status": "stable",
+        "trust_tier": "unverified"
+      }
+    ],
+    "stale_true": [],
+    "status_deprecated": [],
+    "status_draft": [],
+    "trust_tier_human_reviewed": [],
+    "trust_tier_machine_confirmed": []
+  },
+  "trust": {
+    "concepts": {
+      "duplicate-one": {
+        "generated": null,
+        "id": "duplicate-one",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "duplicate-ref": {
+        "generated": null,
+        "id": "duplicate-ref",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "duplicate-two": {
+        "generated": null,
+        "id": "duplicate-two",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "reports/citations": {
+        "generated": null,
+        "id": "reports/citations",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "../../outside.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "/payload.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "https://example.test/resource.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "payload.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "source": {
+        "generated": null,
+        "id": "source",
+        "is_stale": false,
+        "sources": [
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "missing.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          },
+          {
+            "author": null,
+            "id": null,
+            "last_modified": null,
+            "resource": "payload.txt",
+            "title": null,
+            "usage_count": null,
+            "usage_window": null
+          }
+        ],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      },
+      "target": {
+        "generated": null,
+        "id": "target",
+        "is_stale": false,
+        "sources": [],
+        "stale_after": null,
+        "status": "stable",
+        "trust_tier": "unverified",
+        "usage_window": null,
+        "verified": []
+      }
+    },
+    "summary": {
+      "concept_count": 6,
+      "okf_version": "0.2",
+      "stale_count": 0,
+      "status": {
+        "stable": 6
+      },
+      "trust_tiers": {
+        "unverified": 6
+      }
+    }
+  },
+  "verify_sources": {
+    "checked": 5,
+    "mismatched": 0,
+    "missing": 1,
+    "problems": [
+      {
+        "id": "reports/citations",
+        "resource": "../../outside.txt",
+        "type": "out_of_root"
+      },
+      {
+        "id": "source",
+        "resource": "missing.txt",
+        "type": "missing"
+      }
+    ]
+  }
+}
