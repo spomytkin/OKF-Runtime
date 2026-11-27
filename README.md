@@ -13,7 +13,7 @@ python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e .
 ```
-Verify it works (all 9 tests should pass):
+Verify it works:
 ```bash
 python -m unittest discover -s tests
 okf --help
@@ -31,7 +31,9 @@ from okf_runtime import query, show
 records = query("tests/fixtures/samples", type="BigQuery Table", tags="posts")
 one = show("tests/fixtures/samples", "bundles/stackoverflow/tables/posts_questions")
 ```
-See `references/USAGE.md` for every command (`catalog`, `links`, `backlinks`, `graph`, `compose`, `lint-links`) and the full Python API.
+See `references/USAGE.md` for every command (`catalog`, `links`, `backlinks`, `graph`, `compose`, `lint-links`, `bundle-info`, `conformance`, `computations`) and the full Python API.
+
+OKF v0.3 is supported; v0.2 and unversioned bundles keep working through the §12.1 fallbacks (bare path fields retry from the bundle root, the v0.1 `timestamp` → `generated` fallback, and the v0.2 "type required" error).
 
 ## What it is
 
@@ -39,7 +41,7 @@ See `references/USAGE.md` for every command (`catalog`, `links`, `backlinks`, `g
 - A deterministic metadata and link graph builder
 - A cache-friendly engine for bundle discovery, link analysis, and composition
 - A thin, JSON-friendly runtime API for downstream tools and agent integrations
-- Provenance, lifecycle, and derived trust signals for OKF v0.2 bundles
+- Provenance, lifecycle, and derived trust signals for OKF v0.3 bundles (v0.2 and unversioned bundles via fallbacks)
 
 ## Why this exists
 
@@ -51,7 +53,7 @@ Most existing OKF tooling focuses on authoring, validation, or enrichment. OKF R
 - build forward and reverse link graphs
 - compose temporary topic bundles without mutating source files
 - validate links, anchors, and graph structure
-- derive trust tiers and staleness from v0.2 frontmatter
+- derive trust tiers and staleness from frontmatter (OKF v0.3 rules; v0.2 bundles keep their behaviour through gated fallbacks)
 
 ## Core design principles
 
@@ -69,7 +71,7 @@ The implemented Phase 1 and 1.5 surface includes:
 - markdown/YAML parser and metadata extraction
 - cache-based metadata and link indexes
 - graph construction for forward and reverse links
-- v0.2 nested frontmatter, provenance, trust, lifecycle, and `okf_version` support
+- v0.3 nested frontmatter, provenance, trust, lifecycle, and `okf_version` support, plus `bundle-info`, `conformance`, and `computations` commands
 - lightweight CLI commands for discovery, catalog, query, graph, compose, and linting
 
 ## Repository structure
@@ -86,7 +88,9 @@ The implemented Phase 1 and 1.5 surface includes:
 - `docs/CONTRIBUTING_GUIDE.md` – contribution principles
 - `docs/IMPLEMENTATION_PLAN.md` - phased roadmap and acceptance criteria
 - `docs/EVALS.md` - cross-framework evaluation harness and Langfuse integration
-- `references/OKFmin.SPEC.md` – distilled OKF v0.1 specification
+- `references/OKF-Version-0.3-min.md` – distilled OKF v0.3 specification (default reference)
+- `references/OKF-DELTA-0.2-to-0.3.md` – migration checklist and compatibility notes
+- `references/OKF-Version-0.2-min.md` – legacy OKF v0.2 rules
 - `references/USAGE.md` - implemented functionality and command examples
 
 ## Agent Skills packaging
