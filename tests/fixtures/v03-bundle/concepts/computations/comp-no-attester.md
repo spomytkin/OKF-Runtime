@@ -8,4 +8,4 @@ status: stable
 
 # No attester
 
-Attestable, but with no attester the display is "not attestable".
+Attestable, but with no attester the display is "not attested".

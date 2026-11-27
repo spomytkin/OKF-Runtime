@@ -36,6 +36,11 @@ def parse_document(file: MarkdownFile, root: str | Path, legacy: bool = True) ->
     is_concept = not file.is_reserved and (legacy or has_type)
     if not has_type and not file.is_reserved and legacy:
         errors.append("Missing required non-empty frontmatter field: type")
+    if not legacy and not file.is_reserved:
+        # v0.3 (§3.2): a non-reserved .md without frontmatter is a
+        # non-concept, not an error — drop the missing-frontmatter error
+        # so conformance and lint do not report it either.
+        errors = [error for error in errors if error != "Missing YAML frontmatter block"]
     return Document(
         path=file.path,
         relative_path=file.relative_path,
@@ -424,7 +429,19 @@ def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link
     definitions = {label.casefold(): target for label, target in REFERENCE_DEF_RE.findall(body)}
 
     def append_link(text: str, raw_target: str) -> None:
-        target_without_title = raw_target.split(maxsplit=1)[0]
+        # CommonMark: a link destination may be wrapped in <...>, which
+        # also permits spaces inside it. Strip the brackets before the
+        # title split and the scheme check, so [x](<https://a/b>) is
+        # external and [x](<my file.md>) resolves to "my file.md".
+        raw_target = raw_target.strip()
+        if raw_target.startswith("<"):
+            end = raw_target.find(">")
+            if end != -1:
+                target_without_title = raw_target[1:end]
+            else:
+                target_without_title = raw_target.split(maxsplit=1)[0]
+        else:
+            target_without_title = raw_target.split(maxsplit=1)[0]
         target, anchor = split_anchor(target_without_title)
         is_external = is_external_link(target)
         resolved = None if is_external else resolve_internal_link(target, source_relative_path, root)

@@ -12,12 +12,18 @@ criteria are the migration checklist in `references/OKF-DELTA-0.2-to-0.3.md`
   (`okf_version`, `title`, `description`, `license`, other root keys);
   `license_path` when the license value is a path.
 - `okf conformance` / `api.conformance()`: the two §11.1 rules on v0.3,
-  plus the v0.2 "type required" error on legacy bundles.
+  plus the v0.2 "type required" error on legacy bundles. Rule 2 covers
+  the §8/§9 reserved-file checks: a subdirectory `index.md` or any
+  `log.md` must have no frontmatter, and `log.md` date headings must be
+  ISO 8601 `YYYY-MM-DD`.
   Output `{conformant, errors, warnings}`.
 - `okf computations` / `api.computations()`: Attested Computation discovery
   with the §10.3 locator (file → first fenced block under a `Computation`
   heading → missing), validated parameters, `attestable`, and
-  `attestation_display` (`not attestable` / `not attested`, never `attested`).
+  `attestation_display`: `attested` only when `runtime`, `attester` and a
+  resolvable computation source are all present, `not attested` when
+  attestable but no attester, `not attestable` when the runtime is missing
+  or the source is missing (no runs happen here).
 - `--path-edges` / `--no-path-edges` for `graph` and `compose`
   (`argparse.BooleanOptionalAction`): path-field edges
   (`resource`, `sources[].resource`, `computation`, `executor.resource`,
@@ -30,7 +36,10 @@ criteria are the migration checklist in `references/OKF-DELTA-0.2-to-0.3.md`
   (`parse_warning`) and `conformance` on v0.3 bundles.
 - Reference-style links (`[text][label]`, collapsed `[text][]`, shortcut
   `[text]`); `[[wikilinks]]` stay ignored; links to assets/dirs/non-concepts
-  are valid, not broken.
+  are valid, not broken. Angle-bracketed link destinations (`<...>`) are
+  stripped before the scheme check, so `[x](<https://a/b>)` is external
+  (CommonMark); a `.md` without frontmatter is a non-concept, not an
+  error, on v0.3 bundles (conformance and lint).
 - `okf_runtime/spec.py` (`parse_okf_version`, `is_legacy`),
   `okf_runtime/timestamps.py` (`parse_instant`, `now`), and
   `okf_runtime/paths.py::resolve_path` — one resolver for links and path

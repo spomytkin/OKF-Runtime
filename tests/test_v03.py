@@ -126,6 +126,29 @@ class V03Tests(unittest.TestCase):
         lint = api.lint_links(V03, cache_dir=self.cache_dir)
         self.assertIn({"level": "warning", "type": "non_concept", "id": "README"}, lint)
         self.assertIn({"level": "warning", "type": "non_concept", "id": "LICENSE"}, lint)
+        # §3.2: a v0.3 .md without frontmatter is a non-concept, not an
+        # error — no parse error in lint, no conformance error.
+        self.assertFalse(
+            [issue for issue in lint if issue["type"] == "parse" and issue["id"] == "README"]
+        )
+        result = api.conformance(V03, cache_dir=self.cache_dir)
+        self.assertNotIn("README", {item["id"] for item in result["errors"]})
+        # The same file on a legacy bundle keeps the v0.2 error in both.
+        legacy_lint = api.lint_links(LEGACY, cache_dir=self.cache_dir)
+        self.assertIn(
+            {
+                "level": "error",
+                "type": "parse",
+                "id": "README",
+                "message": "Missing YAML frontmatter block",
+            },
+            legacy_lint,
+        )
+        legacy_result = api.conformance(LEGACY, cache_dir=self.cache_dir)
+        self.assertIn(
+            {"id": "README", "message": "Missing required non-empty frontmatter field: type"},
+            legacy_result["errors"],
+        )
 
     def test_v03_path_edges_default(self) -> None:
         """Path-field edges default ON for v0.3, OFF for legacy (1d)."""
@@ -341,12 +364,37 @@ class V03Tests(unittest.TestCase):
         self.assertEqual(targets.count(("Target", "concepts/target")), 3)
         self.assertIn(("logo", None), targets)
         self.assertFalse(any(link["text"].startswith("[") for link in links))
+        # Angle-bracketed destination (CommonMark): the brackets are
+        # stripped before the scheme check, so this is external.
+        angle = [link for link in links if link["text"] == "x"]
+        self.assertEqual(len(angle), 1)
+        self.assertEqual(angle[0]["target"], "https://a/b")
+        self.assertTrue(angle[0]["external"])
+        self.assertIsNone(angle[0]["resolved_id"])
         backlinks = api.backlinks(V03, "concepts/target", cache_dir=self.cache_dir)
         self.assertIn("concepts/links", {item["source_id"] for item in backlinks})
         lint = api.lint_links(V03, cache_dir=self.cache_dir)
         self.assertFalse(
             [issue for issue in lint if issue["type"] == "broken_link" and issue["id"] == "concepts/links"]
         )
+
+    def test_v03_links_angle_brackets(self) -> None:
+        """Angle-bracketed destinations are stripped before the scheme check (§6)."""
+        external = parser.extract_links("[x](<https://a/b>)", "concepts/links.md", V03)
+        self.assertEqual(len(external), 1)
+        self.assertEqual(external[0].target, "https://a/b")
+        self.assertTrue(external[0].is_external)
+        internal = parser.extract_links("[x](<target.md>)", "concepts/links.md", V03)
+        self.assertEqual(len(internal), 1)
+        self.assertEqual(internal[0].target, "target.md")
+        self.assertFalse(internal[0].is_external)
+        self.assertEqual(internal[0].resolved_path, "concepts/target.md")
+        spaced = parser.extract_links("[x](<my file.md>)", "concepts/links.md", V03)
+        self.assertEqual(spaced[0].target, "my file.md")
+        reference = parser.extract_links("[x]\n\n[x]: <https://a/b>", "concepts/links.md", V03)
+        self.assertEqual(len(reference), 1)
+        self.assertEqual(reference[0].target, "https://a/b")
+        self.assertTrue(reference[0].is_external)
 
     # -- item 5: discovery and files ---------------------------------
 
@@ -377,16 +425,32 @@ class V03Tests(unittest.TestCase):
     def test_v03_conformance(self) -> None:
         """v0.3: the two §11.1 rules only; legacy adds the type-required error."""
         result = api.conformance(V03, cache_dir=self.cache_dir)
-        self.assertTrue(result["conformant"])
-        self.assertEqual(result["errors"], [])
+        # §8/§9 (rule 2): the bundle's log.md and sub/index.md both carry
+        # frontmatter, so they are conformance errors, not warnings.
+        self.assertFalse(result["conformant"])
+        self.assertEqual(
+            {(item["id"], item["message"]) for item in result["errors"]},
+            {
+                ("log", "reserved file must not have frontmatter"),
+                ("sub/index", "reserved file must not have frontmatter"),
+            },
+        )
         warnings = {(item["id"], item["message"]) for item in result["warnings"]}
-        self.assertIn(("log", "reserved file has frontmatter"), warnings)
-        self.assertIn(("sub/index", "reserved file has frontmatter"), warnings)
+        self.assertNotIn(("log", "reserved file has frontmatter"), warnings)
+        self.assertNotIn(("sub/index", "reserved file has frontmatter"), warnings)
         legacy_result = api.conformance(LEGACY, cache_dir=self.cache_dir)
         self.assertFalse(legacy_result["conformant"])
         self.assertIn(
             {"id": "README", "message": "Missing required non-empty frontmatter field: type"},
             legacy_result["errors"],
+        )
+        # §8/§9 checks are v0.3 behaviour: no reserved-frontmatter errors
+        # or warnings leak onto a legacy bundle.
+        self.assertFalse(
+            [item for item in legacy_result["errors"] if "frontmatter" in item["message"] and item["id"] != "README"]
+        )
+        self.assertFalse(
+            [item for item in legacy_result["warnings"] if "frontmatter" in item["message"]]
         )
         # A frontmatter block that does not parse as a mapping breaks conformance.
         root = Path(self._tmp.name) / "bad-bundle"
@@ -398,6 +462,19 @@ class V03Tests(unittest.TestCase):
         self.assertIn(
             {"id": "bad", "message": "Unclosed YAML frontmatter block"}, bad["errors"]
         )
+        # §9: log.md date headings must be ISO 8601 YYYY-MM-DD.
+        log_root = Path(self._tmp.name) / "log-bundle"
+        log_root.mkdir(parents=True)
+        (log_root / "index.md").write_text('---\nokf_version: "0.3"\n---\n', encoding="utf-8")
+        (log_root / "log.md").write_text("# Log\n\n## 27 Nov 2026\n\n* entry\n", encoding="utf-8")
+        bad_log = api.conformance(log_root, cache_dir=self.cache_dir)
+        self.assertFalse(bad_log["conformant"])
+        self.assertIn(
+            {"id": "log", "message": "log.md heading is not an ISO 8601 date: '27 Nov 2026'"},
+            bad_log["errors"],
+        )
+        (log_root / "log.md").write_text("# Log\n\n## 2026-11-27\n\n* entry\n", encoding="utf-8")
+        self.assertTrue(api.conformance(log_root, cache_dir=self.cache_dir)["conformant"])
 
     # -- item 6: Attested Computation --------------------------------
 
@@ -409,7 +486,7 @@ class V03Tests(unittest.TestCase):
             {"kind": "file", "path": "concepts/computations/calc.py"},
         )
         self.assertTrue(results["concepts/computations/comp-file"]["attestable"])
-        self.assertEqual(results["concepts/computations/comp-file"]["attestation_display"], "not attested")
+        self.assertEqual(results["concepts/computations/comp-file"]["attestation_display"], "attested")
         self.assertEqual(
             results["concepts/computations/comp-file"]["parameters"],
             [{"name": "year", "type": "integer", "required": True}],
@@ -419,6 +496,7 @@ class V03Tests(unittest.TestCase):
         self.assertEqual(inline["computation_source"]["language"], "python")
         self.assertEqual(inline["computation_source"]["code"], 'print("inline value")\n')
         self.assertTrue(inline["attestable"])
+        self.assertEqual(inline["attestation_display"], "attested")
         # A single-mapping parameters value is one parameter, required False.
         self.assertEqual(inline["parameters"], [{"name": "year", "type": "integer", "required": False}])
         indented = results["concepts/computations/comp-indented"]
@@ -427,14 +505,17 @@ class V03Tests(unittest.TestCase):
         self.assertEqual(indented["attestation_display"], "not attestable")
         no_attester = results["concepts/computations/comp-no-attester"]
         self.assertTrue(no_attester["attestable"])
-        self.assertEqual(no_attester["attestation_display"], "not attestable")
+        self.assertEqual(no_attester["attestation_display"], "not attested")
         no_runtime = results["concepts/computations/comp-no-runtime"]
         self.assertFalse(no_runtime["attestable"])
         self.assertEqual(no_runtime["attestation_display"], "not attestable")
         bad_params = results["concepts/computations/comp-bad-params"]
         self.assertEqual(bad_params["parameters"], [{"name": "ok", "type": "string", "required": False}])
         self.assertEqual(bad_params["warnings"].count("invalid parameter"), 2)
-        self.assertNotIn("attested", {item["attestation_display"] for item in results.values()})
+        self.assertEqual(
+            {item["attestation_display"] for item in results.values()},
+            {"attested", "not attested", "not attestable"},
+        )
         cli_results = self._run("computations")
         self.assertEqual({item["id"] for item in cli_results}, set(results))
 

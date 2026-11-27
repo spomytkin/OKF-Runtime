@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from datetime import date
 from pathlib import Path, PurePosixPath
 from typing import Any
 
@@ -188,6 +189,24 @@ def _looks_like_path(value: str) -> bool:
     return len(suffix) > 1 and suffix[1].isalpha()
 
 
+def _log_heading_errors(body: str) -> list[str]:
+    """§9: log.md date headings must be ISO 8601 YYYY-MM-DD dates."""
+    errors: list[str] = []
+    for line in body.splitlines():
+        match = re.match(r"#{2,}\s+(.+?)\s*#*\s*$", line)
+        if not match:
+            continue
+        heading = match.group(1)
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", heading):
+            errors.append(f"log.md heading is not an ISO 8601 date: {heading!r}")
+            continue
+        try:
+            date.fromisoformat(heading)
+        except ValueError:
+            errors.append(f"log.md heading is not a valid ISO 8601 date: {heading!r}")
+    return errors
+
+
 def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
     errors: list[dict[str, str]] = []
@@ -202,10 +221,18 @@ def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
                 continue
             if legacy or error != "Missing required non-empty frontmatter field: type":
                 errors.append({"id": concept_id, "message": error})
-        if document.is_reserved and document.metadata and document.relative_path != "index.md":
-            warnings.append({"id": concept_id, "message": "reserved file has frontmatter"})
-        for warning in document.warnings:
-            warnings.append({"id": concept_id, "message": warning})
+        if not legacy:
+            # §11.1 rule 2 (§8/§9): a subdirectory index.md or any log.md
+            # must have no frontmatter, and log.md date headings must be
+            # ISO 8601. Root index.md may carry frontmatter (§8.1).
+            if document.is_reserved and document.relative_path != "index.md":
+                if document.metadata:
+                    errors.append({"id": concept_id, "message": "reserved file must not have frontmatter"})
+                if document.relative_path.rsplit("/", 1)[-1] == "log.md":
+                    for message in _log_heading_errors(document.body):
+                        errors.append({"id": concept_id, "message": message})
+            for warning in document.warnings:
+                warnings.append({"id": concept_id, "message": warning})
     return {"conformant": not errors, "errors": errors, "warnings": warnings}
 
 
@@ -226,14 +253,28 @@ def computations(root: str | Path = ".", cache_dir: str | Path | None = None) ->
                 continue
             valid_params.append({**item, "required": bool(item.get("required", False))})
         source = _computation_source(index, document)
-        attestable = bool(document.metadata.get("runtime")) and source["kind"] != "missing"
+        has_runtime = bool(document.metadata.get("runtime"))
+        has_attester = bool(document.metadata.get("attester"))
+        attestable = has_runtime and source["kind"] != "missing"
+        # §10.2/§10.3: display "attested" only when runtime, attester and
+        # a resolvable computation source are all present; "not attested"
+        # when the computation is attestable but has no attester;
+        # "not attestable" when the runtime is missing or the source is
+        # missing. No runs happen here, so "attested" records only that
+        # the three are present in the bundle.
+        if not attestable:
+            display = "not attestable"
+        elif has_attester:
+            display = "attested"
+        else:
+            display = "not attested"
         results.append({
             "id": concept_id,
             "runtime": document.metadata.get("runtime"),
             "parameters": valid_params,
             "computation_source": source,
             "attestable": attestable,
-            "attestation_display": "not attested" if attestable and document.metadata.get("attester") else "not attestable",
+            "attestation_display": display,
             "warnings": warnings,
         })
     return results

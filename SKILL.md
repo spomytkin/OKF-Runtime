@@ -137,7 +137,7 @@ python -B -m okf_runtime.cli --root tests/fixtures/samples conformance
 ```
 
 ### 13. `computations`
-List Attested Computation concepts with their `runtime`, validated `parameters` (`name`/`type` required, `required` defaults to `false`), `computation_source` (`file` / `inline` / `missing` per the §10.3 locator), `attestable`, and `attestation_display` (`not attestable` or `not attested` — never `attested`; no runs happen here).
+List Attested Computation concepts with their `runtime`, validated `parameters` (`name`/`type` required, `required` defaults to `false`), `computation_source` (`file` / `inline` / `missing` per the §10.3 locator), `attestable`, and `attestation_display`: `attested` only when `runtime`, `attester` and a resolvable computation source are all present, `not attested` when attestable but no attester, `not attestable` when the runtime is missing or the source is missing (no runs happen here).
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/samples computations
 ```

@@ -17,5 +17,7 @@ Wikilinks are not links: [[target.md]] and [[Target]].
 
 Asset link: [logo](../asset.png).
 
+Angle-bracket external link: [x](<https://a/b>).
+
 [tgt]: target.md
 [Target]: target.md
