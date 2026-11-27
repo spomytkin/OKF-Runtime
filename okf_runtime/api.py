@@ -170,11 +170,22 @@ def bundle_info(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
     metadata = dict(document.metadata) if document else {}
     result = {"okf_version": index.okf_version, **metadata}
     license_value = metadata.get("license")
-    if isinstance(license_value, str) and ("/" in license_value or license_value.startswith(".")):
+    if isinstance(license_value, str) and _looks_like_path(license_value):
         resolved, external = resolve_path("index.md", license_value)
         if not external and resolved:
             result["license_path"] = resolved
     return result
+
+
+def _looks_like_path(value: str) -> bool:
+    """True when a license value looks like a bundle path (§8.1) rather
+    than an SPDX expression: it contains a slash, starts with a dot, or
+    ends in a letter-led file extension (so CC-BY-4.0 / Apache-2.0 stay
+    SPDX expressions, while LICENSE.md is a path)."""
+    if "/" in value or value.startswith("."):
+        return True
+    suffix = PurePosixPath(value).suffix
+    return len(suffix) > 1 and suffix[1].isalpha()
 
 
 def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:

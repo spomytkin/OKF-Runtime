@@ -245,7 +245,10 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], list[str]]:
         line_number, _, _ = lines[next_index]
         errors.append(f"Invalid frontmatter line {line_number}: unexpected indentation")
         next_index += 1
-    return value if isinstance(value, dict) else {}, errors
+    if not isinstance(value, dict):
+        errors.append("Frontmatter must be a mapping")
+        return {}, errors
+    return value, errors
 
 
 def _parse_frontmatter_block(
