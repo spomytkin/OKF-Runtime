@@ -16,7 +16,7 @@ MANIFEST_FILE = "manifest.json"
 METADATA_FILE = "metadata.json"
 LINKS_FILE = "links.json"
 REVERSE_LINKS_FILE = "reverse_links.json"
-CACHE_SCHEMA_VERSION = 2
+CACHE_SCHEMA_VERSION = 3
 
 
 def load_or_rebuild(root: str | Path, cache_dir: str | Path | None = None) -> RuntimeIndex:
@@ -67,6 +67,7 @@ def rebuild_cache(root: Path, cache_dir: Path | None = None) -> RuntimeIndex:
                 "trust_index": trust_index,
                 "trust_tier_index": trust_tier_index,
                 "okf_version": detect_okf_version(documents),
+                "bundle_metadata": documents.get("index").metadata if documents.get("index") else {},
             },
             indent=2,
             sort_keys=True,
@@ -129,6 +130,8 @@ def document_to_json(document: Document) -> dict[str, Any]:
         "relative_path": document.relative_path,
         "concept_id": document.concept_id,
         "reserved": document.is_reserved,
+        "is_concept": document.is_concept,
+        "legacy": document.legacy,
         "metadata": document.metadata,
         "body": document.body,
         "trust": document.trust.to_dict(),
@@ -145,6 +148,7 @@ def document_to_json(document: Document) -> dict[str, Any]:
         ],
         "anchors": document.anchors,
         "errors": document.errors,
+        "warnings": document.warnings,
     }
 
 
@@ -168,10 +172,13 @@ def document_from_json(root: Path, payload: dict[str, Any]) -> Document:
         is_reserved=bool(payload.get("reserved")),
         metadata=payload.get("metadata", {}),
         body=payload.get("body", ""),
-        trust=parser.extract_trust_signals(payload.get("metadata", {})),
+        trust=parser.extract_trust_signals(payload.get("metadata", {}), warnings=payload.get("warnings", [])),
         links=links,
         anchors=payload.get("anchors", []),
         errors=payload.get("errors", []),
+        warnings=payload.get("warnings", []),
+        is_concept=bool(payload.get("is_concept", not bool(payload.get("reserved")))),
+        legacy=bool(payload.get("legacy", True)),
     )
 
 

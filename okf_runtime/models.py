@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from datetime import date
 from pathlib import Path
 from typing import Any
 
@@ -73,21 +72,27 @@ class TrustSignals:
     stale_after: str | None = None
     sources: list[Source] = field(default_factory=list)
     usage_window: dict[str, str] | None = None
+    verified_current: list[ActorEvent] = field(default_factory=list)
+    verified_history: list[ActorEvent] = field(default_factory=list)
+    stale_after_malformed: bool = False
 
     @property
     def trust_tier(self) -> str:
-        if not self.verified:
+        if not self.verified_current:
             return "unverified"
-        if any(event.by.startswith("human:") for event in self.verified):
+        if any(event.by.startswith("human:") for event in self.verified_current):
             return "human-reviewed"
         return "machine-confirmed"
 
     @property
     def is_stale(self) -> bool:
+        if self.stale_after_malformed:
+            return True
         if not self.stale_after:
             return False
+        from .timestamps import now, parse_instant
         try:
-            return date.today() >= date.fromisoformat(self.stale_after)
+            return now() >= parse_instant(self.stale_after)
         except ValueError:
             return False
 
@@ -109,6 +114,9 @@ class Document:
     links: list[Link] = field(default_factory=list)
     anchors: list[str] = field(default_factory=list)
     errors: list[str] = field(default_factory=list)
+    warnings: list[str] = field(default_factory=list)
+    is_concept: bool = True
+    legacy: bool = True
 
     @property
     def title(self) -> str | None:
@@ -132,6 +140,10 @@ class Document:
     def status(self) -> str:
         return self.trust.status
 
+    @property
+    def is_current(self) -> bool:
+        return self.status == "stable"
+
     def to_catalog_record(self) -> dict[str, Any]:
         return {
             "id": self.concept_id,
@@ -141,7 +153,9 @@ class Document:
             "trust_tier": self.trust_tier,
             "status": self.status,
             "is_stale": self.is_stale,
+            "is_current": self.is_current,
             "errors": self.errors,
+            "warnings": self.warnings,
         }
 
 

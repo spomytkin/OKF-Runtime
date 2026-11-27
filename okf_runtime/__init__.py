@@ -2,8 +2,11 @@
 
 from .api import (
     backlinks,
+    bundle_info,
     catalog,
     compose,
+    computations,
+    conformance,
     discover,
     graph,
     lint_links,
@@ -15,8 +18,11 @@ from .api import (
 
 __all__ = [
     "backlinks",
+    "bundle_info",
     "catalog",
     "compose",
+    "computations",
+    "conformance",
     "discover",
     "graph",
     "lint_links",

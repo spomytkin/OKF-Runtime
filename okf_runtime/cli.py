@@ -53,6 +53,7 @@ def build_parser() -> argparse.ArgumentParser:
     graph_parser.add_argument("--depth", type=int, default=1)
     graph_parser.add_argument("--resolve-resources", action="store_true")
     graph_parser.add_argument("--via", action="append", default=[], help="Traverse edges with this source key path (repeatable).")
+    graph_parser.add_argument("--path-edges", action=argparse.BooleanOptionalAction, default=None)
 
     compose_parser = subparsers.add_parser("compose")
     compose_parser.add_argument("topic")
@@ -60,12 +61,16 @@ def build_parser() -> argparse.ArgumentParser:
     compose_parser.add_argument("--depth", type=int, default=1)
     compose_parser.add_argument("--min-trust", choices=["unverified", "machine-confirmed", "human-reviewed"])
     compose_parser.add_argument("--resolve-resources", action="store_true")
+    compose_parser.add_argument("--path-edges", action=argparse.BooleanOptionalAction, default=None)
 
     trust_parser = subparsers.add_parser("trust")
     trust_parser.add_argument("concept_id", nargs="?")
 
     subparsers.add_parser("lint-links")
     subparsers.add_parser("verify-sources")
+    subparsers.add_parser("bundle-info")
+    subparsers.add_parser("conformance")
+    subparsers.add_parser("computations")
     return parser
 
 
@@ -84,15 +89,21 @@ def run_command(args: argparse.Namespace) -> Any:
     if args.command == "backlinks":
         return api.backlinks(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "graph":
-        return api.graph(args.root, args.concept_id, depth=args.depth, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir, via=args.via or None)
+        return api.graph(args.root, args.concept_id, depth=args.depth, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir, via=args.via or None, path_edges=args.path_edges)
     if args.command == "compose":
-        return api.compose(args.root, args.topic, output_dir=args.output_dir, depth=args.depth, min_trust=args.min_trust, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir)
+        return api.compose(args.root, args.topic, output_dir=args.output_dir, depth=args.depth, min_trust=args.min_trust, resolve_resources=args.resolve_resources, cache_dir=args.cache_dir, path_edges=args.path_edges)
     if args.command == "trust":
         return api.trust(args.root, args.concept_id, cache_dir=args.cache_dir)
     if args.command == "lint-links":
         return api.lint_links(args.root, cache_dir=args.cache_dir)
     if args.command == "verify-sources":
         return api.verify_sources(args.root, cache_dir=args.cache_dir)
+    if args.command == "bundle-info":
+        return api.bundle_info(args.root, cache_dir=args.cache_dir)
+    if args.command == "conformance":
+        return api.conformance(args.root, cache_dir=args.cache_dir)
+    if args.command == "computations":
+        return api.computations(args.root, cache_dir=args.cache_dir)
     raise ValueError(f"Unknown command: {args.command}")
 
 

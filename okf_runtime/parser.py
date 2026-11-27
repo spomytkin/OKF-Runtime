@@ -8,21 +8,28 @@ from typing import Any
 from urllib.parse import unquote, urlparse
 
 from .models import ActorEvent, Document, Link, MarkdownFile, Source, TrustSignals
-from .paths import normalize_bundle_path
+from .paths import normalize_bundle_path, resolve_path
+from .spec import is_legacy
+from .timestamps import parse_instant
 
 FRONTMATTER_BOUNDARY = "---"
 LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
+REFERENCE_DEF_RE = re.compile(r"^\s*\[([^\]]+)\]:\s*(\S+).*$", re.MULTILINE)
+REFERENCE_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\](?:\[([^\]]*)\])")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$", re.MULTILINE)
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 
 
-def parse_document(file: MarkdownFile, root: str | Path) -> Document:
+def parse_document(file: MarkdownFile, root: str | Path, legacy: bool = True) -> Document:
     root_path = Path(root).resolve()
     text = file.path.read_text(encoding="utf-8")
     metadata, body, errors = split_frontmatter(text, allow_missing=file.is_reserved)
+    warnings = [error.removeprefix("warning: ") for error in errors if error.startswith("warning: ")]
+    errors = [error for error in errors if not error.startswith("warning: ")]
     links = extract_links(body, file.relative_path, root_path)
     anchors = extract_anchors(body)
-    if not file.is_reserved and not str(metadata.get("type", "")).strip():
+    is_concept = not file.is_reserved and bool(str(metadata.get("type", "")).strip())
+    if not is_concept and not file.is_reserved and legacy:
         errors.append("Missing required non-empty frontmatter field: type")
     return Document(
         path=file.path,
@@ -31,18 +38,27 @@ def parse_document(file: MarkdownFile, root: str | Path) -> Document:
         is_reserved=file.is_reserved,
         metadata=metadata,
         body=body,
-        trust=extract_trust_signals(metadata),
+        trust=extract_trust_signals(metadata, legacy, warnings),
         links=links,
         anchors=anchors,
         errors=errors,
+        warnings=warnings,
+        is_concept=is_concept,
+        legacy=legacy,
     )
 
 
 def parse_documents(files: list[MarkdownFile], root: str | Path) -> dict[str, Document]:
-    return {item.concept_id: parse_document(item, root) for item in files}
+    root_index = next((item for item in files if item.relative_path == "index.md"), None)
+    version = None
+    if root_index is not None:
+        version, _, _ = split_frontmatter(root_index.path.read_text(encoding="utf-8"), allow_missing=True)
+        version = version.get("okf_version") if isinstance(version, dict) else None
+    legacy = is_legacy(str(version) if version is not None else None)
+    return {item.concept_id: parse_document(item, root, legacy) for item in files}
 
 
-def extract_trust_signals(metadata: dict[str, Any]) -> TrustSignals:
+def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warnings: list[str] | None = None) -> TrustSignals:
     """Normalize optional v0.2 trust frontmatter into a stable value object."""
 
     def event(value: Any) -> ActorEvent | None:
@@ -51,13 +67,43 @@ def extract_trust_signals(metadata: dict[str, Any]) -> TrustSignals:
         at = value.get("at")
         return ActorEvent(by=str(value["by"]), at=str(at) if at is not None else None)
 
+    warnings = warnings if warnings is not None else []
     generated = event(metadata.get("generated"))
-    if generated is None and metadata.get("timestamp") is not None:
+    if generated is None and legacy and metadata.get("timestamp") is not None:
         generated = ActorEvent(by="process:legacy", at=str(metadata["timestamp"]))
     verified_raw = metadata.get("verified", [])
     if isinstance(verified_raw, dict):
         verified_raw = [verified_raw]
     verified = [item for value in verified_raw if (item := event(value))] if isinstance(verified_raw, list) else []
+    verified_current: list[ActorEvent] = []
+    verified_history: list[ActorEvent] = []
+    generated_at = None
+    if generated and generated.at:
+        try:
+            generated_at = parse_instant(generated.at)
+        except ValueError:
+            warnings.append("malformed generated.at")
+    for item in verified:
+        if not item.at:
+            warnings.append("verified entry missing at")
+            continue
+        try:
+            event_at = parse_instant(item.at)
+        except ValueError:
+            warnings.append("malformed verified.at")
+            continue
+        if generated_at is None or event_at >= generated_at:
+            verified_current.append(item)
+        else:
+            verified_history.append(item)
+    stale_after = _optional_string(metadata.get("stale_after"))
+    stale_malformed = False
+    if stale_after:
+        try:
+            parse_instant(stale_after)
+        except ValueError:
+            stale_malformed = True
+            warnings.append("malformed stale_after")
 
     window = metadata.get("usage_window")
     usage_window = {str(key): str(value) for key, value in window.items()} if isinstance(window, dict) else None
@@ -87,9 +133,12 @@ def extract_trust_signals(metadata: dict[str, Any]) -> TrustSignals:
         generated=generated,
         verified=verified,
         status=str(metadata.get("status", "stable")),
-        stale_after=_optional_string(metadata.get("stale_after")),
+        stale_after=stale_after,
         sources=sources,
         usage_window=usage_window,
+        verified_current=verified_current,
+        verified_history=verified_history,
+        stale_after_malformed=stale_malformed,
     )
 
 
@@ -100,14 +149,14 @@ def _optional_string(value: Any) -> str | None:
 def split_frontmatter(text: str, allow_missing: bool = False) -> tuple[dict[str, Any], str, list[str]]:
     errors: list[str] = []
     lines = text.splitlines()
-    if not lines or lines[0].strip() != FRONTMATTER_BOUNDARY:
+    if not lines or lines[0] != FRONTMATTER_BOUNDARY:
         if allow_missing:
             return {}, text, errors
         return {}, text, ["Missing YAML frontmatter block"]
 
     end_index: int | None = None
     for index, line in enumerate(lines[1:], start=1):
-        if line.strip() == FRONTMATTER_BOUNDARY:
+        if line == FRONTMATTER_BOUNDARY:
             end_index = index
             break
 
@@ -130,6 +179,9 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], list[str]]:
     """
 
     errors: list[str] = []
+    for line in text.splitlines():
+        if re.search(r":\s*!\w+", line):
+            errors.append("warning: custom YAML tag preserved as raw text")
     lines = [
         (number, len(raw_line) - len(raw_line.lstrip(" ")), raw_line.strip())
         for number, raw_line in enumerate(text.splitlines(), start=1)
@@ -220,6 +272,8 @@ def _parse_frontmatter_block(
             errors.append(f"Invalid frontmatter line {line_number}: empty key")
             index += 1
             continue
+        if key in result:
+            errors.append(f"duplicate_key: {key}")
         index += 1
         if raw_value:
             value = _parse_value(raw_value)
@@ -317,9 +371,9 @@ def _split_inline_list(value: str) -> list[str]:
 
 def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link]:
     links: list[Link] = []
-    for match in LINK_RE.finditer(body):
-        text = match.group(1)
-        raw_target = match.group(2).strip()
+    definitions = {label.casefold(): target for label, target in REFERENCE_DEF_RE.findall(body)}
+
+    def append_link(text: str, raw_target: str) -> None:
         target_without_title = raw_target.split(maxsplit=1)[0]
         target, anchor = split_anchor(target_without_title)
         is_external = is_external_link(target)
@@ -334,6 +388,13 @@ def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link
                 resolved_path=resolved,
             )
         )
+
+    for match in LINK_RE.finditer(body):
+        append_link(match.group(1), match.group(2).strip())
+    for match in REFERENCE_LINK_RE.finditer(body):
+        label = (match.group(2) or match.group(1)).casefold()
+        if label in definitions:
+            append_link(match.group(1), definitions[label])
     return links
 
 

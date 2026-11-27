@@ -11,7 +11,7 @@ from .models import Document
 def build_forward_links(documents: dict[str, Document]) -> dict[str, list[dict[str, Any]]]:
     forward: dict[str, list[dict[str, Any]]] = {}
     for concept_id, document in sorted(documents.items()):
-        if document.is_reserved:
+        if not document.is_concept:
             continue
         forward[concept_id] = [
             {
@@ -21,7 +21,12 @@ def build_forward_links(documents: dict[str, Document]) -> dict[str, list[dict[s
                 "anchor": link.anchor,
                 "external": link.is_external,
                 "resolved_path": link.resolved_path,
-                "resolved_id": path_to_concept_id(link.resolved_path),
+                "resolved_id": path_to_concept_id(link.resolved_path)
+                if document.legacy else (
+                    path_to_concept_id(link.resolved_path)
+                    if link.resolved_path and path_to_concept_id(link.resolved_path) in documents
+                    and documents[path_to_concept_id(link.resolved_path)].is_concept else None
+                ),
                 "via": "body",
             }
             for link in document.links
@@ -63,18 +68,22 @@ def lint_links(
     reverse_links: dict[str, list[dict[str, Any]]],
 ) -> list[dict[str, Any]]:
     issues: list[dict[str, Any]] = []
-    valid_paths = {document.relative_path for document in documents.values()}
+    valid_paths = {document.relative_path for document in documents.values() if document.is_concept}
 
     for concept_id, document in documents.items():
         for error in document.errors:
             issues.append({"level": "error", "type": "parse", "id": concept_id, "message": error})
+        for warning in document.warnings:
+            issues.append({"level": "warning", "type": "parse_warning", "id": concept_id, "message": warning})
+        if not document.is_concept and not document.is_reserved:
+            issues.append({"level": "warning", "type": "non_concept", "id": concept_id})
 
     for source_id, items in forward_links.items():
         for link in items:
             if link["external"]:
                 continue
             resolved_path = link["resolved_path"]
-            if resolved_path is None or resolved_path not in valid_paths:
+            if resolved_path is None:
                 issues.append(
                     {
                         "level": "warning",
@@ -83,6 +92,13 @@ def lint_links(
                         "target": link["raw_target"],
                     }
                 )
+                continue
+            if resolved_path not in valid_paths:
+                if not resolved_path.endswith(".md"):
+                    continue
+                if path_to_concept_id(resolved_path) in documents:
+                    continue
+                issues.append({"level": "warning", "type": "broken_link", "id": source_id, "target": link["raw_target"]})
                 continue
             anchor = link.get("anchor")
             if anchor:
@@ -99,7 +115,7 @@ def lint_links(
                     )
 
     for concept_id, document in documents.items():
-        if document.is_reserved:
+        if not document.is_concept:
             continue
         if not forward_links.get(concept_id) and not reverse_links.get(concept_id):
             issues.append({"level": "info", "type": "orphan", "id": concept_id})

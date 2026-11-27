@@ -12,7 +12,7 @@ def build_metadata_index(documents: dict[str, Document]) -> dict[str, dict[str, 
     return {
         concept_id: document.to_catalog_record()
         for concept_id, document in sorted(documents.items())
-        if not document.is_reserved
+        if document.is_concept
     }
 
 
@@ -43,7 +43,7 @@ def build_trust_index(documents: dict[str, Document]) -> tuple[dict[str, dict[st
     trust_index = {
         concept_id: document.trust.to_dict()
         for concept_id, document in sorted(documents.items())
-        if not document.is_reserved
+        if document.is_concept
     }
     tier_index: dict[str, list[str]] = {}
     for concept_id, trust in trust_index.items():

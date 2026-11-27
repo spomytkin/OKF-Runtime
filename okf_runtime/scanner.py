@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .models import MarkdownFile
 
-EXCLUDED_DIRS = {".git", ".hg", ".svn", ".cache", "__pycache__", ".pytest_cache"}
+EXCLUDED_DIRS = {"__pycache__"}
 
 
 def normalize_root(root: str | Path) -> Path:
@@ -18,7 +18,7 @@ def is_excluded(path: Path, root: Path) -> bool:
         parts = path.relative_to(root).parts
     except ValueError:
         return True
-    return any(part in EXCLUDED_DIRS for part in parts)
+    return any(part in EXCLUDED_DIRS or part.startswith(".") for part in parts)
 
 
 def scan_markdown(root: str | Path) -> list[MarkdownFile]:
@@ -33,6 +33,10 @@ def scan_markdown(root: str | Path) -> list[MarkdownFile]:
     files: list[MarkdownFile] = []
     for path in sorted(base.rglob("*.md")):
         if is_excluded(path, base):
+            continue
+        try:
+            path.resolve().relative_to(base.resolve())
+        except ValueError:
             continue
         stat = path.stat()
         rel = path.relative_to(base).as_posix()

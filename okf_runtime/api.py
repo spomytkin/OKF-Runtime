@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import re
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlparse
@@ -13,6 +14,7 @@ from .graph import neighborhood
 from .links import lint_links as lint_link_index
 from .links import build_reverse_links
 from .paths import normalize_bundle_path
+from .spec import is_legacy
 
 
 def discover(root: str | Path = ".") -> list[dict[str, object]]:
@@ -22,7 +24,7 @@ def discover(root: str | Path = ".") -> list[dict[str, object]]:
 def catalog(root: str | Path = ".", include_links: bool = False, cache_dir: str | Path | None = None) -> list[dict[str, Any]]:
     index = cache.load_or_rebuild(root, cache_dir)
     records = [
-        {**record, **({"okf_version": index.okf_version} if index.okf_version is not None else {})}
+        {**_compat_record(record, index.okf_version), **({"okf_version": index.okf_version} if index.okf_version is not None else {})}
         for record in index.metadata_index.values()
     ]
     if include_links:
@@ -35,7 +37,7 @@ def catalog(root: str | Path = ".", include_links: bool = False, cache_dir: str 
 
 def query(root: str | Path = ".", cache_dir: str | Path | None = None, **filters: str) -> list[dict[str, Any]]:
     index = cache.load_or_rebuild(root, cache_dir)
-    return metadata_module.query_metadata(index.metadata_index, filters)
+    return [_compat_record(record, index.okf_version) for record in metadata_module.query_metadata(index.metadata_index, filters)]
 
 
 def show(root: str | Path, concept_id: str, include_body: bool = False, cache_dir: str | Path | None = None) -> dict[str, Any]:
@@ -71,6 +73,7 @@ def graph(
     resolve_resources: bool = False,
     cache_dir: str | Path | None = None,
     via: list[str] | None = None,
+    path_edges: bool | None = None,
 ) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
     normalized = concept_id.removesuffix(".md")
@@ -81,6 +84,10 @@ def graph(
         forward, reverse, warnings = resource_edges(index)
     else:
         forward, reverse = index.forward_links, index.reverse_links
+    if path_edges is None:
+        path_edges = not is_legacy(index.okf_version)
+    if path_edges:
+        forward, reverse = add_path_edges(index, forward)
     result = neighborhood(normalized, forward, reverse, depth=depth, via=via)
     if warnings:
         result["warnings"] = warnings
@@ -95,12 +102,17 @@ def compose(
     min_trust: str | None = None,
     resolve_resources: bool = False,
     cache_dir: str | Path | None = None,
+    path_edges: bool | None = None,
 ) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
     forward, reverse = index.forward_links, index.reverse_links
     warnings: list[dict[str, Any]] = []
     if resolve_resources:
         forward, reverse, warnings = resource_edges(index)
+    if path_edges is None:
+        path_edges = not is_legacy(index.okf_version)
+    if path_edges:
+        forward, reverse = add_path_edges(index, forward)
     return compose_bundle(
         index, topic, output_dir=output_dir, depth=depth, min_trust=min_trust,
         forward_links=forward, reverse_links=reverse, warnings=warnings,
@@ -114,7 +126,7 @@ def trust(root: str | Path = ".", concept_id: str | None = None, cache_dir: str 
         document = index.documents.get(normalized)
         if document is None or document.is_reserved:
             raise KeyError(f"Unknown concept: {concept_id}")
-        return {"id": normalized, **document.trust.to_dict()}
+        return {"id": normalized, **_compat_trust(document.trust.to_dict(), index.okf_version)}
     statuses: dict[str, int] = {}
     stale_count = 0
     for trust_data in index.trust_index.values():
@@ -129,9 +141,108 @@ def trust(root: str | Path = ".", concept_id: str | None = None, cache_dir: str 
     }
 
 
+def _compat_record(record: dict[str, Any], version: str | None) -> dict[str, Any]:
+    result = dict(record)
+    if is_legacy(version):
+        result.pop("warnings", None)
+        result.pop("is_current", None)
+    return result
+
+
+def _compat_trust(value: dict[str, Any], version: str | None) -> dict[str, Any]:
+    if not is_legacy(version):
+        return value
+    result = dict(value)
+    result.pop("verified_current", None)
+    result.pop("verified_history", None)
+    result.pop("stale_after_malformed", None)
+    return result
+
+
 def lint_links(root: str | Path = ".", cache_dir: str | Path | None = None) -> list[dict[str, Any]]:
     index = cache.load_or_rebuild(root, cache_dir)
     return lint_link_index(index.documents, index.forward_links, index.reverse_links)
+
+
+def bundle_info(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
+    index = cache.load_or_rebuild(root, cache_dir)
+    document = index.documents.get("index")
+    metadata = dict(document.metadata) if document else {}
+    result = {"okf_version": index.okf_version, **metadata}
+    license_value = metadata.get("license")
+    if isinstance(license_value, str) and ("/" in license_value or license_value.startswith(".")):
+        resolved = normalize_bundle_path("index.md", license_value)
+        result["license_path"] = resolved
+    return result
+
+
+def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
+    index = cache.load_or_rebuild(root, cache_dir)
+    errors: list[dict[str, str]] = []
+    warnings: list[dict[str, str]] = []
+    legacy = is_legacy(index.okf_version)
+    for concept_id, document in index.documents.items():
+        for error in document.errors:
+            if legacy or error != "Missing required non-empty frontmatter field: type":
+                errors.append({"id": concept_id, "message": error})
+        if document.is_reserved and document.metadata and document.relative_path != "index.md":
+            warnings.append({"id": concept_id, "message": "reserved file has frontmatter"})
+        for warning in document.warnings:
+            warnings.append({"id": concept_id, "message": warning})
+    return {"conformant": not errors, "errors": errors, "warnings": warnings}
+
+
+def computations(root: str | Path = ".", cache_dir: str | Path | None = None) -> list[dict[str, Any]]:
+    index = cache.load_or_rebuild(root, cache_dir)
+    results: list[dict[str, Any]] = []
+    for concept_id, document in sorted(index.documents.items()):
+        if not document.is_concept or document.metadata.get("type") != "Attested Computation":
+            continue
+        warnings = list(document.warnings)
+        params = document.metadata.get("parameters", [])
+        if isinstance(params, dict):
+            params = [params]
+        valid_params = []
+        for item in params if isinstance(params, list) else []:
+            if not isinstance(item, dict) or not item.get("name") or not item.get("type"):
+                warnings.append("invalid parameter")
+                continue
+            valid_params.append({**item, "required": bool(item.get("required", False))})
+        source = _computation_source(index, document)
+        attestable = bool(document.metadata.get("runtime")) and source["kind"] != "missing"
+        results.append({
+            "id": concept_id,
+            "runtime": document.metadata.get("runtime"),
+            "parameters": valid_params,
+            "computation_source": source,
+            "attestable": attestable,
+            "attestation_display": "not attested" if attestable and document.metadata.get("attester") else "not attestable",
+            "warnings": warnings,
+        })
+    return results
+
+
+def _computation_source(index: Any, document: Any) -> dict[str, Any]:
+    computation = document.metadata.get("computation")
+    if isinstance(computation, str):
+        path = normalize_bundle_path(document.relative_path, computation)
+        target = index.root.joinpath(*(path or "").split("/"))
+        if path and target.is_file():
+            return {"kind": "file", "path": path}
+        return {"kind": "missing"}
+    heading = re.compile(r"^(#{1,6})\s+Computation\s*$", re.MULTILINE | re.IGNORECASE)
+    match = heading.search(document.body)
+    if not match:
+        return {"kind": "missing"}
+    level = len(match.group(1))
+    section = document.body[match.end():]
+    stop = re.search(rf"^#{{1,{level}}}\s+", section, re.MULTILINE)
+    if stop:
+        section = section[:stop.start()]
+    fence = re.search(r"^(```|~~~)([^\n]*)\n(.*?)^\1\s*$", section, re.MULTILINE | re.DOTALL)
+    if not fence:
+        return {"kind": "missing"}
+    return {"kind": "inline", "language": fence.group(2).strip(), "code": fence.group(3)}
 
 
 def resource_edges(index: Any) -> tuple[dict[str, list[dict[str, Any]]], dict[str, list[dict[str, Any]]], list[dict[str, Any]]]:
@@ -182,6 +293,52 @@ def resource_edges(index: Any) -> tuple[dict[str, list[dict[str, Any]]], dict[st
     return forward, build_reverse_links(forward), warnings
 
 
+def add_path_edges(index: Any, original: dict[str, list[dict[str, Any]]]) -> tuple[dict[str, list[dict[str, Any]]], dict[str, list[dict[str, Any]]]]:
+    forward = {key: list(value) for key, value in original.items()}
+    for source_id, document in index.documents.items():
+        if not document.is_concept:
+            continue
+        for value, field_path in _path_field_values(document.metadata):
+            if not isinstance(value, str) or urlparse(value).scheme:
+                continue
+            resolved = normalize_bundle_path(document.relative_path, value)
+            if resolved is None:
+                continue
+            target_id = resolved.removesuffix(".md")
+            if target_id not in index.documents and is_legacy(index.okf_version) and not value.startswith("/"):
+                fallback = normalize_bundle_path("index.md", value)
+                target_id = (fallback or "").removesuffix(".md")
+                resolved = fallback
+            target = index.documents.get(target_id)
+            if target and target.is_concept:
+                forward.setdefault(source_id, []).append({
+                    "text": value, "target": value, "raw_target": value, "anchor": None,
+                    "external": False, "resolved_path": resolved, "resolved_id": target_id,
+                    "via": field_path,
+                })
+    return forward, build_reverse_links(forward)
+
+
+def _path_field_values(metadata: dict[str, Any]) -> list[tuple[Any, str]]:
+    values: list[tuple[Any, str]] = []
+    for key in ("resource", "computation", "superseded_by"):
+        if key in metadata:
+            values.append((metadata[key], key))
+    for key in ("sources",):
+        entries = metadata.get(key, [])
+        if isinstance(entries, dict):
+            entries = [entries]
+        if isinstance(entries, list):
+            for entry in entries:
+                if isinstance(entry, dict) and "resource" in entry:
+                    values.append((entry["resource"], f"{key}[].resource"))
+    for key in ("executor", "attester"):
+        entry = metadata.get(key)
+        if isinstance(entry, dict) and "resource" in entry:
+            values.append((entry["resource"], f"{key}.resource"))
+    return values
+
+
 def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
     index = cache.load_or_rebuild(root, cache_dir)
     checked = missing = mismatched = 0
@@ -206,7 +363,7 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
                 continue
             target = index.root.joinpath(*relative.split("/"))
             exists = target.is_file()
-            version = _version_at_most_02(index.okf_version)
+            version = is_legacy(index.okf_version)
             if not exists and not resource.startswith("/") and version:
                 root_relative = normalize_bundle_path("index.md", resource)
                 if root_relative is not None:
@@ -238,12 +395,3 @@ def _sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
-def _version_at_most_02(version: str | None) -> bool:
-    if version is None:
-        return True
-    try:
-        parts = tuple(int(part) for part in version.split("."))
-    except ValueError:
-        return False
-    padded = parts + (0,) * max(0, 3 - len(parts))
-    return padded[:3] <= (0, 2, 0)
