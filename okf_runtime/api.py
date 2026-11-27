@@ -4,16 +4,16 @@ from __future__ import annotations
 
 import hashlib
 import re
-from pathlib import Path
+from datetime import date
+from pathlib import Path, PurePosixPath
 from typing import Any
-from urllib.parse import urlparse
 
 from . import cache, metadata as metadata_module, scanner
 from .compose import compose_bundle
 from .graph import neighborhood
 from .links import lint_links as lint_link_index
 from .links import build_reverse_links
-from .paths import normalize_bundle_path
+from .paths import case_sensitive_is_file, resolve_path
 from .spec import is_legacy
 
 
@@ -156,6 +156,7 @@ def _compat_trust(value: dict[str, Any], version: str | None) -> dict[str, Any]:
     result.pop("verified_current", None)
     result.pop("verified_history", None)
     result.pop("stale_after_malformed", None)
+    result.pop("superseded_by_id", None)
     return result
 
 
@@ -170,10 +171,40 @@ def bundle_info(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
     metadata = dict(document.metadata) if document else {}
     result = {"okf_version": index.okf_version, **metadata}
     license_value = metadata.get("license")
-    if isinstance(license_value, str) and ("/" in license_value or license_value.startswith(".")):
-        resolved = normalize_bundle_path("index.md", license_value)
-        result["license_path"] = resolved
+    if isinstance(license_value, str) and _looks_like_path(license_value):
+        resolved, external = resolve_path("index.md", license_value)
+        if not external and resolved:
+            result["license_path"] = resolved
     return result
+
+
+def _looks_like_path(value: str) -> bool:
+    """True when a license value looks like a bundle path (§8.1) rather
+    than an SPDX expression: it contains a slash, starts with a dot, or
+    ends in a letter-led file extension (so CC-BY-4.0 / Apache-2.0 stay
+    SPDX expressions, while LICENSE.md is a path)."""
+    if "/" in value or value.startswith("."):
+        return True
+    suffix = PurePosixPath(value).suffix
+    return len(suffix) > 1 and suffix[1].isalpha()
+
+
+def _log_heading_errors(body: str) -> list[str]:
+    """§9: log.md date headings must be ISO 8601 YYYY-MM-DD dates."""
+    errors: list[str] = []
+    for line in body.splitlines():
+        match = re.match(r"#{2,}\s+(.+?)\s*#*\s*$", line)
+        if not match:
+            continue
+        heading = match.group(1)
+        if not re.fullmatch(r"\d{4}-\d{2}-\d{2}", heading):
+            errors.append(f"log.md heading is not an ISO 8601 date: {heading!r}")
+            continue
+        try:
+            date.fromisoformat(heading)
+        except ValueError:
+            errors.append(f"log.md heading is not a valid ISO 8601 date: {heading!r}")
+    return errors
 
 
 def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> dict[str, Any]:
@@ -183,12 +214,25 @@ def conformance(root: str | Path = ".", cache_dir: str | Path | None = None) -> 
     legacy = is_legacy(index.okf_version)
     for concept_id, document in index.documents.items():
         for error in document.errors:
+            # §11.1: a .md file with no frontmatter (or no type on v0.3)
+            # is not a concept and does not break conformance. On legacy
+            # bundles the v0.2 "type required" error still counts.
+            if error == "Missing YAML frontmatter block":
+                continue
             if legacy or error != "Missing required non-empty frontmatter field: type":
                 errors.append({"id": concept_id, "message": error})
-        if document.is_reserved and document.metadata and document.relative_path != "index.md":
-            warnings.append({"id": concept_id, "message": "reserved file has frontmatter"})
-        for warning in document.warnings:
-            warnings.append({"id": concept_id, "message": warning})
+        if not legacy:
+            # §11.1 rule 2 (§8/§9): a subdirectory index.md or any log.md
+            # must have no frontmatter, and log.md date headings must be
+            # ISO 8601. Root index.md may carry frontmatter (§8.1).
+            if document.is_reserved and document.relative_path != "index.md":
+                if document.metadata:
+                    errors.append({"id": concept_id, "message": "reserved file must not have frontmatter"})
+                if document.relative_path.rsplit("/", 1)[-1] == "log.md":
+                    for message in _log_heading_errors(document.body):
+                        errors.append({"id": concept_id, "message": message})
+            for warning in document.warnings:
+                warnings.append({"id": concept_id, "message": warning})
     return {"conformant": not errors, "errors": errors, "warnings": warnings}
 
 
@@ -209,14 +253,28 @@ def computations(root: str | Path = ".", cache_dir: str | Path | None = None) ->
                 continue
             valid_params.append({**item, "required": bool(item.get("required", False))})
         source = _computation_source(index, document)
-        attestable = bool(document.metadata.get("runtime")) and source["kind"] != "missing"
+        has_runtime = bool(document.metadata.get("runtime"))
+        has_attester = bool(document.metadata.get("attester"))
+        attestable = has_runtime and source["kind"] != "missing"
+        # §10.2/§10.3: display "attested" only when runtime, attester and
+        # a resolvable computation source are all present; "not attested"
+        # when the computation is attestable but has no attester;
+        # "not attestable" when the runtime is missing or the source is
+        # missing. No runs happen here, so "attested" records only that
+        # the three are present in the bundle.
+        if not attestable:
+            display = "not attestable"
+        elif has_attester:
+            display = "attested"
+        else:
+            display = "not attested"
         results.append({
             "id": concept_id,
             "runtime": document.metadata.get("runtime"),
             "parameters": valid_params,
             "computation_source": source,
             "attestable": attestable,
-            "attestation_display": "not attested" if attestable and document.metadata.get("attester") else "not attestable",
+            "attestation_display": display,
             "warnings": warnings,
         })
     return results
@@ -225,10 +283,15 @@ def computations(root: str | Path = ".", cache_dir: str | Path | None = None) ->
 def _computation_source(index: Any, document: Any) -> dict[str, Any]:
     computation = document.metadata.get("computation")
     if isinstance(computation, str):
-        path = normalize_bundle_path(document.relative_path, computation)
-        target = index.root.joinpath(*(path or "").split("/"))
-        if path and target.is_file():
-            return {"kind": "file", "path": path}
+        resolved, external = resolve_path(document.relative_path, computation)
+        if not external and resolved:
+            if case_sensitive_is_file(index.root, resolved):
+                return {"kind": "file", "path": resolved}
+        if not external and document.legacy and not computation.startswith("/"):
+            fallback, _ = resolve_path("index.md", computation)
+            if fallback:
+                if case_sensitive_is_file(index.root, fallback):
+                    return {"kind": "file", "path": fallback}
         return {"kind": "missing"}
     heading = re.compile(r"^(#{1,6})\s+Computation\s*$", re.MULTILINE | re.IGNORECASE)
     match = heading.search(document.body)
@@ -299,14 +362,14 @@ def add_path_edges(index: Any, original: dict[str, list[dict[str, Any]]]) -> tup
         if not document.is_concept:
             continue
         for value, field_path in _path_field_values(document.metadata):
-            if not isinstance(value, str) or urlparse(value).scheme:
+            if not isinstance(value, str):
                 continue
-            resolved = normalize_bundle_path(document.relative_path, value)
-            if resolved is None:
+            resolved, external = resolve_path(document.relative_path, value)
+            if external or resolved is None:
                 continue
             target_id = resolved.removesuffix(".md")
             if target_id not in index.documents and is_legacy(index.okf_version) and not value.startswith("/"):
-                fallback = normalize_bundle_path("index.md", value)
+                fallback, _ = resolve_path("index.md", value)
                 target_id = (fallback or "").removesuffix(".md")
                 resolved = fallback
             target = index.documents.get(target_id)
@@ -354,24 +417,30 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
             if not isinstance(entry, dict) or not isinstance(entry.get("resource"), str):
                 continue
             resource = entry["resource"]
-            if urlparse(resource).scheme:
+            resolved, external = resolve_path(document.relative_path, resource)
+            if external:
                 continue
             checked += 1
-            relative = normalize_bundle_path(document.relative_path, resource)
+            relative = resolved
             if relative is None:
                 problems.append({"id": source_id, "resource": resource, "type": "out_of_root"})
                 continue
             target = index.root.joinpath(*relative.split("/"))
-            exists = target.is_file()
+            exists = case_sensitive_is_file(index.root, relative)
             version = is_legacy(index.okf_version)
             if not exists and not resource.startswith("/") and version:
-                root_relative = normalize_bundle_path("index.md", resource)
+                root_relative, _ = resolve_path("index.md", resource)
                 if root_relative is not None:
                     root_target = index.root.joinpath(*root_relative.split("/"))
-                    if root_target.is_file():
+                    if case_sensitive_is_file(index.root, root_relative):
                         target = root_target
                         exists = True
             if not exists:
+                if not version and _is_scope_descriptor(resource):
+                    # v0.3: a sources[].resource that resolves to no file
+                    # may be a scope descriptor (§5.1); only path-looking
+                    # values are still reported missing.
+                    continue
                 missing += 1
                 problems.append({"id": source_id, "resource": resource, "type": "missing"})
                 continue
@@ -385,6 +454,15 @@ def verify_sources(root: str | Path = ".", cache_dir: str | Path | None = None) 
                     mismatched += 1
                     problems.append({"id": source_id, "resource": resource, "type": "mismatched", "expected": str(expected), "actual": actual})
     return {"checked": checked, "missing": missing, "mismatched": mismatched, "problems": problems}
+
+
+def _is_scope_descriptor(resource: str) -> bool:
+    """True when a v0.3 sources[].resource looks like a scope descriptor
+    (§5.1) rather than a path: it does not start with /, ./ or ../ and
+    does not end in a file extension."""
+    if resource.startswith(("/", "./", "../")):
+        return False
+    return not PurePosixPath(resource).suffix
 
 
 def _sha256_file(path: Path) -> str:

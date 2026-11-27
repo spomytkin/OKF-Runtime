@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "okf-runtime"
-version = "0.1.0"
+version = "0.3.0"
 description = "Lightweight deterministic runtime for Open Knowledge Format repositories."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -3,19 +3,20 @@
 from __future__ import annotations
 
 import re
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 from urllib.parse import unquote, urlparse
 
 from .models import ActorEvent, Document, Link, MarkdownFile, Source, TrustSignals
-from .paths import normalize_bundle_path, resolve_path
+from .paths import resolve_path
 from .spec import is_legacy
 from .timestamps import parse_instant
 
 FRONTMATTER_BOUNDARY = "---"
 LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)")
 REFERENCE_DEF_RE = re.compile(r"^\s*\[([^\]]+)\]:\s*(\S+).*$", re.MULTILINE)
-REFERENCE_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\](?:\[([^\]]*)\])")
+REFERENCE_LINK_RE = re.compile(r"(?<!!)\[([^\]]+)\](?:\[([^\]]*)\])?")
 HEADING_RE = re.compile(r"^(#{1,6})\s+(.+?)\s*#*\s*$", re.MULTILINE)
 SCHEME_RE = re.compile(r"^[a-zA-Z][a-zA-Z0-9+.-]*:")
 
@@ -28,9 +29,18 @@ def parse_document(file: MarkdownFile, root: str | Path, legacy: bool = True) ->
     errors = [error for error in errors if not error.startswith("warning: ")]
     links = extract_links(body, file.relative_path, root_path)
     anchors = extract_anchors(body)
-    is_concept = not file.is_reserved and bool(str(metadata.get("type", "")).strip())
-    if not is_concept and not file.is_reserved and legacy:
+    has_type = bool(str(metadata.get("type", "")).strip())
+    # Legacy bundles keep the v0.2 error for a missing type, and the
+    # document stays a concept (§12.1 gating, spec item 1c); v0.3+
+    # bundles treat it as a non-concept instead.
+    is_concept = not file.is_reserved and (legacy or has_type)
+    if not has_type and not file.is_reserved and legacy:
         errors.append("Missing required non-empty frontmatter field: type")
+    if not legacy and not file.is_reserved:
+        # v0.3 (§3.2): a non-reserved .md without frontmatter is a
+        # non-concept, not an error — drop the missing-frontmatter error
+        # so conformance and lint do not report it either.
+        errors = [error for error in errors if error != "Missing YAML frontmatter block"]
     return Document(
         path=file.path,
         relative_path=file.relative_path,
@@ -55,7 +65,31 @@ def parse_documents(files: list[MarkdownFile], root: str | Path) -> dict[str, Do
         version, _, _ = split_frontmatter(root_index.path.read_text(encoding="utf-8"), allow_missing=True)
         version = version.get("okf_version") if isinstance(version, dict) else None
     legacy = is_legacy(str(version) if version is not None else None)
-    return {item.concept_id: parse_document(item, root, legacy) for item in files}
+    documents = {item.concept_id: parse_document(item, root, legacy) for item in files}
+    for document in documents.values():
+        document.trust = replace(document.trust, superseded_by_id=resolve_superseded_by_id(documents, document))
+    return documents
+
+
+def resolve_superseded_by_id(documents: dict[str, Document], document: Document) -> str | None:
+    """Resolve a document's `superseded_by` path field to a concept id (§5.4)."""
+    value = document.metadata.get("superseded_by")
+    if not isinstance(value, str) or not value:
+        return None
+    resolved, external = resolve_path(document.relative_path, value)
+    target_id = _concept_id_for_path(documents, resolved)
+    if target_id is None and document.legacy and not value.startswith("/"):
+        fallback, _ = resolve_path("index.md", value)
+        target_id = _concept_id_for_path(documents, fallback)
+    return target_id
+
+
+def _concept_id_for_path(documents: dict[str, Document], resolved: str | None) -> str | None:
+    if resolved is None:
+        return None
+    target_id = resolved.removesuffix(".md")
+    target = documents.get(target_id)
+    return target_id if target is not None and target.is_concept else None
 
 
 def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warnings: list[str] | None = None) -> TrustSignals:
@@ -68,13 +102,25 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
         return ActorEvent(by=str(value["by"]), at=str(at) if at is not None else None)
 
     warnings = warnings if warnings is not None else []
-    generated = event(metadata.get("generated"))
+    generated_raw = metadata.get("generated")
+    generated = event(generated_raw)
+    if generated is None and generated_raw is not None:
+        # A present generated entry without a usable `by` is ignored (§11.2
+        # rule 3: entries missing a REQUIRED key are ignored, with a warning).
+        warnings.append("generated entry missing by")
     if generated is None and legacy and metadata.get("timestamp") is not None:
         generated = ActorEvent(by="process:legacy", at=str(metadata["timestamp"]))
     verified_raw = metadata.get("verified", [])
     if isinstance(verified_raw, dict):
         verified_raw = [verified_raw]
-    verified = [item for value in verified_raw if (item := event(value))] if isinstance(verified_raw, list) else []
+    verified: list[ActorEvent] = []
+    if isinstance(verified_raw, list):
+        for value in verified_raw:
+            item = event(value)
+            if item is None:
+                warnings.append("verified entry missing by")
+                continue
+            verified.append(item)
     verified_current: list[ActorEvent] = []
     verified_history: list[ActorEvent] = []
     generated_at = None
@@ -114,6 +160,7 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
     if isinstance(sources_raw, list):
         for value in sources_raw:
             if not isinstance(value, dict) or not value.get("resource"):
+                warnings.append("sources entry missing resource")
                 continue
             source_window = value.get("usage_window")
             sources.append(
@@ -129,10 +176,12 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
                     else None,
                 )
             )
+    status_raw = metadata.get("status")
+    status = str(status_raw) if status_raw not in (None, "", []) else "stable"
     return TrustSignals(
         generated=generated,
         verified=verified,
-        status=str(metadata.get("status", "stable")),
+        status=status,
         stale_after=stale_after,
         sources=sources,
         usage_window=usage_window,
@@ -143,7 +192,10 @@ def extract_trust_signals(metadata: dict[str, Any], legacy: bool = True, warning
 
 
 def _optional_string(value: Any) -> str | None:
-    return str(value) if value is not None else None
+    # §11.2: null, empty string and empty list are all "absent".
+    if value is None or value == "" or value == []:
+        return None
+    return str(value)
 
 
 def split_frontmatter(text: str, allow_missing: bool = False) -> tuple[dict[str, Any], str, list[str]]:
@@ -198,7 +250,10 @@ def parse_frontmatter(text: str) -> tuple[dict[str, Any], list[str]]:
         line_number, _, _ = lines[next_index]
         errors.append(f"Invalid frontmatter line {line_number}: unexpected indentation")
         next_index += 1
-    return value if isinstance(value, dict) else {}, errors
+    if not isinstance(value, dict):
+        errors.append("Frontmatter must be a mapping")
+        return {}, errors
+    return value, errors
 
 
 def _parse_frontmatter_block(
@@ -374,7 +429,19 @@ def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link
     definitions = {label.casefold(): target for label, target in REFERENCE_DEF_RE.findall(body)}
 
     def append_link(text: str, raw_target: str) -> None:
-        target_without_title = raw_target.split(maxsplit=1)[0]
+        # CommonMark: a link destination may be wrapped in <...>, which
+        # also permits spaces inside it. Strip the brackets before the
+        # title split and the scheme check, so [x](<https://a/b>) is
+        # external and [x](<my file.md>) resolves to "my file.md".
+        raw_target = raw_target.strip()
+        if raw_target.startswith("<"):
+            end = raw_target.find(">")
+            if end != -1:
+                target_without_title = raw_target[1:end]
+            else:
+                target_without_title = raw_target.split(maxsplit=1)[0]
+        else:
+            target_without_title = raw_target.split(maxsplit=1)[0]
         target, anchor = split_anchor(target_without_title)
         is_external = is_external_link(target)
         resolved = None if is_external else resolve_internal_link(target, source_relative_path, root)
@@ -392,6 +459,14 @@ def extract_links(body: str, source_relative_path: str, root: Path) -> list[Link
     for match in LINK_RE.finditer(body):
         append_link(match.group(1), match.group(2).strip())
     for match in REFERENCE_LINK_RE.finditer(body):
+        # With the label optional, the pattern also matches inline links
+        # ([text](target)) and link definitions ([label]: target); skip
+        # those, and the label half of an image reference (![alt][label]).
+        following = body[match.end():match.end() + 1]
+        if following in ("(", ":"):
+            continue
+        if match.group(2) is None and re.search(r"!\[[^\]]*\]$", body[:match.start()]):
+            continue
         label = (match.group(2) or match.group(1)).casefold()
         if label in definitions:
             append_link(match.group(1), definitions[label])
@@ -412,16 +487,13 @@ def is_external_link(target: str) -> bool:
 
 
 def resolve_internal_link(target: str, source_relative_path: str, root: Path) -> str | None:
+    """Resolve a body-link target through the shared path resolver (§6)."""
     if not target or target.startswith("#"):
         return source_relative_path
-    decoded = unquote(target)
-    parsed = urlparse(decoded)
-    path_text = parsed.path
-    if not path_text:
+    if not urlparse(unquote(target)).path:
         return source_relative_path
-
-    # Lexical resolution does not inspect the filesystem and preserves case.
-    return normalize_bundle_path(source_relative_path, path_text)
+    resolved, _external = resolve_path(source_relative_path, target)
+    return resolved
 
 
 def extract_anchors(body: str) -> list[str]:

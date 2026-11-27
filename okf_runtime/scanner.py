@@ -63,7 +63,10 @@ def discover_bundles(root: str | Path) -> list[dict[str, object]]:
     if root_files:
         bundles.append({"root": str(base), "markdown_files": len(root_files)})
 
-    for child in sorted(item for item in base.iterdir() if item.is_dir() and item.name not in EXCLUDED_DIRS):
+    for child in sorted(
+        item for item in base.iterdir()
+        if item.is_dir() and item.name not in EXCLUDED_DIRS and not item.name.startswith(".")
+    ):
         files = scan_markdown(child)
         if files:
             bundles.append({"root": str(child), "markdown_files": len(files)})

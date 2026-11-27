@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from pathlib import PurePosixPath
+from pathlib import Path, PurePosixPath
 from urllib.parse import unquote, urlparse
 
 
@@ -32,3 +32,25 @@ def resolve_path(source_relative_path: str, value: str) -> tuple[str | None, boo
     if parsed.scheme:
         return None, True
     return normalize_bundle_path(source_relative_path, parsed.path), False
+
+
+def case_sensitive_is_file(root: Path, relative_path: str) -> bool:
+    """Return True only if ``relative_path`` exists under ``root`` with exactly
+    this casing (spec §6: path matching is case-sensitive).
+
+    ``Path.is_file()`` alone is case-insensitive on Windows, so ``TARGET.md``
+    would resolve to ``target.md`` there. Walk each component against the real
+    directory listing and require an exact match.
+    """
+    current = root
+    for part in PurePosixPath(relative_path).parts:
+        if part in {"", "."}:
+            continue
+        try:
+            names = {entry.name for entry in current.iterdir()}
+        except OSError:
+            return False
+        if part not in names:
+            return False
+        current = current / part
+    return current.is_file()

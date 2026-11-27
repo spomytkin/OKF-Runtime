@@ -1,7 +1,7 @@
 ---
 name: okf-runtime
 description: "Discover, catalog, query, traverse, lint, and compose Open Knowledge Format (OKF) markdown bundles. Use when: retrieving OKF concepts, filtering YAML frontmatter, tracing links, checking trust metadata, validating bundles, or creating context-limited sub-bundles."
-version: 0.1.0
+version: 0.3.0
 authors:
   - spomytkin, OKF-Runtime contributors
 tags:
@@ -63,7 +63,7 @@ Filter concepts without loading markdown bodies. Matches are exact `key=value`. 
 python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml query type="BigQuery Table" tags=posts
 ```
 
-Use the derived v0.2 filters when trust or lifecycle is relevant: `trust_tier=unverified|machine-confirmed|human-reviewed`, `status=draft|stable|deprecated`, and `stale=true|false`.
+Use the derived trust/lifecycle filters when trust or lifecycle is relevant: `trust_tier=unverified|machine-confirmed|human-reviewed`, `status=draft|stable|deprecated`, and `stale=true|false`. Trust tiers are computed only from current verification events (`verified[].at >= generated.at`); older events are kept as history. Catalog records also carry `is_current` (`status == "stable"`) and `warnings`.
 
 ### 4. `show`
 Retrieve metadata catalog record for a specific concept by its ID.
@@ -86,6 +86,7 @@ Build a deterministic neighborhood around a concept node.
 python -B -m okf_runtime.cli --root tests/fixtures/samples graph bundles/stackoverflow/tables/posts_questions --depth 2
 ```
 - Add `--resolve-resources` to opt in to edges when a frontmatter string exactly matches another concept's `resource` value.
+- Add `--path-edges` / `--no-path-edges` to include or exclude path-field edges (`resource`, `sources[].resource`, `computation`, `executor.resource`, `attester.resource`, `superseded_by` resolving to in-bundle concepts). Path edges default ON for v0.3 bundles and OFF for v0.2/unversioned bundles.
 
 ### 7. `compose`
 Generate a temporary sub-bundle composed of relevant files centered on a topic or start concept, using radial graph pruning to respect token/context limits.
@@ -93,16 +94,19 @@ Generate a temporary sub-bundle composed of relevant files centered on a topic o
 python -B -m okf_runtime.cli --root tests/fixtures/samples compose posts_questions --output-dir .cache\composed-output --depth 2
 ```
 - Add `--resolve-resources` to use exact resource-value matches as graph edges during composition.
+- Add `--path-edges` / `--no-path-edges` (same defaults as `graph`). When composing, deprecated concepts follow their `superseded_by` chain (cycle-safe, max 10 hops) so the replacement is included.
 - **Flag**: `--min-trust unverified|machine-confirmed|human-reviewed` excludes concepts below the requested derived trust tier.
 - Copies matched markdown files into the output directory.
 - Generates `boundary.json` at the root of the composed folder to identify dangling/external links mapping to their original source bundle locations.
 
 ### 8. `trust`
-Summarize v0.2 trust tiers, lifecycle status, stale concepts, and detected `okf_version`; pass a concept ID for its complete trust surface.
+Summarize trust tiers, lifecycle status, stale concepts, and detected `okf_version`; pass a concept ID for its complete trust surface.
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust
 python -B -m okf_runtime.cli --root tests/fixtures/samples --format yaml trust bundles/acme_retail/metrics/revenue
 ```
+
+The per-concept trust surface includes `verified_current` and `verified_history` (events split by whether `verified[].at >= generated.at`), `stale_after_malformed` (an unparseable `stale_after` is never fresh), and `superseded_by_id` (the resolved concept id of the `superseded_by` path field, or `null`). An event missing `by` or `at` is ignored, with a warning. A `generated` entry without `at` means all events are current (documented choice).
 
 ### 9. `lint-links`
 Check for broken internal links, anchor issues, parser errors, or unreachable orphan documents.
@@ -110,12 +114,32 @@ Check for broken internal links, anchor issues, parser errors, or unreachable or
 python -B -m okf_runtime.cli --root tests/fixtures/samples lint-links
 ```
 
-Internal paths are normalized lexically and compared case-sensitively, without checking the filesystem during resolution.
+Internal paths are normalized lexically and compared case-sensitively, without checking the filesystem during resolution. On v0.3 bundles, lint also warns on `.md` files without frontmatter/`type` (`non_concept`), on subdirectory `index.md` / `log.md` files carrying frontmatter (`reserved_frontmatter`), and on document warnings such as malformed timestamps (`parse_warning`). Links to assets, directories, or non-concepts are valid and not broken; reference-style links (`[text][label]`, collapsed and shortcut forms) are links, `[[wikilinks]]` are not.
 
 ### 10. `verify-sources`
 Check each in-bundle `sources[].resource` path and compare `x-sha256` when present. Output includes checked, missing, and mismatched counts plus problem details.
 ```powershell
 python -B -m okf_runtime.cli --root tests/fixtures/feature-bundle verify-sources
+```
+
+On v0.3 bundles, a `sources[].resource` that resolves to no file may be a scope descriptor and is not flagged missing unless it starts with `/`, `./`, or `../` or ends in a file extension. On v0.2/unversioned bundles the previous counts are kept, including the bundle-root retry for bare paths.
+
+### 11. `bundle-info`
+Report the bundle-root `index.md` metadata: `okf_version`, `title`, `description`, `license`, and any other root keys. When `license` is a path (rather than an SPDX expression), `license_path` gives the bundle-relative path.
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/samples bundle-info
+```
+
+### 12. `conformance`
+Check the bundle against the §11.1 conformance rules and report `{conformant, errors, warnings}`. On v0.3 only the two §11.1 rules apply (frontmatter blocks parse as mappings; reserved files follow §8/§9); on v0.2/unversioned bundles the v0.2 "type required" error is added. A `.md` file with no frontmatter or no `type` does not break conformance.
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/samples conformance
+```
+
+### 13. `computations`
+List Attested Computation concepts with their `runtime`, validated `parameters` (`name`/`type` required, `required` defaults to `false`), `computation_source` (`file` / `inline` / `missing` per the §10.3 locator), `attestable`, and `attestation_display`: `attested` only when `runtime`, `attester` and a resolvable computation source are all present, `not attested` when attestable but no attester, `not attestable` when the runtime is missing or the source is missing (no runs happen here).
+```powershell
+python -B -m okf_runtime.cli --root tests/fixtures/samples computations
 ```
 
 ### Nested metadata filters
@@ -150,7 +174,7 @@ Before completing work on OKF markdown files:
 ## Gotchas & Limitations
 
 - **Frontmatter subset:** The dependency-free parser supports scalars, inline collections, indented mappings, list-of-dicts, and folded scalar continuations. It is not a complete YAML 1.2 implementation.
-- **Comma-Separated Lists:** YAML tags must be formatted as lists (e.g., `- posts` or `[posts]`). Comma-separated strings (e.g., `tags: legacy, posts`) are parsed as a single string and will not match list queries like `tags=posts`.
+- **Comma-Separated Lists:** A scalar `tags` value is ONE tag, never split on commas (e.g., `tags: legacy, posts` is the single tag `legacy, posts`) and will not match list queries like `tags=posts`. Use a YAML list for multiple tags.
 - **Cache Folder:** The tool automatically creates `.cache/` under the root, unless `--cache-dir` selects another directory. The cache contains `manifest.json`, `metadata.json`, `links.json`, and `reverse_links.json`; it is safe to delete.
 
 ## References
@@ -158,9 +182,10 @@ Before completing work on OKF markdown files:
 Load only the material needed for the task:
 
 - `references/USAGE.md` - CLI/API syntax and examples; use for operation questions.
-- `references/OKF-Version-0.2-min.md` - default implementation reference for OKF v0.2.
-- `references/OKFmin.SPEC.md` - legacy OKF v0.1 rules.
-- `references/OKF-DELTA-0.1-to-0.2.md` - migration and compatibility work.
+- `references/OKF-Version-0.3-min.md` - default implementation reference for OKF v0.3.
+- `references/OKF-DELTA-0.2-to-0.3.md` - migration checklist and compatibility work.
+- `references/OKF-Version-0.2-min.md` - legacy OKF v0.2 rules.
+- `references/OKF-DELTA-0.1-to-0.2.md` - legacy migration and compatibility work.
 - `references/OKF-v0.2-SPEC-for-consumer-agent-context.md` - expanded consumer-agent implementation context.
-- `references/OKF-SPEC-Version-0.2.md` - full specification; load only for details absent from distilled references.
+- `references/OKF-SPEC-Version-0.2.md` - full v0.2 specification; load only for details absent from distilled references.
 - `references/SKILLminSPEC.md` - Agent Skills packaging and conformance work only.

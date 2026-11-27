@@ -823,7 +823,7 @@
       "path": "concepts/deterministic_retrieval.md",
       "reserved": false,
       "status": "stable",
-      "trust_tier": "human-reviewed"
+      "trust_tier": "unverified"
     },
     {
       "errors": [],
@@ -975,7 +975,7 @@
       "path": "concepts/trust_and_provenance.md",
       "reserved": false,
       "status": "stable",
-      "trust_tier": "human-reviewed"
+      "trust_tier": "unverified"
     },
     {
       "errors": [],
@@ -2913,7 +2913,7 @@
         "path": "concepts/deterministic_retrieval.md",
         "reserved": false,
         "status": "stable",
-        "trust_tier": "human-reviewed"
+        "trust_tier": "unverified"
       },
       {
         "errors": [],
@@ -3061,7 +3061,7 @@
         "path": "concepts/trust_and_provenance.md",
         "reserved": false,
         "status": "stable",
-        "trust_tier": "human-reviewed"
+        "trust_tier": "unverified"
       },
       {
         "errors": [],
@@ -3763,45 +3763,6 @@
       },
       {
         "errors": [],
-        "id": "concepts/deterministic_retrieval",
-        "is_stale": false,
-        "metadata": {
-          "description": "Using deterministic local operations to locate and select knowledge before asking an LLM to reason over the selected context.",
-          "generated": {
-            "at": "2026-03-12T00:00:00Z",
-            "by": "human:spomytkin"
-          },
-          "sources": [
-            {
-              "id": "okf-runtime",
-              "resource": "okf_runtime.md",
-              "title": "OKF Runtime Engine"
-            },
-            {
-              "id": "progressive-loading",
-              "resource": "progressive_loading.md",
-              "title": "Progressive Loading"
-            }
-          ],
-          "status": "stable",
-          "tags": [
-            "agents",
-            "deterministic",
-            "retrieval"
-          ],
-          "title": "Deterministic Retrieval",
-          "type": "Concept",
-          "verified": {
-            "by": "human:spomytkin at: 2026-03-13T00:00:00Z"
-          }
-        },
-        "path": "concepts/deterministic_retrieval.md",
-        "reserved": false,
-        "status": "stable",
-        "trust_tier": "human-reviewed"
-      },
-      {
-        "errors": [],
         "id": "concepts/okf_runtime",
         "is_stale": false,
         "metadata": {
@@ -3909,41 +3870,6 @@
           }
         },
         "path": "concepts/progressive_loading.md",
-        "reserved": false,
-        "status": "stable",
-        "trust_tier": "human-reviewed"
-      },
-      {
-        "errors": [],
-        "id": "concepts/trust_and_provenance",
-        "is_stale": false,
-        "metadata": {
-          "description": "Using verification, lifecycle, freshness, and source metadata to select an appropriate knowledge artifact.",
-          "generated": {
-            "at": "2026-03-14T00:00:00Z",
-            "by": "human:spomytkin"
-          },
-          "sources": [
-            {
-              "id": "okf-spec",
-              "resource": "okf_spec.md",
-              "title": "Open Knowledge Format"
-            }
-          ],
-          "stale_after": "2028-01-01",
-          "status": "stable",
-          "tags": [
-            "lifecycle",
-            "provenance",
-            "trust"
-          ],
-          "title": "Trust and Provenance",
-          "type": "Concept",
-          "verified": {
-            "by": "human:ahormati at: 2026-03-15T00:00:00Z"
-          }
-        },
-        "path": "concepts/trust_and_provenance.md",
         "reserved": false,
         "status": "stable",
         "trust_tier": "human-reviewed"
@@ -4484,7 +4410,7 @@
         ],
         "stale_after": null,
         "status": "stable",
-        "trust_tier": "human-reviewed",
+        "trust_tier": "unverified",
         "usage_window": null,
         "verified": [
           {
@@ -4600,7 +4526,7 @@
         ],
         "stale_after": "2028-01-01",
         "status": "stable",
-        "trust_tier": "human-reviewed",
+        "trust_tier": "unverified",
         "usage_window": null,
         "verified": [
           {
@@ -4673,8 +4599,8 @@
         "stable": 23
       },
       "trust_tiers": {
-        "human-reviewed": 18,
-        "unverified": 7
+        "human-reviewed": 16,
+        "unverified": 9
       }
     }
   },

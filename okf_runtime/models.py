@@ -75,6 +75,9 @@ class TrustSignals:
     verified_current: list[ActorEvent] = field(default_factory=list)
     verified_history: list[ActorEvent] = field(default_factory=list)
     stale_after_malformed: bool = False
+    # Resolved concept id of the `superseded_by` path field, or None when
+    # absent, external, out of the bundle, or not a concept (§5.4).
+    superseded_by_id: str | None = None
 
     @property
     def trust_tier(self) -> str:
@@ -94,7 +97,8 @@ class TrustSignals:
         try:
             return now() >= parse_instant(self.stale_after)
         except ValueError:
-            return False
+            # Unparseable stale_after is never fresh (§5.5).
+            return True
 
     def to_dict(self) -> dict[str, Any]:
         return {**asdict(self), "trust_tier": self.trust_tier, "is_stale": self.is_stale}
