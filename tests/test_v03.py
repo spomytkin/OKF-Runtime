@@ -166,6 +166,15 @@ class V03Tests(unittest.TestCase):
         self.assertIn("concepts/tags-scalar", tagged)
         untagged = {item["id"] for item in api.query(V03, cache_dir=self.cache_dir, tags="a")}
         self.assertNotIn("concepts/tags-scalar", untagged)
+        # Unknown keys are kept at every nesting level (§4.1).
+        xkeys = self._record("concepts/xkeys")["metadata"]
+        self.assertEqual(xkeys["x-acme-owner"], "acme")
+        self.assertEqual(xkeys["x-acme-review"], {"level": "deep"})
+        self.assertEqual(xkeys["generated"]["x-acme-note"], "generated note")
+        self.assertEqual(xkeys["verified"][0]["x-acme-note"], "verified note")
+        self.assertEqual(xkeys["sources"][0]["x-acme-note"], "source note")
+        self.assertEqual(xkeys["executor"]["x-acme-note"], "executor note")
+        self.assertEqual(xkeys["attester"]["x-acme-note"], "attester note")
         single = self._trust("concepts/single-mapping")
         self.assertEqual(len(single["sources"]), 1)
         self.assertEqual(single["sources"][0]["resource"], "target.md")
